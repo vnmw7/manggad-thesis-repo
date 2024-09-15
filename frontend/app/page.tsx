@@ -1,3 +1,11 @@
 export default function Page() {
-    return <h1>Hello, Next.js!</h1>
-  }
+    return (
+        <div>
+            <h1> This is the Home Page </h1>
+            <div>
+                <input type="text" placeholder="Search Related Studies" />
+                <button >Search </button>
+            </div>
+        </div>
+    )
+}
