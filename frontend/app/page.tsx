@@ -19,6 +19,11 @@ export default function Page() {
                 <input type="text" placeholder="Search Related Studies" />
                 <button >Search </button>
             </div>
+
+            {/* footer */}
+            <footer>
+                <button> light/dark mode </button>
+            </footer>
         </div>
     )
 }
