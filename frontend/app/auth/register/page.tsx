@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-const RegisterPage = () => {
+const RegistrationPage = () => {
 	const router = useRouter()
 
   return (
@@ -13,4 +13,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default RegistrationPage
