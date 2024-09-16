@@ -2,15 +2,15 @@
 
 import { useRouter } from "next/navigation"
 
-const LoginPage = () => {
-  const router = useRouter()
+const RegistrationPage = () => {
+	const router = useRouter()
 
   return (
     <div>
-      <h1> LoginPage </h1>
+      <h1> RegisterPage </h1>
       <button onClick={() => router.push("/")}> Back </button>
     </div>
   )
 }
 
-export default LoginPage
+export default RegistrationPage
