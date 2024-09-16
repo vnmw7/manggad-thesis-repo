@@ -30,5 +30,5 @@ export default function Home() {
           <ThemeSwitch />
       </footer>
     </div>
-	);
+	); 
 }
