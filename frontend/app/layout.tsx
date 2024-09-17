@@ -1,16 +1,16 @@
 import "./globals.css";
-import Providers from "./providers";
+import ThemedElement from "./components/ThemedElement";
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers> {children} </Providers>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+		<body>
+			<ThemedElement> {children} </ThemedElement>
+		</body>
+		</html>
+	);
 }
