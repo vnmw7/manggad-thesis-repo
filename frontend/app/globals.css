@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * { 
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     font-family: 'Source Sans Pro';
 }
 
@@ -11,9 +11,11 @@ h1 {
     font-family: 'Lora';
 }
 
-Button {
-    font-family: 'Source Sans Pro';
+button {
+    @apply bg-primary hover:bg-blue-700 text-white py-2 w-full rounded-full dark:bg-primary-dark;
 }
+
+
 
 /* +--------------------+ */
 /* |        FONTS       | */
