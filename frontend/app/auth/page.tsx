@@ -6,7 +6,7 @@ const AuthenticationPage = () => {
     const router = useRouter()
 
     return (
-		<div> 
+		<div className="md:px-[20%]"> 
 			<div className="form-container">
 				<h1> Admin Authentication </h1>
 				<p> You will be proceeding as an admin of this thesis repository. </p>

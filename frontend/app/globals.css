@@ -27,7 +27,7 @@ button.tritiary {
 /* |        AUTHERNTICATION PAGE       | */
 /* +-----------------------------------+ */
 .form-container {
-    @apply flex flex-col items-center justify-center h-screen px-24;
+    @apply flex flex-col items-center justify-center h-screen px-24 border;
 }
 
 /* +--------------------+ */
