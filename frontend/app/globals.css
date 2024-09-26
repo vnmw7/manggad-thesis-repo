@@ -3,19 +3,32 @@
 @tailwind utilities;
 
 * { 
+    @apply box-border;
     /* border: 1px solid gray; */
     font-family: 'Source Sans Pro';
+    box-sizing: border-box;
 }
 
 h1 {
-    font-family: 'Lora';
+    font-family: 'Lora Bold';
 }
 
 button {
-    @apply bg-primary hover:bg-blue-700 text-white py-2 w-full rounded-full dark:bg-primary-dark;
+    @apply bg-primary hover:bg-slate-950 text-white py-2 w-full rounded-full dark:bg-primary-dark my-0.5;
+}
+button.secondary {
+    @apply bg-transparent border border-primary text-primary hover:shadow-xl py-2 w-full rounded-full dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
+}
+button.tritiary {
+    @apply bg-transparent border border-primary text-primary hover:bg-blue-700 hover:text-white py-2 w-full rounded-full dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
 }
 
-
+/* +-----------------------------------+ */
+/* |        AUTHERNTICATION PAGE       | */
+/* +-----------------------------------+ */
+.form-container {
+    @apply flex flex-col items-center justify-center h-screen px-24;
+}
 
 /* +--------------------+ */
 /* |        FONTS       | */
@@ -24,8 +37,11 @@ button {
     font-family: 'Source Sans Pro';
     src: url('./fonts/sourceSansPro/SourceSansPro-Regular.ttf') format('truetype'),
 }
-
 @font-face {
     font-family: 'Lora';
     src: url('./fonts/lora/Lora-VariableFont_wght.ttf') format('truetype'),
+}
+@font-face {
+    font-family: 'Lora Bold';
+    src: url('./fonts/lora/Lora-Bold.ttf') format('truetype'),
 }
