@@ -13,7 +13,7 @@ export default function HomePage() {
             <div className="grow h-[100vh]">
                 <div>
                     <Header />
-                    <h1> This is the Home Page </h1>
+                    <h1> Welcome to the LCCB Thesis Library Repository: Your go-to spot for research and ideas. Dive into our collection and find inspiration! </h1>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ const Navigation = () => {
     const router = useRouter();
 
     return (
-        <div className="bg-blue-50 border">
+        <div className="bg-[#a5a29d]">
             <div> logo here </div>
             <ul>
                 <li> Home </li>
