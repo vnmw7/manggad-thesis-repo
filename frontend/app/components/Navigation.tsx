@@ -1,8 +1,4 @@
-import { useRouter } from "next/navigation";
-
 const Navigation = () => {
-    const router = useRouter();
-
     return (
         <div className="bg-blue-50 border">
             <div> logo here </div>
