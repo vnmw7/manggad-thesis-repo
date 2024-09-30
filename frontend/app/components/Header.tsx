@@ -14,11 +14,13 @@ const Header = () => {
             </div>
 
             {/* right side sng header: theme switch and admin */}
-            <div className="flex grow">
-                <ThemeSwitch />
-                <button onClick={() => router.push("/auth")}> Admin </button>
-            </div>
-        </div>
+            <div className="flex grow justify-between items-center">
+    <ThemeSwitch />
+    <button className="ml-auto p-2 bg-[#00087a] text-white rounded-full hover:bg-[#130fff] transition" onClick={() => router.push("/auth")}>
+        Admin
+    </button>
+</div>
+</div>
     )
 }
 
