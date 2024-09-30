@@ -1,6 +1,6 @@
 const Navigation = () => {
     return (
-        <div className="bg-[#C1BEAF]">
+        <div className="bg-[#C1BEAF] w-24">
             <div> logo here </div>
             <ul>
                 <li> Home </li>
