@@ -10,9 +10,11 @@ export default function HomePage() {
 		<div className="flex">
             <Navigation />
 
-            <div>
-                <Header />
-                <h1> This is the Home Page </h1>
+            <div className="grow h-[100vh]">
+                <div>
+                    <Header />
+                    <h1> This is the Home Page </h1>
+                </div>
             </div>
         </div>
 	);

@@ -1,5 +1,5 @@
 import "./globals.css";
-import ThemedElement from "./components/ThemedElement";
+import ThemedElement from "./components/theme/ThemedElement";
 
 export default function RootLayout({
 	children,
