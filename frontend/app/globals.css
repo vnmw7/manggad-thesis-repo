@@ -14,7 +14,7 @@ h1 {
 }
 
 button {
-    @apply bg-primary border border-transparent hover:bg-slate-950 hover:shadow-xl text-white py-2 w-full rounded-full dark:bg-primary-dark my-0.5;
+    @apply bg-slate-900 border border-transparent hover:bg-slate-950 hover:shadow-xl text-white py-2 w-full rounded-full dark:bg-primary-dark my-0.5;
 }
 button.secondary {
     @apply bg-transparent border border-primary text-primary hover:shadow-xl py-2 w-full rounded-full dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
@@ -26,6 +26,14 @@ button.tritiary {
 input[type="text"], input[type="password"] {
     @apply bg-transparent border border-gray-300 rounded-md py-2 px-4 my-0.5 w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white;
 }
+
+/* +----------------------------------+ */
+/* |        GENERAL LAYOUT PAGE       | */
+/* +----------------------------------+ */
+.nav_seperator {
+    @apply flex
+}
+
 
 /* +-----------------------------------+ */
 /* |        AUTHERNTICATION PAGE       | */
