@@ -1,7 +1,9 @@
 const Navigation = () => {
     return (
-        <div className="bg-[#335CF0]">
-            <div> logo here </div>
+        <div className="bg-[#C1BEAF]">
+            <div>
+                <img src="/path/to/your/logo.png" alt="Logo" className="h-10" />
+            </div>
             <ul>
                 <li> Home </li>
                 <li> Categories </li>
@@ -11,4 +13,4 @@ const Navigation = () => {
     )
 }
 
-export default Navigation
+export default Navigation;

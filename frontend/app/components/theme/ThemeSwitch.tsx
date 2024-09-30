@@ -23,11 +23,11 @@ export default function ThemeSwitch() {
   )
 
   if (resolvedTheme === 'dark') { // para mag switch ang theme pati ang button
-    return <button className="bg-[#00087a] ml-60 hover:bg-[#335CF0]" onClick={() => setTheme('light')}> Switch to Light Mode </button>
+    return <button className="bg-[#262832]" onClick={() => setTheme('light')}> Switch to Light Mode </button>
   }
 
   if (resolvedTheme === 'light') { // para mag switch ang theme pati ang button
-    return <button className="ml-60" onClick={() => setTheme('dark')}> Switch to Light Mode </button>
+    return <button className="bg-[#262832]" onClick={() => setTheme('dark')}> Switch to Light Mode </button>
   }
 
   // source: https://www.davegray.codes/posts/light-dark-mode-nextjs-app-router-tailwind
