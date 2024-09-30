@@ -11,7 +11,7 @@ const LoginPage = () => {
 				<h1> LoginPage </h1>
 				<input type="text" placeholder="email" />
 				<input type="password" placeholder="Password" />
-				<button onClick={() => router.push("/auth/login")}> Login </button>
+				<button onClick={() => router.push("/admin")}> Login </button>
 				<p> Don&apos;t have an account? </p>
 				<button className="secondary" onClick={() => router.push("/auth/register")}> Register </button>
 				<button className="tritiary" onClick={() => router.push("/")}> Back </button>
