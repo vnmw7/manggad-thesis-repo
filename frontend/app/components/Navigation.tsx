@@ -4,7 +4,7 @@ import { faHome, faTh, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation = () => {
     return (
-        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#b9bdd3] border-transparent flex flex-col relative">
+        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex flex-col relative">
             {/* Logo Container */}
             <div className="mb-4 flex justify-center mt-1"> {/* Use negative margin to adjust logo position */}
                 <Image 
