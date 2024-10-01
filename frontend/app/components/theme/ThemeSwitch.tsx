@@ -27,7 +27,7 @@ export default function ThemeSwitch() {
   }
 
   if (resolvedTheme === 'light') { // para mag switch ang theme pati ang button
-    return <button className="bg-[#262832]" onClick={() => setTheme('dark')}> Switch to Light Mode </button>
+    return <button className="bg-[#262832] -ml-1" onClick={() => setTheme('dark')}> Switch to Light Mode </button>
   }
 
   // source: https://www.davegray.codes/posts/light-dark-mode-nextjs-app-router-tailwind

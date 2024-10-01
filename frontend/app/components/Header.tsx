@@ -8,7 +8,7 @@ const Header = () => {
     return (
         <div className="flex">
             {}
-            <div className="flex items-center w-7/12">
+            <div className="flex items-center w-[1070px]">
                 <div className="relative">
                     <SearchIcon 
                         style={{
@@ -33,8 +33,9 @@ const Header = () => {
             </div>
             {}
             <div className="flex grow items-center">
-                <ThemeSwitch />
-                <button onClick={() => router.push("/auth")}> Admin </button>
+                <div className="w-44"><ThemeSwitch /></div>
+                <div className="w-44"><button className='ml-1' onClick={() => router.push("/auth")}> Admin </button></div>
+                
             </div>
         </div>
     );
