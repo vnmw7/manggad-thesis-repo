@@ -6,7 +6,7 @@ import { faHome, faTh, faArrowUp, faCog } from '@fortawesome/free-solid-svg-icon
 
 const Navigation = () => {
     return (
-        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex flex-col relative">
+        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex flex-col relative hidden lg:flex">
             {/* Logo Container */}
             <div className="mb-4 flex justify-center mt-1">
             <div style={{ backgroundImage: 'url("lccb.png")', aspectRatio: "1/1", height: "100px", backgroundSize: "contain" }}>
@@ -31,4 +31,4 @@ const Navigation = () => {
     );
 }
 
-export default Navigation;
+export default Navigation
