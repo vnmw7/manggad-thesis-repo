@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTh, faArrowUp, faCog } from '@fortawesome/free-solid-svg-icons';
 // import logo from "/logo.png";
