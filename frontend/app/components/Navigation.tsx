@@ -2,27 +2,26 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTh, faArrowUp, faCog } from '@fortawesome/free-solid-svg-icons';
-// import logo from "/logo.png";
 
 const Navigation = () => {
     return (
         <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex flex-col relative hidden lg:flex">
             {/* Logo Container */}
             <div className="mb-4 flex justify-center mt-1">
-            <div style={{ backgroundImage: 'url("lccb.png")', aspectRatio: "1/1", width:"60px", height: "60px", backgroundSize: "contain" }}>
-            </div>
+                <div style={{ backgroundImage: 'url("lccb.png")', aspectRatio: "1/1", width:"60px", height: "60px", backgroundSize: "contain", marginTop: "5px" }}></div>
             </div>
             {/* Navigation Items */}
-            <ul className="flex flex-col items-center mt-10 space-y-4">
+            <ul className="flex flex-col items-center space-y-4 style" style={{ marginTop: "590px"}}>
                 {[
                     { icon: faHome, label: "Home" },
-                    { icon: faTh, label: "Categories" },
+                    { icon: faTh, label: "List" }, // Changed from "Categories" to "List"
                     { icon: faArrowUp, label: "Updates" },
-                    { icon: faCog, label: "Settings" } // New settings item added here
+                    { icon: faCog, label: "Settings" }
                 ].map((item, index) => (
                     <li key={index} className="relative">
-                        <div className="w-14 h-14 bg-[#262832] rounded-lg flex items-center justify-center transition-colors duration-300 hover:bg-blue-500 hover:cursor-pointer">
+                        <div className="w-14 h-14 bg-[#262832] rounded-lg flex flex-col items-center justify-center transition-colors duration-300 hover:bg-blue-500 hover:cursor-pointer">
                             <FontAwesomeIcon icon={item.icon} className="text-white" />
+                            <span className="text-white text-xs mt-1">{item.label}</span>
                         </div>
                     </li>
                 ))}
@@ -31,4 +30,4 @@ const Navigation = () => {
     );
 }
 
-export default Navigation
+export default Navigation;
