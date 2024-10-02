@@ -19,7 +19,7 @@ export default function HomePage() {
 				</div>
 				<div className="w-full flex flex-col z-10">
 					<Header />
-					<div className="ml-3 mt-16">
+					<div className="ml-3 mt-7">
 						<h1 className="text-7xl text-left break-words">
 							Welcome to Manggad :<br />
 							LCCB Thesis Repository
