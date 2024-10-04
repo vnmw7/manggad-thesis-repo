@@ -30,9 +30,9 @@ const Clock = () => {
     });
 
     return (
-        <div className="text-white text-8xl text-right -mt-96"> {/* Right-aligned text */}
+        <div className="text-white text-8xl text-right" style={{ marginBottom: "550px"}}> {/* Right-aligned text */}
             <div>{formattedTime}</div>
-            <div className="text-3xl">{formattedDate}</div> {/* Date displayed below the time */}
+            <div className="text-3xl" style={{ marginLeft: "550px"}}>{formattedDate}</div> {/* Date displayed below the time */}
         </div>
     );
 };
