@@ -31,7 +31,7 @@ const Header = () => {
             </div>
             <div className="flex grow items-center">
                 <div className="w-44"><ThemeSwitch /></div>
-                <div className="w-44"><button className='-ml-0 rounded' style={{ marginTop: '10px' }} onClick={() => router.push("/auth")}> Admin </button></div>
+                <div className="w-44"><button className='-ml-6 rounded' style={{ marginTop: '10px' }} onClick={() => router.push("/auth")}> Admin </button></div>
             </div>
         </div>
     );

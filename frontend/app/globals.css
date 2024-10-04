@@ -12,13 +12,13 @@ h1 {
     font-family: 'Lora Bold';
 }
 button {
-    @apply bg-[#262832] border border-transparent w-full hover:bg-blue-500 hover:shadow-xl text-white py-2 rounded-full dark:bg-primary-dark my-0.5;
+    @apply bg-[#262832] border border-transparent w-full hover:bg-blue-500 hover:shadow-xl text-white py-2 rounded dark:bg-primary-dark my-0.5;
 }
 button.secondary {
-    @apply bg-transparent border border-primary text-primary hover:shadow-xl py-2 w-full rounded-full dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
+    @apply bg-transparent border border-primary text-primary hover:shadow-xl py-2 w-full rounded dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
 }
 button.tritiary {
-    @apply bg-transparent border border-transparent text-black hover:underline hover:shadow-none py-2 w-fit rounded-full dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
+    @apply bg-transparent border border-transparent text-black hover:underline hover:shadow-none py-2 w-fit rounded dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white my-1;
 }
 
 input[type="text"], input[type="password"] {

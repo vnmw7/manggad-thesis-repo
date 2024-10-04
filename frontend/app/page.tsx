@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'; // Import the diagonal arrow icon
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
 
 const Clock = () => {
     const [time, setTime] = useState(new Date());
@@ -30,7 +31,7 @@ const Clock = () => {
     });
 
     return (
-        <div className="text-white text-8xl text-right" style={{ marginBottom: "550px"}}> {/* Right-aligned text */}
+        <div className="text-8xl text-right text-[#262832]" style={{ marginBottom: "635px" }}> {/* Right-aligned text */}
             <div>{formattedTime}</div>
             <div className="text-3xl" style={{ marginLeft: "550px"}}>{formattedDate}</div> {/* Date displayed below the time */}
         </div>
@@ -45,31 +46,31 @@ export default function HomePage() {
                 <div className="absolute inset-0 flex">
                     <div className="w-4/6 bg-[#C1BEAF] overflow-hidden relative"> {/* Left side scrollable */}
                         <div className="grid grid-cols-4 gap-4 p-6">
-                            <h2 className="text-3xl font-bold col-span-4" style={{ marginTop: "500px" }}>Recommended</h2>
-                            <a href="#" className="text-blue-600 hover:underline col-span-4 self-start text-right -mt-10">
+                            <h2 className="text-3xl font-bold col-span-4" style={{ marginTop: "500px", fontFamily: "Lora Bold" }}>Recommended</h2>
+                            <a href="#" className="text-[#262832] hover:underline col-span-4 self-start text-right -mt-10 z-20">
                                 View More
                             </a>
                             
                             {/* Card 1 */}
-                            <div className="bg-white p-4 rounded shadow">
+                            <div className="bg-[#d4d4d4] p-4 rounded shadow cursor-pointer z-50 hover:bg-blue-500 hover:shadow-xl duration-300">
                                 <h3 className="font-semibold text-xl">Card Title 1</h3>
                                 <p className="text-gray-700">Brief description of the research or topic. This is a short summary.</p>
                             </div>
                             
                             {/* Card 2 */}
-                            <div className="bg-white p-4 rounded shadow">
+                            <div className="bg-[#d4d4d4] p-4 rounded shadow cursor-pointer z-50  hover:bg-blue-500 hover:shadow-xl duration-300">
                                 <h3 className="font-semibold text-xl">Card Title 2</h3>
                                 <p className="text-gray-700">Brief description of the research or topic. This is a short summary.</p>
                             </div>
                             
                             {/* Card 3 */}
-                            <div className="bg-white p-4 rounded shadow">
+                            <div className="bg-[#d4d4d4] p-4 rounded shadow cursor-pointer z-50  hover:bg-blue-500 hover:shadow-xl duration-300">
                                 <h3 className="font-semibold text-xl">Card Title 3</h3>
                                 <p className="text-gray-700">Brief description of the research or topic. This is a short summary.</p>
                             </div>
                             
                             {/* Card 4 */}
-                            <div className="bg-white p-4 rounded shadow">
+                            <div className="bg-[#d4d4d4] p-4 rounded shadow cursor-pointer z-50  hover:bg-blue-500 hover:shadow-xl duration-300">
                                 <h3 className="font-semibold text-xl">Card Title 4</h3>
                                 <p className="text-gray-700">Brief description of the research or topic. This is a short summary.</p>
                             </div>
@@ -83,8 +84,8 @@ export default function HomePage() {
                     <Header />
                     <div className="ml-6 mt-12">
                         <h1 className="text-7xl text-left break-words">
-                            Welcome to Manggad :<br />
-                            LCCB Thesis Repository
+                            Manggad :<br />
+                            LCCB Research Repository
                         </h1>
                         <p className="text-xl text-left mt-7 break-words">
                             This is your space for discovering new research and fresh ideas. We invite you to explore our collection, <br />
