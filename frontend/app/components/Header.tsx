@@ -6,7 +6,7 @@ const Header = () => {
     const router = useRouter();
 
     return (
-        <div className="flex w-full h-fit">
+        <div className="flex w-full h-fit relative">
             {/* left side */}
             <div className="">
                 <div className="flex items-center"> {/* container sng search icon kag search bar */}

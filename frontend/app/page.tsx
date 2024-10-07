@@ -45,10 +45,13 @@ export default function HomePage() {
 
             <div className="grow h-[100vh] flex relative"> {/* whole screen except sang navigation bar */}
                 <div className="absolute top-0 hidden h-[100vh] bg-[#C1BEAF] md:flex md:w-4/6"></div>
-                <div className="relative h-full w-full">
+                <div className="relative h-[100vh] w-full flex flex-column overflow-y-auto">
                     <Header />
-                    <div className="flex">
+                    <div className="flex flex-grow">
+                        {/* left side */}
                         <div className="w-[68%]"> left </div>
+
+                        {/* right side */}
                         <div className="flex-grow"> right </div>
                     </div>
                 </div>
