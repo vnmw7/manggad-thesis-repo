@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 const Clock = () => {
