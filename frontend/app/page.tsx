@@ -7,7 +7,7 @@ import Header from "./components/Header";
 // import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
-const Clock = () => {
+/*const Clock = () => {
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
@@ -31,13 +31,13 @@ const Clock = () => {
     });
 
     return (
-        <div className="text-8xl text-right text-[#262832]" style={{ marginBottom: "635px" }}> {/* Right-aligned text */}
+        <div className="text-8xl text-right text-[#262832]" style={{ marginBottom: "635px" }}> Right-aligned text
             <div>{formattedTime}</div>
-            <div className="text-3xl" style={{ marginLeft: "550px"}}>{formattedDate}</div> {/* Date displayed below the time */}
+            <div className="text-3xl" style={{ marginLeft: "550px"}}>{formattedDate}</div> Date displayed below the time
         </div>
     );
 };
-
+*/
 export default function HomePage() {
     return (
         <div className="flex relative">
