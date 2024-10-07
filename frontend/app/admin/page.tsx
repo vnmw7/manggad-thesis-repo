@@ -30,7 +30,7 @@ const Dashboard = () => {
             <div className="grow h-[100vh] px-6">
                 <div>
                     <Header />
-                    <h1> Current Uploaded Books </h1>
+                    <h1 className='mt-10'> Current Uploaded Books </h1>
 
                     {/* bookshelf */}
                     <div className='flex flex-col gap-2 md:grid md:grid-cols-3 lg:grid-cols-4'>

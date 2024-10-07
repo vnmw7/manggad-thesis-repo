@@ -76,10 +76,17 @@ export default function HomePage() {
                             </div>
                         </div>
                     </div>
-                    <div className="w-1/2 bg-[#d4d4d4] flex items-center justify-center">
-                        <Clock /> {/* Render the Clock component */}
-                    </div>
-                </div>
+                    <div className="w-1/2 bg-[#d4d4d4] flex flex-col items-center justify-center">
+                           <Clock /> {/* Render the Clock component */}
+
+                                   {/* Quote of the Day */}
+                               <div className="mt-1 text-center">
+                            <p className="text-lg font-semibold" style={{ marginTop: "-565px", textAlign:"left", fontFamily: "Lora Bold" }}>"Your inspirational quote of the day here!"</p>
+                            <p className="text-sm text-gray-600">- Author's Name</p>
+                       </div>
+                        </div>
+                      </div>
+
                 <div className="w-full flex flex-col z-10">
                     <Header />
                     <div className="ml-6 mt-12">
