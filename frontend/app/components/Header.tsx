@@ -6,21 +6,15 @@ const Header = () => {
     const router = useRouter();
 
     return (
-        <div className="flex">
-            <div className="flex items-end w-[1070px]"> {/* Changed to items-end */}
-                <div className="relative">
-                    <SearchIcon 
-                        style={{
-                            fill: '#000', 
-                            stroke: '#000', 
-                            width: '26px',  
-                            height: '26px', 
-                            position: 'absolute', 
-                            left: '20px',
-                            top: '57%',
-                            transform: 'translateY(-50%)'
-                        }} 
-                    />
+        <div className="flex w-full h-fit">
+            {/* left side */}
+            <div className="">
+                <div className="flex items-center"> {/* container sng search icon kag search bar */}
+                    <div className="grid place-items-center aspect-square w-auto"> {/* container sng svg icon */}
+                        <SearchIcon style={{ fill: '#000', stroke: '#000' }} /> {/* sa svg file ka gd adjust sang width kag height */}
+                    </div>
+
+                    {/* search bar */}
                     <input 
                         type="text" 
                         placeholder="Search Related Studies" 
@@ -29,9 +23,11 @@ const Header = () => {
                     />
                 </div>
             </div>
-            <div className="flex grow items-center">
-                <div className="w-44"><ThemeSwitch /></div>
-                <div className="w-44"><button className='-ml-6 rounded' style={{ marginTop: '10px' }} onClick={() => router.push("/auth")}> Admin </button></div>
+
+            {/* right side */}
+            <div className="flex flex-grow">
+                <ThemeSwitch />
+                <div className='aspect-square w-16 rounded-full hover:cursor-pointer' style={{ backgroundImage: 'url("profile_placeholder.png")', backgroundSize: "cover", backgroundPosition: "cover cover"}} onClick={() => router.push("/auth")}> </div>
             </div>
         </div>
     );
