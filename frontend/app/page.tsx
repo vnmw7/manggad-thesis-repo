@@ -44,8 +44,8 @@ export default function HomePage() {
             <Navigation />
 
             <div className="grow h-[100vh] flex relative"> {/* whole screen except sang navigation bar */}
-                <div className="absolute top-0 hidden h-[100vh] bg-[#C1BEAF] md:flex md:w-4/6"></div>
-                <div className="relative h-[100vh] w-full flex flex-column overflow-y-auto">
+                <div className="absolute top-0 hidden h-[100vh] bg-blue-50 md:flex md:w-4/6"></div> {/* ang bg color */}
+                <div className="relative h-[100vh] w-full flex flex-col overflow-y-auto">
                     <Header />
                     <div className="flex flex-grow">
                         {/* left side */}
