@@ -38,7 +38,7 @@ const Clock = () => {
 };
 
 export default function HomePage() {
-    const carouselRef = useRef(null);
+    const carouselRef: any = useRef(null);
 
     const scrollLeft = () => {
         if (carouselRef.current) {
