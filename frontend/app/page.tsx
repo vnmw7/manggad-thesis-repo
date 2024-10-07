@@ -137,7 +137,7 @@ export default function HomePage() {
                     <div className="w-1/2 bg-[#d4d4d4] flex flex-col items-center justify-center">
                         <Clock /> {/* Render the Clock component */}
                         <div className="mt-1 text-center">
-                            <p className="text-lg font-semibold" style={{ marginTop: "-565px", textAlign: "left", fontFamily: "Lora Bold" }}>"Your inspirational quote of the day here!"</p>
+                            <p className="text-lg font-semibold" style={{ marginTop: "-565px", textAlign: "left", fontFamily: "Lora Bold" }}>&quot;Your inspirational quote of the day here!&quot;</p>
                             <p className="text-sm text-gray-600">- Author&apos;s Name</p>
                         </div>
                     </div>
