@@ -49,7 +49,11 @@ export default function HomePage() {
                     <Header />
                     <div className="flex flex-grow">
                         {/* left side */}
-                        <div className="w-[68%]"> left </div>
+                        <div className="w-[66.6%]">
+                        <div className="flex text-left relative mt-10 leading-10">
+                        <h2 className="font-bold text-7xl leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
+                        </div>
+                     </div>
 
                         {/* right side */}
                         <div className="flex-grow"> right </div>

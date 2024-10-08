@@ -4,7 +4,7 @@
 
 * { 
     @apply box-border;
-    border: 1px solid gray;
+ border: 1px solid gray; 
     font-family: 'Source Sans Pro';
 }
 h1 {

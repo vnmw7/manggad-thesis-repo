@@ -7,7 +7,7 @@ const Navigation = () => {
     return (
         <div className="bg-blue-50 w-20 h-screen border-r border-r-[#262832] border-transparent flex-col relative hidden justify-between lg:flex">
             {/* Logo Container */}
-            <div className="mb-4 flex justify-center mt-1">
+            <div className="mb-4 flex justify-center">
                 <div style={{ backgroundImage: 'url("lccb.png")', aspectRatio: "1/1", width:"60px", height: "60px", backgroundSize: "contain", marginTop: "5px" }}></div>
             </div>
 
