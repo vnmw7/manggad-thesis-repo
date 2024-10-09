@@ -3,8 +3,8 @@
 //import React, { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 /*const Clock = () => {
@@ -47,16 +47,29 @@ export default function HomePage() {
                 <div className="absolute top-0 hidden h-[100vh] bg-blue-50 md:flex md:w-4/6"></div> {/* ang bg color */}
                 <div className="relative h-[100vh] w-full flex flex-col overflow-y-auto">
                     <Header />
-                    <div className="flex flex-grow">
+                    <div className="flex flex-grow bg-[#C1BEAF]">
                         {/* left side */}
                         <div className="w-[66.6%]">
                         <div className="flex text-left relative mt-10 leading-10">
-                        <h2 className="font-bold text-7xl leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
+                        <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
                         </div>
+                    <div>
+
+                    </div>
+                    <p className="text-xl text-left mt-7 ml-8 break-words">
+                          This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
+                </p>
+                     <div className="w-40 mt-6 ml-8">
+                             <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
+                                 Read now
+                                <FontAwesomeIcon icon={faArrowRight} className="ml-5 w-6 h-5" />
+                             </button>
+                     </div>
                      </div>
 
+
                         {/* right side */}
-                        <div className="flex-grow"> right </div>
+                        <div className="flex-grow bg-[#EFF6FF]"> right </div>
                     </div>
                 </div>
             </div>
