@@ -19,7 +19,7 @@ const Header = () => {
                         type="text" 
                         placeholder="Search Related Studies" 
                         className="pl-12 h-10 ml-1 text-base border border-[#262832] rounded-lg bg-gray-100 transition-colors placeholder:text-[#262832] focus:outline-none" 
-                        style={{ marginTop: '10px', width: '970px', color: '#262832', borderColor: '#262832' }} 
+                        style={{ marginTop: '10px', width: '1112px', color: '#262832', borderColor: '#262832' }} 
                     />
                 </div>
             </div>

@@ -49,17 +49,17 @@ export default function HomePage() {
                     <Header />
                     <div className="flex flex-grow bg-[#C1BEAF]">
                         {/* left side */}
-                        <div className="w-[66.6%]">
+                        <div className="w-[66.6%]"> {/* title for landing page*/}
                         <div className="flex text-left relative mt-10 leading-10">
                         <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
                         </div>
                     <div>
 
                     </div>
-                    <p className="text-xl text-left mt-7 ml-8 break-words">
+                    <p className="text-xl text-left mt-7 ml-8 whitespace-normal w-5/6">
                           This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
                 </p>
-                     <div className="w-40 mt-6 ml-8">
+                     <div className="w-40 mt-6 ml-8">{/* read now button */}
                              <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
                                  Read now
                                 <FontAwesomeIcon icon={faArrowRight} className="ml-5 w-6 h-5" />
