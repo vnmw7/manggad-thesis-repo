@@ -52,6 +52,9 @@ export default function HomePage() {
                         <div className="w-[66.6%]"> {/* title for landing page*/}
                         <div className="flex text-left relative mt-10 leading-10">
                         <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
+                        <div className="mb-4 flex justify-normal"> {/* System Logo */}
+                          <div style={{ backgroundImage: 'url("MANGGAD LOGO.png")', aspectRatio: "1/1", width:"280px", height: "280px", backgroundSize: "contain", marginTop: "1px" }}></div>
+                              </div>
                         </div>
                     <div>
 
