@@ -6,70 +6,78 @@ import Header from "./components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-
-/*const Clock = () => {
-    const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTime(new Date());
-        }, 60000); // Update every minute
-
-        return () => clearInterval(timer); // Cleanup the interval on component unmount
-    }, []);
-
-    const formattedTime = time.toLocaleTimeString([], {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-    });
-
-    const formattedDate = time.toLocaleDateString([], {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-
-    return (
-        <div className="text-8xl text-right text-[#262832]" style={{ marginBottom: "635px" }}> Right-aligned text
-            <div>{formattedTime}</div>
-            <div className="text-3xl" style={{ marginLeft: "550px"}}>{formattedDate}</div> Date displayed below the time
-        </div>
-    );
-};
-*/
 export default function HomePage() {
     return (
         <div className="flex relative">
             <Navigation />
 
-            <div className="grow h-[100vh] flex relative"> {/* whole screen except sang navigation bar */}
-                <div className="absolute top-0 hidden h-[100vh] bg-blue-50 md:flex md:w-4/6"></div> {/* ang bg color */}
+            <div className="grow h-[100vh] flex relative"> {/* whole screen except nav bar */}
+                <div className="absolute top-0 hidden h-[100vh] bg-blue-50 md:flex md:w-4/6"></div> {/* bg color */}
                 <div className="relative h-[100vh] w-full flex flex-col overflow-y-auto">
                     <Header />
                     <div className="flex flex-grow bg-[#C1BEAF]">
                         {/* left side */}
-                        <div className="w-[66.6%]"> {/* title for landing page*/}
-                        <div className="flex text-left relative mt-10 leading-10">
-                        <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold"}}> Manggad : <br></br>LCCB Research Repository</h2>
-                        <div className="mb-4 flex justify-normal"> {/* System Logo */}
-                          <div style={{ backgroundImage: 'url("MANGGAD LOGO.png")', aspectRatio: "1/1", width:"280px", height: "280px", backgroundSize: "contain", marginTop: "1px" }}></div>
-                              </div>
+                        <div className="w-[66.6%]">
+                            {/* title for landing page */}
+                            <div className="flex text-left relative mt-1 leading-10">
+                                <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold" }}> 
+                                    Manggad : <br />LCCB Research Repository
+                                </h2>
+                                <div className="mb-4 flex justify-normal">
+                                    {/* System Logo */}
+                                    <div className="bg-contain bg-no-repeat" style={{ backgroundImage: 'url("MANGGAD LOGO.png")', width:"280px", height: "280px", marginTop: "1px" }}></div>
+                                </div>
+                            </div>
+
+                            <p className="text-xl text-left mt-1 ml-8 whitespace-normal w-5/6">
+                                This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
+                            </p>
+
+                            <div className="w-40 mt-6 ml-8">
+                                {/* read now button */}
+                                <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
+                                    Read now
+                                    <FontAwesomeIcon icon={faArrowRight} className="ml-5 w-6 h-5" />
+                                </button>
+                            </div>
+
+                            {/* Card Grid starts here */}
+                            <div>
+                            <h2 className="font-bold text-3xl ml-8 leading-tight mt-7" style={{ fontFamily: "Lora Bold" }}> 
+                                    Recommended Research :
+                                </h2>
+                            </div>
+                            <div className="mt-3 ml-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-11/12">
+                                {/* Card 1 */}
+                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="https://via.placeholder.com/300x200" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">Card Title 1</h3>
+                                    <p className="text-gray-600">Brief description of the first card goes here. It could be a short summary of content.</p>
+                                </div>
+
+                                {/* Card 2 */}
+                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="https://via.placeholder.com/300x200" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">Card Title 2</h3>
+                                    <p className="text-gray-600">Brief description of the second card goes here. Something informative or interesting.</p>
+                                </div>
+
+                                {/* Card 3 */}
+                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="https://via.placeholder.com/300x200" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">Card Title 3</h3>
+                                    <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer's interest.</p>
+                                </div>
+
+                                {/* Card 4 */}
+                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="https://via.placeholder.com/300x200" alt="Card 4" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">Card Title 4</h3>
+                                    <p className="text-gray-600">Brief description of the fourth card goes here. Provide a concise summary.</p>
+                                </div>
+                            </div>
+                            {/* Card Grid ends here */}
                         </div>
-                    <div>
-
-                    </div>
-                    <p className="text-xl text-left mt-7 ml-8 whitespace-normal w-5/6">
-                          This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
-                </p>
-                     <div className="w-40 mt-6 ml-8">{/* read now button */}
-                             <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
-                                 Read now
-                                <FontAwesomeIcon icon={faArrowRight} className="ml-5 w-6 h-5" />
-                             </button>
-                     </div>
-                     </div>
-
 
                         {/* right side */}
                         <div className="flex-grow bg-[#EFF6FF]"> right </div>
@@ -77,6 +85,9 @@ export default function HomePage() {
                 </div>
             </div>
         </div>
+    );
+}
+
 
         // <div className="flex relative">
         //     <Navigation /><div className="w-4/6 bg-[#C1BEAF] overflow-hidden relative">
@@ -149,5 +160,4 @@ export default function HomePage() {
         //     </div>
         // </div>
         // </div>
-    );
-}
+
