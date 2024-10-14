@@ -66,7 +66,7 @@ export default function HomePage() {
                                 <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
                                     <img src="https://via.placeholder.com/300x200" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">Card Title 3</h3>
-                                    <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer's interest.</p>
+                                    <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer&apos;s interest.</p>
                                 </div>
 
                                 {/* Card 4 */}
