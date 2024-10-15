@@ -49,29 +49,29 @@ export default function HomePage() {
                             </div>
                             <div className="mt-3 ml-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-11/12">
                                 {/* Card 1 */}
-                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="SBIT.jpg" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <div className="bg-yellow-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="SBIT.png" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Business and Information Technology </h3>
                                     <p className="text-gray-600">Brief description of the first card goes here. It could be a short summary of content.</p>
                                 </div>
 
                                 {/* Card 2 */}
-                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="SSLATE.jpg" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <div className="bg-blue-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="SSLATE.png" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Sciences Liberal Arts and Teacher Education </h3>
                                     <p className="text-gray-600">Brief description of the second card goes here. Something informative or interesting.</p>
                                 </div>
 
                                 {/* Card 3 */}
-                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="SHTM.jpg" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <div className="bg-orange-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="SHTM.png" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Hospitality and Tourism Management </h3>
                                     <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer&apos;s interest.</p>
                                 </div>
 
                                 {/* Card 4 */}
-                                <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="https://via.placeholder.com/300x200" alt="Card 4" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <div className="bg-violet-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                    <img src="SARFAID.png" alt="Card 4" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Architecture, Fine Arts, and Interior Design. </h3>
                                     <p className="text-gray-600">Brief description of the fourth card goes here. Provide a concise summary.</p>
                                 </div>
