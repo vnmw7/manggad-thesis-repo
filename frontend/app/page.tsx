@@ -33,7 +33,7 @@ export default function HomePage() {
                                 This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
                             </p>
 
-                            <div className="w-40 mt-6 ml-8">
+                            <div className="w-40 mt-3 ml-8">
                                 {/* read now button */}
                                 <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
                                     Read now
@@ -43,36 +43,36 @@ export default function HomePage() {
 
                             {/* Card Grid starts here */}
                             <div>
-                            <h2 className="font-bold text-3xl ml-8 leading-tight mt-7" style={{ fontFamily: "Lora Bold" }}> 
+                            <h2 className="font-bold text-3xl ml-8 leading-tight mt-5" style={{ fontFamily: "Lora Bold" }}> 
                                     Recommended Research :
                                 </h2>
                             </div>
                             <div className="mt-3 ml-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-11/12">
                                 {/* Card 1 */}
                                 <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="https://via.placeholder.com/300x200" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
-                                    <h3 className="font-bold text-lg mb-2">Card Title 1</h3>
+                                    <img src="SBIT.jpg" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">School of Business and Information Technology </h3>
                                     <p className="text-gray-600">Brief description of the first card goes here. It could be a short summary of content.</p>
                                 </div>
 
                                 {/* Card 2 */}
                                 <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="https://via.placeholder.com/300x200" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
-                                    <h3 className="font-bold text-lg mb-2">Card Title 2</h3>
+                                    <img src="SSLATE.jpg" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">School of Sciences Liberal Arts and Teacher Education </h3>
                                     <p className="text-gray-600">Brief description of the second card goes here. Something informative or interesting.</p>
                                 </div>
 
                                 {/* Card 3 */}
                                 <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
-                                    <img src="https://via.placeholder.com/300x200" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
-                                    <h3 className="font-bold text-lg mb-2">Card Title 3</h3>
+                                    <img src="SHTM.jpg" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
+                                    <h3 className="font-bold text-lg mb-2">School of Hospitality and Tourism Management </h3>
                                     <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer&apos;s interest.</p>
                                 </div>
 
                                 {/* Card 4 */}
                                 <div className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
                                     <img src="https://via.placeholder.com/300x200" alt="Card 4" className="w-full h-40 object-cover rounded-lg mb-4" />
-                                    <h3 className="font-bold text-lg mb-2">Card Title 4</h3>
+                                    <h3 className="font-bold text-lg mb-2">School of Architecture, Fine Arts, and Interior Design. </h3>
                                     <p className="text-gray-600">Brief description of the fourth card goes here. Provide a concise summary.</p>
                                 </div>
                             </div>
