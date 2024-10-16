@@ -20,20 +20,20 @@ export default function HomePage() {
                         <div className="w-[66.6%]">
                             {/* title for landing page */}
                             <div className="flex text-left relative mt-1 leading-10">
-                                <h2 className="font-bold text-7xl ml-8 leading-tight" style={{ fontFamily: "Lora Bold" }}> 
+                                <h2 className="font-bold text-7xl ml-8 mt-8 leading-tight" style={{ fontFamily: "Lora Bold" }}> 
                                     Manggad : <br />LCCB Research Repository
                                 </h2>
                                 <div className="mb-4 flex justify-normal">
                                     {/* System Logo */}
-                                    <div className="bg-contain bg-no-repeat" style={{ backgroundImage: 'url("MANGGAD LOGO.png")', width:"280px", height: "280px", marginTop: "1px" }}></div>
+                                    <div className="bg-contain bg-no-repeat ml-14" style={{ backgroundImage: 'url("MANGGAD LOGO.png")', width:"200px", height: "200px", marginTop: "30px" }}></div>
                                 </div>
                             </div>
 
-                            <p className="text-xl text-left mt-1 ml-8 whitespace-normal w-5/6">
+                            <p className="text-2xl text-left -mt-1 ml-8 whitespace-normal w-11/12">
                                 This is your space for discovering new research and fresh ideas. We invite you to explore our collection where you can find inspiration for your own work. Dive in and see what sparks your creativity! Whether you’re looking for a topic, examples, or just something new to think about you’re in the right place.
                             </p>
 
-                            <div className="w-40 mt-3 ml-8">
+                            <div className="w-40 mt-8 ml-8">
                                 {/* read now button */}
                                 <button className="flex items-center transition-colors duration-300 hover:bg-blue-500 px-4 py-2 rounded">
                                     Read now
@@ -43,34 +43,34 @@ export default function HomePage() {
 
                             {/* Card Grid starts here */}
                             <div>
-                            <h2 className="font-bold text-3xl ml-8 leading-tight mt-5" style={{ fontFamily: "Lora Bold" }}> 
+                            <h2 className="font-bold text-3xl ml-8 leading-tight mt-10" style={{ fontFamily: "Lora Bold" }}> 
                                     Recommended Research :
                                 </h2>
                             </div>
-                            <div className="mt-3 ml-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-11/12">
+                            <div className="mt-5 ml-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-11/12">
                                 {/* Card 1 */}
-                                <div className="bg-yellow-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                <div className="bg-yellow-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64 border-2 border-black">
                                     <img src="SBIT.png" alt="Card 1" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Business and Information Technology </h3>
                                     <p className="text-gray-600">Brief description of the first card goes here. It could be a short summary of content.</p>
                                 </div>
 
                                 {/* Card 2 */}
-                                <div className="bg-blue-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                <div className="bg-blue-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64 border-2 border-black">
                                     <img src="SSLATE.png" alt="Card 2" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Sciences Liberal Arts and Teacher Education </h3>
                                     <p className="text-gray-600">Brief description of the second card goes here. Something informative or interesting.</p>
                                 </div>
 
                                 {/* Card 3 */}
-                                <div className="bg-orange-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                <div className="bg-orange-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64 border-2 border-black">
                                     <img src="SHTM.png" alt="Card 3" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Hospitality and Tourism Management </h3>
                                     <p className="text-gray-600">Brief description of the third card goes here. Something to catch the viewer&apos;s interest.</p>
                                 </div>
 
                                 {/* Card 4 */}
-                                <div className="bg-violet-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64">
+                                <div className="bg-violet-200 p-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 w-64 border-2 border-black">
                                     <img src="SARFAID.png" alt="Card 4" className="w-full h-40 object-cover rounded-lg mb-4" />
                                     <h3 className="font-bold text-lg mb-2">School of Architecture, Fine Arts, and Interior Design. </h3>
                                     <p className="text-gray-600">Brief description of the fourth card goes here. Provide a concise summary.</p>
@@ -80,7 +80,7 @@ export default function HomePage() {
                         </div>
 
                         {/* right side */}
-                        <div className="flex-grow bg-[#EFF6FF]"> right </div>
+                        <div className="flex-grow bg-[#EFF6FF]"></div>
                     </div>
                 </div>
             </div>
