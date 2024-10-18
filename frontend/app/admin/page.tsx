@@ -1,8 +1,8 @@
 "use client"
 
 import React from 'react';
-import Navigation from "../../components/Navigation";
-import Header from "../../components/Header";
+import Navigation from "../_components/Navigation";
+import Header from "../_components/Header";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
