@@ -1,8 +1,8 @@
 "use client";
 
 //import React, { useState, useEffect } from "react";
-import Navigation from "./components/Navigation";
-import Header from "./components/Header";
+import Navigation from "./_components/Navigation";
+import Header from "./_components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
