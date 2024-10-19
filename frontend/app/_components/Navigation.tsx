@@ -5,13 +5,14 @@ import { faHome, faTh, faArrowUp, faCog } from '@fortawesome/free-solid-svg-icon
 
 const Navigation = () => {
     return (
-        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex flex-col relative hidden lg:flex">
+        <div className="bg-[#C1BEAF] w-20 h-screen border-r border-r-[#262832] border-transparent flex-col relative hidden justify-between lg:flex">
             {/* Logo Container */}
-            <div className="mb-4 flex justify-center mt-1">
+            <div className="mb-4 flex justify-center">
                 <div style={{ backgroundImage: 'url("lccb.png")', aspectRatio: "1/1", width:"60px", height: "60px", backgroundSize: "contain", marginTop: "5px" }}></div>
             </div>
+
             {/* Navigation Items */}
-            <ul className="flex flex-col items-center space-y-4 style" style={{ marginTop: "590px"}}>
+            <ul className="flex flex-col items-center space-y-4 style">
                 {[
                     { icon: faHome, label: "Home" },
                     { icon: faTh, label: "List" }, // Changed from "Categories" to "List"

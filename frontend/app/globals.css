@@ -4,9 +4,8 @@
 
 * { 
     @apply box-border;
-    /* border: 1px solid gray; */
+    /* border: 1px solid gray; */  
     font-family: 'Source Sans Pro';
-    box-sizing: border-box;
 }
 h1 {
     font-family: 'Lora Bold';
@@ -45,13 +44,13 @@ input[type="text"], input[type="password"] {
 /* +--------------------+ */
 @font-face {
     font-family: 'Source Sans Pro';
-    src: url('./fonts/sourceSansPro/SourceSansPro-Regular.ttf') format('truetype'),
+    src: url('./_fonts/sourceSansPro/SourceSansPro-Regular.ttf') format('truetype'),
 }
 @font-face {
     font-family: 'Lora';
-    src: url('./fonts/lora/Lora-VariableFont_wght.ttf') format('truetype'),
+    src: url('./_fonts/lora/Lora-VariableFont_wght.ttf') format('truetype'),
 }
 @font-face {
     font-family: 'Lora Bold';
-    src: url('./fonts/lora/Lora-Bold.ttf') format('truetype'),
+    src: url('./_fonts/lora/Lora-Bold.ttf') format('truetype'),
 }
