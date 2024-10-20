@@ -13,8 +13,65 @@ datasource db {
   url      = env("DATABASE_URL") // ara sa .env nga file
 }
 
-model Admin {
+model Users {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   username String @unique
   password String
+  email    String @unique
+  roleId   String @db.ObjectId
+  role     Role   @relation(fields: [roleId], references: [id])
+}
+
+model Role {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  users Users[]
+}
+
+model Research {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  abstract         String
+  keywords         String
+  language         String
+  yearOfSubmission Int
+  degreeType       String
+
+  // many researches to one relationship
+  departmentId String     @db.ObjectId
+  schoolId     String     @db.ObjectId
+  department   Department @relation(fields: [departmentId], references: [id])
+  school       School     @relation(fields: [schoolId], references: [id])
+
+  // many researches to many relationship
+  authorIds  String[]  @db.ObjectId
+  advisorIds String[]  @db.ObjectId
+  authors    Author[]  @relation(fields: [authorIds], references: [id])
+  advisors   Advisor[] @relation(fields: [advisorIds], references: [id])
+}
+
+model Author {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  researchIds String[]   @db.ObjectId // many authors to many researches
+  researches  Research[] @relation(fields: [researchIds], references: [id])
+}
+
+model Advisor {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  researchIds String[]   @db.ObjectId // many advisors to many researches
+  researches  Research[] @relation(fields: [researchIds], references: [id])
+}
+
+model Department {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  research Research[] // one department to many researches
+}
+
+model School {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  research Research[] // one school to many researches
 }
