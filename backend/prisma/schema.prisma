@@ -18,10 +18,11 @@ model User {
   username     String     @unique
   password     String
   email        String     @unique
+  isVerified   Boolean    @default(false)
 
   roleId       String     @db.ObjectId
   departmentId String     @db.ObjectId
-  
+
   role         Role       @relation(fields: [roleId], references: [id])
   departnment  Department @relation(fields: [departmentId], references: [id])
 }
