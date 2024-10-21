@@ -13,18 +13,27 @@ datasource db {
   url      = env("DATABASE_URL") // ara sa .env nga file
 }
 
+model Test {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  inputStringHere String
+}
+
 model User {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  username     String     @unique
-  password     String
-  email        String     @unique
-  isVerified   Boolean    @default(false)
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  username   String  @unique
+  password   String
+  email      String  @unique
+  isVerified Boolean @default(false)
 
-  roleId       String     @db.ObjectId
-  departmentId String     @db.ObjectId
+  // one-to-one
+  roleId       String @db.ObjectId
+  departmentId String @db.ObjectId
 
-  role         Role       @relation(fields: [roleId], references: [id])
-  departnment  Department @relation(fields: [departmentId], references: [id])
+  // one-to-many
+  uploadIds Research[]
+
+  role        Role       @relation(fields: [roleId], references: [id])
+  departnment Department @relation(fields: [departmentId], references: [id])
 }
 
 model Role {
@@ -45,8 +54,10 @@ model Research {
   // many researches to one relationship
   departmentId String     @db.ObjectId
   schoolId     String     @db.ObjectId
+  userIds      String     @db.ObjectId
   department   Department @relation(fields: [departmentId], references: [id])
   school       School     @relation(fields: [schoolId], references: [id])
+  uploadedBy   User       @relation(fields: [userIds], references: [id])
 
   // many researches to many relationship
   authorIds  String[]  @db.ObjectId

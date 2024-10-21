@@ -2,6 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
+import testRoutes from './routes/testRoutes';
 
 // +----------------------------------------+
 // +     Prisma Client Initialization       +
@@ -40,6 +41,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+app.use('/tests', testRoutes);
 app.use('/users', userRoutes);
 
 // basta pabalo nga gagana ah
