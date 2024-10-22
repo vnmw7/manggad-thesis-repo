@@ -8,7 +8,6 @@ const Header = () => {
     return (
         <div className="flex w-full h-fit relative">
             {/* left side */}
-            <div className="bg-[#C1BEAF]">
                 <div className="flex items-center"> {/* container sng search icon kag search bar */}
                     <div className="grid place-items-center aspect-square w-auto ml-9"> {/* container sng svg icon */}
                         <SearchIcon style={{ fill: '#000', stroke: '#000' }} /> {/* sa svg file ka gd adjust sang width kag height */}
@@ -22,14 +21,14 @@ const Header = () => {
                         style={{ marginTop: '10px', width: '1112px', color: '#262832', borderColor: '#262832' }} 
                     />
                 </div>
-            </div>
 
             {/* right side */}
             <div className="flex flex-grow">
                 <ThemeSwitch />
                 <div className='aspect-square w-16 rounded-full hover:cursor-pointer' style={{ backgroundImage: 'url("profile_placeholder.png")', backgroundSize: "cover", backgroundPosition: "cover cover"}} onClick={() => router.push("/auth")}> </div>
             </div>
-        </div>
+            </div>
+
     );
 }
 
