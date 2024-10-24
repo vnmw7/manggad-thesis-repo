@@ -1,6 +1,8 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
+import userRoutes from './routes/userRoutes';
+import testRoutes from './routes/testRoutes';
 
 // +----------------------------------------+
 // +     Prisma Client Initialization       +
@@ -38,56 +40,11 @@ const port = 3001;
 app.use(express.json());
 app.use(cors());
 
+// Routes
+app.use('/tests', testRoutes);
+app.use('/users', userRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-
+// basta pabalo nga gagana ah
 app.listen(port, () => {
 console.log(`Server is running on http://localhost:${port}`);
 });
-
-app.post("/admin/register", async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const admin = await prisma.admin.create({
-            data: {
-                username,
-                password,
-            },
-        });
-        res.json(admin);
-    } catch (error) {
-        if (error instanceof Error) {
-            res.json({ error: error.message });
-        } else {
-            res.json({ error: 'An unknown error occurred' });
-        }
-    }
-})
-
-app.get("/admin/login", async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const admin = await prisma.admin.findUnique({
-            where: {
-                username,
-            },
-        });
-        if (!admin) {
-            res.json({ error: 'Invalid username' });
-            return;
-        }
-        if (admin.password !== password) {
-            res.json({ error: 'Invalid password' });
-            return;
-        }
-        res.json({ message: 'Login successful' });
-    } catch (error) {
-        if (error instanceof Error) {
-            res.json({ error: error.message });
-        } else {
-            res.json({ error: 'An unknown error occurred' });
-        }
-    }
-})
