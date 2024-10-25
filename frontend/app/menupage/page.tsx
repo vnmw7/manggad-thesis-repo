@@ -3,16 +3,44 @@
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function MenuPage() {
-  // State to track open/close of dropdowns
+  // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-  // Toggle function for dropdown
+  // State for real-time clock and date
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
   };
+
+  // Use useEffect to update the clock and date every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // Updates every second
+
+    return () => clearInterval(interval); // Clear interval when component unmounts
+  }, []);
+
+  // Format time as HH:MM:SS AM/PM
+  const formattedTime = currentTime.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+  });
+
+  // Format date as Month Day, Year (e.g., October 26, 2024)
+  const formattedDate = currentTime.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
   
   return (
     <div className="w-full min-h-screen flex flex-col">
@@ -54,6 +82,12 @@ export default function MenuPage() {
             </svg>
           </button>
         </div>
+
+          {/* Real-time Date and Time */}
+          <div className="font-mono text-lg text-right">
+            <div>{formattedDate}</div>
+            <div>{formattedTime}</div>
+          </div>
       </nav>
 
       {/* Image Banner */}
