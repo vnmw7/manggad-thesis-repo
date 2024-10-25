@@ -1,12 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-//import Navigation from "./_components/Navigation";
-//import Header from "./_components/Header";
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-export default function HomePage() {
+export default function MenuPage() {
     return (
                  <div className="flex h-[100vh]">
                  {/* Left Side Background Image */}
@@ -54,7 +50,7 @@ export default function HomePage() {
                        </button>
                        {/* Button 2 */}
                        <button className="ml-2 px-4 py-2 w-64 bg-green-500 text-white rounded-lg transition hover:bg-green-600">
-                         Login as Admin
+                         Go to Menupage
                        </button>
                      </div>
                    </div>
@@ -67,16 +63,8 @@ export default function HomePage() {
                        </p>
                      </div>
                    </div>
-               
-                   {/* Credit Section */}
-                   <div className="w-full flex justify-center mt-48">
-                     <p className="text-center text-gray-500">
-                       © Aerospire. All rights reserved. 2024
-                     </p>
-                   </div>
                  </div>
                </div>
                
   );
 }
-
