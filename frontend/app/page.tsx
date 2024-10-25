@@ -67,7 +67,7 @@ export default function HomePage() {
                    {/* Credit Section */}
                    <div className="w-full flex justify-center mt-48">
                      <p className="text-center text-gray-500">
-                       © Aerospire. All rights reserved. 2024
+                       © Manggad. All rights reserved. 2024
                      </p>
                    </div>
                  </div>
