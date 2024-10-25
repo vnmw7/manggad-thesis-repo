@@ -41,7 +41,7 @@ export default function HomePage() {
                        <input 
                          type="text" 
                          placeholder="Search Related Studies" 
-                         className="text-base border border-[#262832] rounded-lg bg-gray-100 transition-colors placeholder:text-[#262832] focus:outline-none flex-grow py-2 px-4"
+                         className="border border-gray-300 transition-colors placeholder:text-[#262832] flex-grow py-2 px-4"
                          style={{ color: '#262832', borderColor: '#262832' }}
                        />
                        {/* Button 1 */}
@@ -49,7 +49,7 @@ export default function HomePage() {
                          Search
                        </button>
                        {/* Button 2 */}
-                       <button className="ml-2 px-4 py-2 w-64 bg-green-500 text-white rounded-lg transition hover:bg-green-600">
+                       <button className="ml-2 px-4 py-2 w-64 border-r-blue-500 text-white rounded-lg transition hover:bg-blue-500">
                          Go to Menupage
                        </button>
                      </div>
