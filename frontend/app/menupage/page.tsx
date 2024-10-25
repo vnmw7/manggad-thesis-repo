@@ -1,14 +1,23 @@
 "use client";
 
-import React from "react";
+
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
+import React, { useState } from "react";
 
 export default function MenuPage() {
+  // State to track open/close of dropdowns
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  // Toggle function for dropdown
+  const toggleDropdown = (dropdownName: string) => {
+    setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
+  };
+  
   return (
     <div className="w-full min-h-screen flex flex-col">
       {/* Navbar */}
-      <nav className="w-full bg-blue-500 text-white px-4 py-2 flex justify-between items-center">
+      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
         <div className="flex items-center">
           {/* Logo Image */}
           <img
@@ -56,42 +65,63 @@ export default function MenuPage() {
         />
       </div>
 
-      {/* Main Content with Sidebar under the banner */}
-      <div className="flex flex-1 ml-4">
+       {/* Main Content with Sidebar under the banner */}
+       <div className="flex flex-1 ml-4">
         {/* Sidebar - Under Banner and on Full Left */}
-        <div className="w-[250px] h-[250px] bg-[#c4dff7] p-4 border-r min-h-max mt-5 rounded-lg">
-
+        <div className="w-[250px] h-auto bg-[#b6cffd] p-4 border-r min-h-max mt-5 rounded-lg">
           {/* BROWSE Section */}
           <div className="mb-4">
-            <h2 className="bg-blue-500 text-white text-xl font-bold p-4 rounded-lg mb-2">Browse</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="text-lg hover:underline">Department</a></li>
-              <li><a href="#" className="text-lg hover:underline">Disciplines</a></li>
-              <li><a href="#" className="text-lg hover:underline">Authors</a></li>
-            </ul>
+            <button
+              onClick={() => toggleDropdown("browse")}
+              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+            >
+              Browse
+            </button>
+            {openDropdown === "browse" && (
+              <ul className="space-y-1">
+                <li><a href="#" className="text-lg hover:underline">By Department</a></li>
+                <li><a href="#" className="text-lg hover:underline">By Title</a></li>
+                <li><a href="#" className="text-lg hover:underline">By Issue Date</a></li>
+                <li><a href="#" className="text-lg hover:underline">By Author</a></li>
+              </ul>
+            )}
           </div>
 
-          {/* SUBMIT Section */}
+          {/* Author Corner Section */}
           <div className="mb-4">
-            <h2 className="bg-blue-500 text-white text-xl font-bold p-4 rounded-lg mb-2">Author Corner</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">Author FAQ</a></li>
-              <li><a href="#" className="hover:underline">content2</a></li>
-              <li><a href="#" className="hover:underline">content3</a></li>
-              <li><a href="#" className="hover:underline">content4</a></li>
-            </ul>
+            <button
+              onClick={() => toggleDropdown("author")}
+              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+            >
+              Author Corner
+            </button>
+            {openDropdown === "author" && (
+              <ul className="space-y-1">
+                <li><a href="#" className="hover:underline">Author FAQ</a></li>
+                <li><a href="#" className="hover:underline">content2</a></li>
+                <li><a href="#" className="hover:underline">content3</a></li>
+                <li><a href="#" className="hover:underline">content4</a></li>
+              </ul>
+            )}
           </div>
 
           {/* CONNECT Section */}
           <div className="mb-4">
-            <h2 className="bg-blue-500 text-white text-xl font-bold p-4 rounded-lg mb-2">CONNECT</h2>
-            <ul className="space-y-1">
-              <li><a href="#" className="hover:underline">content1</a></li>
-              <li><a href="#" className="hover:underline">content2</a></li>
-              <li><a href="#" className="hover:underline">content3</a></li>
-              <li><a href="#" className="hover:underline">content4</a></li>
-              <li><a href="#" className="hover:underline">content5</a></li>
-            </ul>
+            <button
+              onClick={() => toggleDropdown("connect")}
+              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+            >
+              Connect
+            </button>
+            {openDropdown === "connect" && (
+              <ul className="space-y-1">
+                <li><a href="#" className="hover:underline">content1</a></li>
+                <li><a href="#" className="hover:underline">content2</a></li>
+                <li><a href="#" className="hover:underline">content3</a></li>
+                <li><a href="#" className="hover:underline">content4</a></li>
+                <li><a href="#" className="hover:underline">content5</a></li>
+              </ul>
+            )}
           </div>
         </div>
 
@@ -107,7 +137,7 @@ export default function MenuPage() {
                 placeholder="Search for documents, research, and more..."
               />
               {/* Search button on the right side of the input */}
-              <button className="bg-blue-500 transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96">
+              <button className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96">
                 Search
               </button>
             </form>
@@ -200,7 +230,7 @@ export default function MenuPage() {
       </div>
     
       {/* Footer */}
-      <footer className="bg-blue-500 text-white py-4 mt-48">
+      <footer className="bg-[#0442B1] text-white py-4 mt-48">
         <div className="max-w-7xl mx-auto text-center">
           <p>&copy; {new Date().getFullYear()} Manggad. All rights reserved.</p>
           <div className="mt-2 space-x-4">
