@@ -49,8 +49,8 @@ export default function HomePage() {
                          Search
                        </button>
                        {/* Button 2 */}
-                       <button className="ml-2 px-4 py-2 w-64 border-r-blue-500 text-white rounded-lg transition hover:bg-blue-500">
-                         Go to Menupage
+                       <button className="ml-2 px-4 py-2 w-64  text-white rounded-lg bg-[#0442B1] transition hover:bg-blue-600">
+                         Go to Homepage
                        </button>
                      </div>
                    </div>

@@ -1,9 +1,8 @@
 "use client";
 
-
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
-import React, { useState, useEffect } from "react";
 
 export default function MenuPage() {
   // State for the dropdown
@@ -43,7 +42,7 @@ export default function MenuPage() {
   });
   
   return (
-    <div className="w-full min-h-screen flex flex-col">
+      <div className="w-full min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
         <div className="flex items-center">
@@ -55,10 +54,20 @@ export default function MenuPage() {
           />
           <div className="text-lg font-extrabold">Manggad</div>
         </div>
-        <div className="space-x-4 flex items-center">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">About</a>
-          <a href="#" className="hover:underline">Contact</a>
+
+        {/* Centered Navigation Links */}
+        <div className="flex-grow flex justify-center space-x-5 ml-28">
+          <a href="#" className="hover:underline text-lg">Home</a>
+          <a href="#" className="hover:underline text-lg">About</a>
+          <a href="#" className="hover:underline text-lg">Contact</a>
+        </div>
+
+        {/* Real-time Date, Time and Admin Button on Right */}
+        <div className="flex items-center space-x-4">
+          <div className="font-mono text-lg text-right">
+            <div>{formattedDate}</div>
+            <div>{formattedTime}</div>
+          </div>
 
           {/* Profile Icon Button for Admin Login */}
           <button
@@ -82,12 +91,6 @@ export default function MenuPage() {
             </svg>
           </button>
         </div>
-
-          {/* Real-time Date and Time */}
-          <div className="font-mono text-lg text-right">
-            <div>{formattedDate}</div>
-            <div>{formattedTime}</div>
-          </div>
       </nav>
 
       {/* Image Banner */}
@@ -102,21 +105,21 @@ export default function MenuPage() {
        {/* Main Content with Sidebar under the banner */}
        <div className="flex flex-1 ml-4">
         {/* Sidebar - Under Banner and on Full Left */}
-        <div className="w-[250px] h-auto bg-[#b6cffd] p-4 border-r min-h-max mt-5 rounded-lg">
+        <div className="w-[250px] h-[415px]  bg-[#8ccfff] p-4 border-r mt-5 rounded-lg">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
             >
               Browse
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">By Department</a></li>
-                <li><a href="#" className="text-lg hover:underline">By Title</a></li>
-                <li><a href="#" className="text-lg hover:underline">By Issue Date</a></li>
-                <li><a href="#" className="text-lg hover:underline">By Author</a></li>
+                <li><a href="#" className="text-lg hover:underline">Collections</a></li>
+                <li><a href="#" className="text-lg hover:underline">Archives</a></li>
+                <li><a href="#" className="text-lg hover:underline">Disciplines</a></li>
+                <li><a href="#" className="text-lg hover:underline">Authors</a></li>
               </ul>
             )}
           </div>
@@ -125,16 +128,13 @@ export default function MenuPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("author")}
-              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
             >
               Author Corner
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
                 <li><a href="#" className="hover:underline">Author FAQ</a></li>
-                <li><a href="#" className="hover:underline">content2</a></li>
-                <li><a href="#" className="hover:underline">content3</a></li>
-                <li><a href="#" className="hover:underline">content4</a></li>
               </ul>
             )}
           </div>
@@ -143,9 +143,9 @@ export default function MenuPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("connect")}
-              className="bg-[#0442B1] text-white text-xl font-bold p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
             >
-              Connect
+              About Manggad
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
