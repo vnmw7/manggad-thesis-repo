@@ -181,7 +181,7 @@ export default function AboutPage() {
           </div>
 
           {/* About */}
-          <div className="w-auto flex justify-left mt-8 ml-48">
+          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
             <div className="text-center max-w-4xl">
               <h2 className="text-5xl text-left font-bold text-[#0A379C] mb-2">Manggad Research Repository</h2>
               <p className="text-gray-600 text-xl text-justify mt-5 max-full">

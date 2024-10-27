@@ -69,7 +69,7 @@ export default function AuthorsPage() {
     month: 'long',
     day: 'numeric',
   });
-  
+
   return (
     <div className="w-full min-h-screen flex flex-col">
       {/* Navbar */}
@@ -212,55 +212,56 @@ export default function AuthorsPage() {
           </div>
 
           {/* About */}
-          <div className="w-auto flex justify-left mt-8 ml-48">
-            <div className="text-center max-w-4xl">
-              <h2 className="text-5xl text-left font-bold text-[#0A379C] mb-2">Manggad Research Repository</h2>
-              <p className="text-gray-600 text-xl text-justify mt-5 max-full">
-                A platform to store and share research and creative work from students and researchers. It works with LCCB to make academic resources easier to access.
-              </p>
-            </div>
+          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
+            <h2 className="text-3xl font-semibold mb-2">Browse by Author</h2>
+            <p className="text-lg text-gray-600 mb-4">
+            Here is a list of authors from La Consolacion College Bacolod who have works in this repository as of October 27, 2024. Click an author's name to see their work. For more details, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
+            </p>
           </div>
 
-          {/* Alphabetical Selector */}
-          <div className="flex justify-left ml-48 mt-10 space-x-2">
-            {Array.from(Array(26)).map((_, index) => {
-              const letter = String.fromCharCode(65 + index); // A-Z
-              return (
-                <span
-                  key={letter}
-                  className={`text-lg cursor-pointer ${selectedLetter === letter ? 'font-bold underline' : 'text-[#0442B1]'} hover:underline`}
-                  onClick={() => setSelectedLetter(letter)}
-                >
-                  {letter}
-                </span>
-              );
-            })}
-          </div>
-
-          {/* Display selected letter */}
-          <div className="mt-4 ml-48 text-xl font-bold">
-            <span className="text-[#0442B1] text-3xl">{selectedLetter}</span>
-          </div>
-
-          {/* Alphabetical List */}
-          <div className="mt-2 ml-48 text-lg">
-            <div className="space-y-1">
-              {items
-                .filter(item => item.startsWith(selectedLetter))
-                .map(item => (
+          {/* Alphabetical Selector Section */}
+          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
+            {/* Alphabetical Selector */}
+            <div className="flex justify-left space-x-2 mb-4">
+              {Array.from(Array(26)).map((_, index) => {
+                const letter = String.fromCharCode(65 + index); // A-Z
+                return (
                   <span
-                    key={item}
-                    className="text-lg underline hover:text-blue-600 cursor-pointer"
-                    onClick={() => console.log(`Clicked on ${item}`)} // Replace with your click handling logic
+                    key={letter}
+                    className={`text-lg cursor-pointer ${selectedLetter === letter ? 'font-bold underline' : 'text-[#0442B1]'} hover:underline`}
+                    onClick={() => setSelectedLetter(letter)}
                   >
-                    {item}
+                    {letter}
                   </span>
-                ))}
+                );
+              })}
+            </div>
+
+            {/* Display selected letter */}
+            <div className="mt-4 text-xl font-bold">
+              <span className="text-[#0442B1] text-3xl">{selectedLetter}</span>
+            </div>
+
+            {/* Alphabetical List */}
+            <div className="mt-2 text-lg">
+              <div className="space-y-1">
+                {items
+                  .filter(item => item.startsWith(selectedLetter))
+                  .map(item => (
+                    <span
+                      key={item}
+                      className="text-lg underline hover:text-blue-600 cursor-pointer"
+                      onClick={() => console.log(`Clicked on ${item}`)} // Replace with your click handling logic
+                    >
+                      {item}
+                    </span>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    
+
       {/* Footer */}
       <footer className="bg-[#0442B1] text-white py-4 mt-14">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
