@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function AboutPage() {
+export default function AuthorsPage() {
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
