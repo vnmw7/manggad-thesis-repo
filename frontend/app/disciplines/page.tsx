@@ -9,6 +9,37 @@ export default function AboutPage() {
   // State for real-time clock and date
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  // State for alphabetical selection
+  const [selectedLetter, setSelectedLetter] = useState<string>('A');
+
+  // Sample list of items to display based on alphabetical selection
+  const items = [
+    "Apple",
+    "Banana",
+    "Cherry",
+    "Date",
+    "Elderberry",
+    "Fig",
+    "Grape",
+    "Honeydew",
+    "Kiwi",
+    "Lemon",
+    "Mango",
+    "Nectarine",
+    "Orange",
+    "Papaya",
+    "Quince",
+    "Raspberry",
+    "Strawberry",
+    "Tangerine",
+    "Ugli fruit",
+    "Vanilla",
+    "Watermelon",
+    "Xigua",
+    "Yellow Passion Fruit",
+    "Zucchini",
+  ];
+
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
@@ -187,6 +218,44 @@ export default function AboutPage() {
               <p className="text-gray-600 text-xl text-justify mt-5 max-full">
                 A platform to store and share research and creative work from students and researchers. It works with LCCB to make academic resources easier to access.
               </p>
+            </div>
+          </div>
+
+          {/* Alphabetical Selector */}
+          <div className="flex justify-left ml-48 mt-10 space-x-2">
+            {Array.from(Array(26)).map((_, index) => {
+              const letter = String.fromCharCode(65 + index); // A-Z
+              return (
+                <span
+                  key={letter}
+                  className={`text-lg cursor-pointer ${selectedLetter === letter ? 'font-bold underline' : 'text-[#0442B1]'} hover:underline`}
+                  onClick={() => setSelectedLetter(letter)}
+                >
+                  {letter}
+                </span>
+              );
+            })}
+          </div>
+
+          {/* Display selected letter */}
+          <div className="mt-4 ml-48 text-xl font-bold">
+            <span className="text-[#0442B1] text-3xl">{selectedLetter}</span>
+          </div>
+
+          {/* Alphabetical List */}
+          <div className="mt-2 ml-48 text-lg">
+            <div className="space-y-1">
+              {items
+                .filter(item => item.startsWith(selectedLetter))
+                .map(item => (
+                  <span
+                    key={item}
+                    className="text-lg underline hover:text-blue-600 cursor-pointer"
+                    onClick={() => console.log(`Clicked on ${item}`)} // Replace with your click handling logic
+                  >
+                    {item}
+                  </span>
+                ))}
             </div>
           </div>
         </div>

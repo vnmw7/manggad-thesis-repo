@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function AboutPage() {
+export default function ContactPage() {
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -183,9 +183,9 @@ export default function AboutPage() {
           {/* About */}
           <div className="w-auto flex justify-left mt-8 ml-48">
             <div className="text-center max-w-4xl">
-              <h2 className="text-5xl text-left font-bold text-[#0A379C] mb-2">Manggad Research Repository</h2>
+              <h2 className="text-5xl text-left font-bold text-[#0A379C] mb-2">Contact Us</h2>
               <p className="text-gray-600 text-xl text-justify mt-5 max-full">
-                A platform to store and share research and creative work from students and researchers. It works with LCCB to make academic resources easier to access.
+              +63 (34) 434 9661 to 64 <br></br> Corner Galo-Gatuslao Streets Bacolod City 6100, Negros Occidental Philippines <br></br> lccbpresident@lccbonline.edu.ph
               </p>
             </div>
           </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
 
-export default function MenuPage() {
+export default function HomePage() {
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -45,53 +45,59 @@ export default function MenuPage() {
       <div className="w-full min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
-        <div className="flex items-center">
-          {/* Logo Image */}
-          <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
-            alt="Logo"
-            className="h-14 w-14 mr-2" // Adjust height and width as needed
+  <div className="flex items-center">
+    {/* Logo Image */}
+    <img
+      src="MANGGAD LOGO.png" // Replace with the path to your logo image
+      alt="Logo"
+      className="h-14 w-14 mr-2" // Adjust height and width as needed
+    />
+    <div className="text-lg font-extrabold">Manggad</div>
+  </div>
+
+  {/* Centered Navigation Links and Real-time/ Admin section */}
+  <div className="flex items-center space-x-8">
+    {/* Navigation Links */}
+    <div className="flex space-x-5">
+      <a href="#" className="hover:underline text-lg">Home</a>
+      <a href="#" className="hover:underline text-lg">About</a>
+      <a href="#" className="hover:underline text-lg">Contact</a>
+    </div>
+
+    {/* Divider Line */}
+    <div className="border-l border-white h-10 mx-4"></div>
+
+    {/* Real-time Date, Time and Admin Button */}
+    <div className="flex items-center space-x-4">
+      <div className="font-mono text-lg text-right">
+        <div>{formattedDate}</div>
+        <div>{formattedTime}</div>
+      </div>
+
+      {/* Profile Icon Button for Admin Login */}
+      <button
+        className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+        onClick={() => console.log("Login as admin")}
+      >
+        {/* SVG Icon for Person */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="w-6 h-6 text-gray-800"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 11c2.485 0 4.5-2.015 4.5-4.5S14.485 2 12 2 7.5 4.015 7.5 6.5 9.515 11 12 11zM4 20c0-4.418 3.582-8 8-8s8 3.582 8 8H4z"
           />
-          <div className="text-lg font-extrabold">Manggad</div>
-        </div>
-
-        {/* Centered Navigation Links */}
-        <div className="flex-grow flex justify-center space-x-5 ml-28">
-          <a href="#" className="hover:underline text-lg">Home</a>
-          <a href="#" className="hover:underline text-lg">About</a>
-          <a href="#" className="hover:underline text-lg">Contact</a>
-        </div>
-
-        {/* Real-time Date, Time and Admin Button on Right */}
-        <div className="flex items-center space-x-4">
-          <div className="font-mono text-lg text-right">
-            <div>{formattedDate}</div>
-            <div>{formattedTime}</div>
-          </div>
-
-          {/* Profile Icon Button for Admin Login */}
-          <button
-            className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-            onClick={() => console.log("Login as admin")}
-          >
-            {/* SVG Icon for Person */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6 text-gray-800"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 11c2.485 0 4.5-2.015 4.5-4.5S14.485 2 12 2 7.5 4.015 7.5 6.5 9.515 11 12 11zM4 20c0-4.418 3.582-8 8-8s8 3.582 8 8H4z"
-              />
-            </svg>
-          </button>
-        </div>
-      </nav>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
 
       {/* Image Banner */}
       <div className="w-full">
@@ -105,7 +111,7 @@ export default function MenuPage() {
        {/* Main Content with Sidebar under the banner */}
        <div className="flex flex-1 ml-4">
         {/* Sidebar - Under Banner and on Full Left */}
-        <div className="w-[250px] h-[415px]  bg-[#8ccfff] p-4 border-r mt-5 rounded-lg">
+        <div className="w-[250px] h-[428px] bg-white] p-4 border rounded-lg mt-5">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
@@ -117,7 +123,6 @@ export default function MenuPage() {
             {openDropdown === "browse" && (
               <ul className="space-y-1">
                 <li><a href="#" className="text-lg hover:underline">Collections</a></li>
-                <li><a href="#" className="text-lg hover:underline">Archives</a></li>
                 <li><a href="#" className="text-lg hover:underline">Disciplines</a></li>
                 <li><a href="#" className="text-lg hover:underline">Authors</a></li>
               </ul>
@@ -134,7 +139,7 @@ export default function MenuPage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a href="#" className="hover:underline">Author FAQ</a></li>
+                <li><a href="#" className="text-lg hover:underline">Author FAQ</a></li>
               </ul>
             )}
           </div>
@@ -149,11 +154,11 @@ export default function MenuPage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="hover:underline">content1</a></li>
-                <li><a href="#" className="hover:underline">content2</a></li>
-                <li><a href="#" className="hover:underline">content3</a></li>
-                <li><a href="#" className="hover:underline">content4</a></li>
-                <li><a href="#" className="hover:underline">content5</a></li>
+                <li><a href="#" className="text-lg hover:underline">content1</a></li>
+                <li><a href="#" className="text-lg hover:underline">content2</a></li>
+                <li><a href="#" className="text-lg hover:underline">content3</a></li>
+                <li><a href="#" className="text-lg hover:underline">content4</a></li>
+                <li><a href="#" className="text-lg hover:underline">content5</a></li>
               </ul>
             )}
           </div>
@@ -263,13 +268,16 @@ export default function MenuPage() {
         </div>
       </div>
     
-      {/* Footer */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-48">
-        <div className="max-w-7xl mx-auto text-center">
-          <p>&copy; {new Date().getFullYear()} Manggad. All rights reserved.</p>
-          <div className="mt-2 space-x-4">
+     {/* Footer */}
+     <footer className="bg-[#0442B1] text-white py-4 mt-14">
+        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+          <p className="text-sm">
+            © {new Date().getFullYear()} Manggad. All rights reserved.
+          </p>
+          <div className="flex space-x-4">
             <a href="#" className="hover:underline">Privacy Policy</a>
             <a href="#" className="hover:underline">Terms of Service</a>
+            <a href="#" className="hover:underline">Contact Us</a>
           </div>
         </div>
       </footer>
