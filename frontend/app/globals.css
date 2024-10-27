@@ -32,6 +32,14 @@ input[type="text"], input[type="password"] {
 }
 
 
+/* +----------------------------------+ */
+/* |        HEADER & NAVIGATION       | */
+/* +----------------------------------+ */
+.navigationMenu-shown {
+    @apply w-[80vw] h-full
+}
+
+
 /* +-----------------------------------+ */
 /* |        AUTHERNTICATION PAGE       | */
 /* +-----------------------------------+ */
