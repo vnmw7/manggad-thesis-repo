@@ -28,9 +28,9 @@ export default function StartPage() {
                    </div>
                
                    {/* Centered Text Under Logos */}
-                   <h2 className="text-center mt-16 text-3xl sm:text-4xl lg:text-5xl">
-                     <div style={{ fontFamily: "Lora Bold" }}>MANGGAD</div>
-                     <div className="mt-2 sm:mt-4" style={{ fontFamily: "Lora Bold" }}>
+                   <h2 className="text-center mt-16 text-6xl font-semibold">
+                     <div>MANGGAD</div>
+                     <div className="mt-7 text-5xl font-bold text-[#0A379C]">
                        Research Repository Management System
                      </div>
                    </h2>
