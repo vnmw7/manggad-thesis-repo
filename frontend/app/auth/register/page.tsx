@@ -59,7 +59,7 @@ const RegistrationPage = () => {
 							</button>
 							<button
 								className="tritiary text-gray-500 mt-2 hover:underline"
-								onClick={() => router.push("/")}
+								onClick={() => router.push("/auth/login")}
 							>
 								Back
 							</button>

@@ -62,9 +62,9 @@ export default function HomePage() {
   <div className="flex items-center space-x-8">
     {/* Navigation Links */}
     <div className="flex space-x-5">
-      <a href="#" className="hover:underline text-lg">Home</a>
-      <a href="#" className="hover:underline text-lg">About</a>
-      <a href="#" className="hover:underline text-lg">Contact</a>
+    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/home") }>Home</a>
+    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/about") }>About</a>
+    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/contact") }>Contact</a>
     </div>
 
     {/* Divider Line */}
@@ -125,9 +125,9 @@ export default function HomePage() {
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">Collections</a></li>
-                <li><a href="#" className="text-lg hover:underline">Disciplines</a></li>
-                <li><a href="#" className="text-lg hover:underline">Authors</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline") }>Disciplines</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
               </ul>
             )}
           </div>
@@ -142,7 +142,7 @@ export default function HomePage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">Author FAQ</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
               </ul>
             )}
           </div>

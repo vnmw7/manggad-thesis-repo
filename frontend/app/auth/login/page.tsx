@@ -49,7 +49,7 @@ const LoginPage = () => {
 							</button>
 							<button
 								className="tritiary text-gray-500 mt-2 hover:underline"
-								onClick={() => router.push("/") }
+								onClick={() => router.push("/home") }
 							>
 								Back
 							</button>

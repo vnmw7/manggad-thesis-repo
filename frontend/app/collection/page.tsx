@@ -1,8 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function Collections() {
+  const router = useRouter();
+
   // State for the dropdown and expand all feature
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandAll, setExpandAll] = useState(false);
@@ -55,11 +59,10 @@ export default function Collections() {
   return (
     <div className="w-full min-h-screen flex flex-col">
       {/* Navbar */}
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center" >
         <div className="flex items-center">
           {/* Logo Image */}
-          <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
+          <img src="MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
             className="h-14 w-14 mr-2" // Adjust height and width as needed
           />
@@ -70,9 +73,9 @@ export default function Collections() {
         <div className="flex items-center space-x-8">
           {/* Navigation Links */}
           <div className="flex space-x-5">
-            <a href="#" className="hover:underline text-lg">Home</a>
-            <a href="#" className="hover:underline text-lg">About</a>
-            <a href="#" className="hover:underline text-lg">Contact</a>
+            <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/home") }>Home</a>
+            <a className="hover:underline text-lg" onClick={() => router.push("/about") }>About</a>
+            <a className="hover:underline text-lg" onClick={() => router.push("/contact") }>Contact</a>
           </div>
 
           {/* Divider Line */}
@@ -133,9 +136,9 @@ export default function Collections() {
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">Collections</a></li>
-                <li><a href="#" className="text-lg hover:underline">Disciplines</a></li>
-                <li><a href="#" className="text-lg hover:underline">Authors</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline") }>Disciplines</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
               </ul>
             )}
           </div>
