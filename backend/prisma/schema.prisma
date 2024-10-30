@@ -43,21 +43,21 @@ model Role {
 }
 
 model Book {
-  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
   title            String
-  abstract         String
-  keywords         String
-  language         String
-  yearOfSubmission Int
-  degreeType       String
+  abstract         String?
+  keywords         String?
+  language         String?
+  yearOfSubmission Int?
+  degreeType       String?
 
   // many researches to one relationship
-  departmentId String     @db.ObjectId
-  schoolId     String     @db.ObjectId
-  userIds      String     @db.ObjectId
-  department   Department @relation(fields: [departmentId], references: [id])
-  school       School     @relation(fields: [schoolId], references: [id])
-  uploadedBy   User       @relation(fields: [userIds], references: [id])
+  departmentId String?     @db.ObjectId
+  schoolId     String?     @db.ObjectId
+  userIds      String      @db.ObjectId
+  department   Department? @relation(fields: [departmentId], references: [id])
+  school       School?     @relation(fields: [schoolId], references: [id])
+  uploadedBy   User?       @relation(fields: [userIds], references: [id])
 
   // many researches to many relationship
   authorIds  String[]  @db.ObjectId
