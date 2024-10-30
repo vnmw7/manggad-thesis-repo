@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const router = useRouter();
+
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -77,7 +80,7 @@ export default function HomePage() {
       {/* Profile Icon Button for Admin Login */}
       <button
         className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-        onClick={() => console.log("Login as admin")}
+        onClick={() => router.push("/auth/login") }
       >
         {/* SVG Icon for Person */}
         <svg

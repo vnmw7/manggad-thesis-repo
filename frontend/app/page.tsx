@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function StartPage() {
+  const router = useRouter();
     return (
                  <div className="flex h-[100vh]">
                  {/* Left Side Background Image */}
                  <div
                    className="bg-cover bg-no-repeat w-[50vw] h-full" // Use vw (viewport width) for responsiveness
-                   style={{
-                     backgroundImage: 'url("Library3.jpg")',
-                   }}
+                   style={{ backgroundImage: "url('/sample.jpg')" }}
                  />
                
                  {/* Right Side Logos and Text */}
@@ -49,7 +49,7 @@ export default function StartPage() {
                          Search
                        </button>
                        {/* Button 2 */}
-                       <button className="ml-2 px-4 py-2 w-64  text-white rounded-lg bg-[#0442B1] transition hover:bg-blue-600">
+                       <button className="ml-2 px-4 py-2 w-64  text-white rounded-lg bg-[#0442B1] transition hover:bg-blue-600" onClick={() => router.push("/home") }>
                          Go to Homepage
                        </button>
                      </div>
