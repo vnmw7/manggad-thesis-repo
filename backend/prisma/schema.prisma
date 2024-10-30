@@ -51,15 +51,15 @@ model Book {
   yearOfSubmission Int?
   degreeType       String?
 
-  // many researches to one relationship
+  // many books to one relationship
   departmentId String?     @db.ObjectId
   schoolId     String?     @db.ObjectId
-  userIds      String      @db.ObjectId
+  userId      String?      @db.ObjectId
   department   Department? @relation(fields: [departmentId], references: [id])
   school       School?     @relation(fields: [schoolId], references: [id])
-  uploadedBy   User?       @relation(fields: [userIds], references: [id])
+  uploadedBy   User?       @relation(fields: [userId], references: [id])
 
-  // many researches to many relationship
+  // many books to many relationship
   authorIds  String[]  @db.ObjectId
   advisorIds String[]  @db.ObjectId
   authors    Author[]  @relation(fields: [authorIds], references: [id])
