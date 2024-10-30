@@ -35,7 +35,6 @@ main()
 const app = express();
 const port = 3001;
 
-
 // Middleware
 app.use(express.json());
 app.use(cors());
