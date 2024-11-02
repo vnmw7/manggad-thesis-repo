@@ -13,12 +13,18 @@ const AddBook = () => {
 	const [ abstract, setAbstract ] = useState('')
 	const [ keywords, setKeywords ] = useState('')
 	const [ language, setLanguage ] = useState('')
-	const [ yearOfSubmission, setYearOfSubmission ] = useState<number | undefined>(undefined)
+	const [ yearOfSubmission, setYearOfSubmission ] = useState<number | ''>('')
+	const [coverImage, setCoverImage] = useState<File | null>(null);
 
-	// para sa author nga naka array
+	// para sa authors nga naka array
 	const [authors, setAuthors] = useState<Author[]>([])
-	const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+	const [author_firstName, setAuthor_firstName] = useState('');
+    const [author_lastName, setAuthor_lastName] = useState('');
+
+	// para sa advisors nga naka array
+	const [advisors, setAdvisors] = useState<Author[]>([])
+	const [advisor_firstName, setAdvisor_firstName] = useState('');
+	const [advisor_lastName, setAdvisor_lastName] = useState('');
 
 	// code para mag connect sa backend
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -32,7 +38,8 @@ const AddBook = () => {
 			language,
 			keywords,
 			yearOfSubmission,
-			authors
+			authors,
+			advisors,
 		}
 
 		console.log("Sending new book:", newBook);
@@ -52,11 +59,11 @@ const AddBook = () => {
 	}
 
 	const addAuthor = () => {
-        if (firstName && lastName) {
-            setAuthors([...authors, { firstName: firstName, lastName: lastName }])
+        if (author_firstName && author_lastName) {
+            setAuthors([...authors, { firstName: author_firstName, lastName: author_lastName }])
 			// clear dayung ang state pagkatapus insert sa array sng authors
-            setFirstName('')
-            setLastName('')
+            setAuthor_firstName('')
+            setAuthor_lastName('')
         } else {
             alert("Both names are required.");
 		}
@@ -65,6 +72,22 @@ const AddBook = () => {
 	const removeAuthor = (removeIndex: number)=>{
 		const newArray = authors.filter((author, authorIndex)=> removeIndex !== authorIndex);
 		setAuthors(newArray);
+	}
+
+	const addAdvisor = () => {
+        if (author_firstName && author_lastName) {
+            setAuthors([...authors, { firstName: author_firstName, lastName: author_lastName }])
+			// clear dayung ang state pagkatapus insert sa array sng authors
+            setAuthor_firstName('')
+            setAuthor_lastName('')
+        } else {
+            alert("Both names are required.");
+		}
+    };
+
+	const removeAdvisor	= (removeIndex: number)=>{
+		const newArray = advisors.filter((advisors, advisorIndex)=> removeIndex !== advisorIndex);
+		setAdvisors(newArray);
 	}
 
 	return (
@@ -76,8 +99,8 @@ const AddBook = () => {
 				</div>
 
 				<div>
-					<input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First Name" />
-					<input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last Name" />
+					<input value={author_firstName} onChange={e => setAuthor_firstName(e.target.value)} placeholder="First Name" />
+					<input value={author_lastName} onChange={e => setAuthor_lastName(e.target.value)} placeholder="Last Name" />
 					<button type="button" onClick={addAuthor}>Add Author</button>
 					<ul>
 						{authors.map((author, index) => (
@@ -85,31 +108,40 @@ const AddBook = () => {
 								{author.firstName} {author.lastName}  
 								<button onClick={()=> removeAuthor(index) } type="button"> Remove </button> 
 							</li>
-							
 						))}
 					</ul>
 				</div>
 
 				<div>
-					<label htmlFor="publishedDate"> Abstract: </label>
+					<input value={advisor_firstName} onChange={e => setAdvisor_firstName(e.target.value)} placeholder="First Name" />
+					<input value={advisor_lastName} onChange={e => setAdvisor_lastName(e.target.value)} placeholder="Last Name" />
+					<button type="button" onClick={addAuthor}>Add Advisor</button>
+					<ul>
+						{authors.map((advisor, index) => (
+							<li key={index}> 
+								{advisor.firstName} {advisor.lastName}  
+								<button onClick={()=> removeAdvisor(index) } type="button"> Remove </button> 
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<div>
+					<label> Abstract: </label>
 					<input value={abstract} onChange={(e) => setAbstract(e.target.value)} />
 				</div>
 				<div>
-					<label htmlFor="publishedDate"> Language: </label>
+					<label> Language: </label>
 					<input value={language} onChange={(e) => setLanguage(e.target.value)} />
 				</div>
 				<div>
-					<label htmlFor="publishedDate"> Keywords: </label>
+					<label> Keywords: </label>
 					<input value={keywords} onChange={(e) => setKeywords(e.target.value)} />
 				</div>
 				<div>
-					<label htmlFor="publishedYear">Published Year:</label>
+					<label>Published Year:</label>
 					<input type="number" id="publishedYear" name="publishedYear" min="2010" max="3000" value={yearOfSubmission} onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}/>
 				</div>
-				{/* <div>
-					<label htmlFor="coverImage">Cover Image:</label>
-					<input type="file" id="coverImage" name="coverImage" accept="image/*" />
-				</div> */}
 				<button type="submit">Add Book</button>
 			</form>
 		</div>

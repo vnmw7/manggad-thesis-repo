@@ -49,6 +49,7 @@ model Book {
   keywords         String?
   language         String?
   yearOfSubmission Int?
+  coverImageUrl    String?
 
   departmentId String?  @db.ObjectId
   programId    String?  @db.ObjectId
@@ -74,10 +75,11 @@ model Author {
 }
 
 model Advisor {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  bookIds String[] @db.ObjectId // many advisors to many researches
-  books   Book[]   @relation(fields: [bookIds], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  bookIds   String[] @db.ObjectId // many advisors to many researches
+  books     Book[]   @relation(fields: [bookIds], references: [id])
 }
 
 model Department {
