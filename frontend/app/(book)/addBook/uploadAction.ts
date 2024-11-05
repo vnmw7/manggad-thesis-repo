@@ -27,5 +27,5 @@ export async function upload(data: FormData) {
         throw new Error('File upload failed')
     }
 
-    return { success: true }
+    return { success: true, filePath }
 }

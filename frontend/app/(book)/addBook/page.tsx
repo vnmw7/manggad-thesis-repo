@@ -14,8 +14,8 @@ const AddBook = () => {
 	const [ abstract, setAbstract ] = useState('')
 	const [ keywords, setKeywords ] = useState('')
 	const [ language, setLanguage ] = useState('')
-	const [ yearOfSubmission, setYearOfSubmission ] = useState<number | ''>('')
-	const [coverImage, setCoverImage] = useState<File | null>(null);
+	const [ yearOfSubmission, setYearOfSubmission ] = useState<number | null>(null)
+	const [ coverImageUrl, setCoverImageUrl ] = useState<string | null>(null);
 
 	// para sa authors nga naka array
 	const [authors, setAuthors] = useState<Author[]>([])
@@ -41,6 +41,7 @@ const AddBook = () => {
 			yearOfSubmission,
 			authors,
 			advisors,
+			coverImageUrl
 		}
 
 		console.log("Sending new book:", newBook);
@@ -141,12 +142,12 @@ const AddBook = () => {
 				</div>
 				<div>
 					<label>Published Year:</label>
-					<input type="number" id="publishedYear" name="publishedYear" min="2010" max="3000" value={yearOfSubmission} onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}/>
+					<input type="number" id="publishedYear" name="publishedYear" min="2010" max="3000" value={yearOfSubmission ?? ''} onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}/>
 				</div>
 				
 				<button type="submit">Add Book</button>
 			</form>
-			<UploadImage />
+			<UploadImage onUpload={setCoverImageUrl} />
 		</div>
 	)
 }
