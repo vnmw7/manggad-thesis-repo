@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import UploadImage from './UploadImage';
 
 // typescript nga mag set up types sa dictionary
 interface Author {
@@ -142,8 +143,10 @@ const AddBook = () => {
 					<label>Published Year:</label>
 					<input type="number" id="publishedYear" name="publishedYear" min="2010" max="3000" value={yearOfSubmission} onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}/>
 				</div>
+				
 				<button type="submit">Add Book</button>
 			</form>
+			<UploadImage />
 		</div>
 	)
 }
