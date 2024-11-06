@@ -8,6 +8,9 @@ export default function AuthorsPage() {
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
+  const today = new Date();
+
+
   // State for real-time clock and date
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -65,7 +68,7 @@ export default function AuthorsPage() {
   });
 
   // Format date as Month Day, Year (e.g., October 26, 2024)
-  const formattedDate = currentTime.toLocaleDateString('en-US', {
+  const formattedDate = today.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
