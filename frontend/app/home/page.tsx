@@ -166,9 +166,9 @@ export default function HomePage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">Policies</a></li>
-                <li><a href="#" className="text-lg hover:underline">Contact</a></li>
-                <li><a href="#" className="text-lg hover:underline">LCCB Website</a></li>
+                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact") }>Contact</a></li>
+                <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
             )}
           </div>
