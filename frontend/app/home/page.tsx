@@ -166,11 +166,9 @@ export default function HomePage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">content1</a></li>
-                <li><a href="#" className="text-lg hover:underline">content2</a></li>
-                <li><a href="#" className="text-lg hover:underline">content3</a></li>
-                <li><a href="#" className="text-lg hover:underline">content4</a></li>
-                <li><a href="#" className="text-lg hover:underline">content5</a></li>
+                <li><a href="#" className="text-lg hover:underline">Policies</a></li>
+                <li><a href="#" className="text-lg hover:underline">Contact</a></li>
+                <li><a href="#" className="text-lg hover:underline">LCCB Website</a></li>
               </ul>
             )}
           </div>
