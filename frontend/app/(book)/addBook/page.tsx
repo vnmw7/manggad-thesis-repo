@@ -77,11 +77,11 @@ const AddBook = () => {
 	}
 
 	const addAdvisor = () => {
-        if (author_firstName && author_lastName) {
-            setAuthors([...authors, { firstName: author_firstName, lastName: author_lastName }])
+        if (advisor_firstName && advisor_lastName) {
+            setAdvisors([...advisors, { firstName: advisor_firstName, lastName: advisor_lastName }])
 			// clear dayung ang state pagkatapus insert sa array sng authors
-            setAuthor_firstName('')
-            setAuthor_lastName('')
+            setAdvisor_firstName('')
+            setAdvisor_lastName('')
         } else {
             alert("Both names are required.");
 		}
@@ -117,9 +117,9 @@ const AddBook = () => {
 				<div>
 					<input value={advisor_firstName} onChange={e => setAdvisor_firstName(e.target.value)} placeholder="First Name" />
 					<input value={advisor_lastName} onChange={e => setAdvisor_lastName(e.target.value)} placeholder="Last Name" />
-					<button type="button" onClick={addAuthor}>Add Advisor</button>
+					<button type="button" onClick={addAdvisor}>Add Advisor</button>
 					<ul>
-						{authors.map((advisor, index) => (
+						{advisors.map((advisor, index) => (
 							<li key={index}> 
 								{advisor.firstName} {advisor.lastName}  
 								<button onClick={()=> removeAdvisor(index) } type="button"> Remove </button> 
@@ -144,9 +144,10 @@ const AddBook = () => {
 					<label>Published Year:</label>
 					<input type="number" id="publishedYear" name="publishedYear" min="2010" max="3000" value={yearOfSubmission ?? ''} onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}/>
 				</div>
-				
+								
 				<button type="submit">Add Book</button>
 			</form>
+
 			<UploadImage onUpload={setCoverImageUrl} />
 		</div>
 	)
