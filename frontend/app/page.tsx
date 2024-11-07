@@ -1,14 +1,16 @@
 "use client";
 
-export default function HomePage() {
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function StartPage() {
+  const router = useRouter();
     return (
                  <div className="flex h-[100vh]">
                  {/* Left Side Background Image */}
                  <div
                    className="bg-cover bg-no-repeat w-[50vw] h-full" // Use vw (viewport width) for responsiveness
-                   style={{
-                     backgroundImage: 'url("Library3.jpg")',
-                   }}
+                   style={{ backgroundImage: "url('/sample.jpg')" }}
                  />
                
                  {/* Right Side Logos and Text */}
@@ -26,9 +28,9 @@ export default function HomePage() {
                    </div>
                
                    {/* Centered Text Under Logos */}
-                   <h2 className="text-center mt-16 text-3xl sm:text-4xl lg:text-5xl">
-                     <div style={{ fontFamily: "Lora Bold" }}>MANGGAD</div>
-                     <div className="mt-2 sm:mt-4" style={{ fontFamily: "Lora Bold" }}>
+                   <h2 className="text-center mt-16 text-6xl font-semibold">
+                     <div>MANGGAD</div>
+                     <div className="mt-7 text-5xl font-bold text-[#0A379C]">
                        Research Repository Management System
                      </div>
                    </h2>
@@ -39,7 +41,7 @@ export default function HomePage() {
                        <input 
                          type="text" 
                          placeholder="Search Related Studies" 
-                         className="text-base border border-[#262832] rounded-lg bg-gray-100 transition-colors placeholder:text-[#262832] focus:outline-none flex-grow py-2 px-4"
+                         className="border border-gray-300 transition-colors placeholder:text-[#262832] flex-grow py-2 px-4"
                          style={{ color: '#262832', borderColor: '#262832' }}
                        />
                        {/* Button 1 */}
@@ -47,8 +49,8 @@ export default function HomePage() {
                          Search
                        </button>
                        {/* Button 2 */}
-                       <button className="ml-2 px-4 py-2 w-64 bg-green-500 text-white rounded-lg transition hover:bg-green-600">
-                         Login as Admin
+                       <button className="ml-2 px-4 py-2 w-64  text-white rounded-lg bg-[#0442B1] transition hover:bg-blue-600" onClick={() => router.push("/home") }>
+                         Go to Homepage
                        </button>
                      </div>
                    </div>
@@ -65,7 +67,7 @@ export default function HomePage() {
                    {/* Credit Section */}
                    <div className="w-full flex justify-center mt-48">
                      <p className="text-center text-gray-500">
-                       © Aerospire. All rights reserved. 2024
+                       © Manggad. All rights reserved. 2024
                      </p>
                    </div>
                  </div>
