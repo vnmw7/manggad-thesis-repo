@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import testRoutes from './routes/testRoutes';
+import bookRoutes from './routes/bookRoutes';
 
 // +----------------------------------------+
 // +     Prisma Client Initialization       +
@@ -35,7 +36,6 @@ main()
 const app = express();
 const port = 3001;
 
-
 // Middleware
 app.use(express.json());
 app.use(cors());
@@ -43,6 +43,7 @@ app.use(cors());
 // Routes
 app.use('/tests', testRoutes);
 app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {

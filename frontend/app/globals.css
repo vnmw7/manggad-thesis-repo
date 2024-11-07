@@ -4,7 +4,7 @@
 
 * { 
     @apply box-border;
-    /* border: 1px solid gray; */  
+    border: 1px solid gray;  
     font-family: 'Source Sans Pro';
 }
 h1 {
@@ -29,6 +29,14 @@ input[type="text"], input[type="password"] {
 /* +----------------------------------+ */
 .nav_seperator {
     @apply flex
+}
+
+
+/* +----------------------------------+ */
+/* |        HEADER & NAVIGATION       | */
+/* +----------------------------------+ */
+.navigationMenu-shown {
+    @apply w-[80vw] h-full
 }
 
 
