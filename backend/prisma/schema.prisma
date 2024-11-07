@@ -13,65 +13,91 @@ datasource db {
   url      = env("DATABASE_URL") // ara sa .env nga file
 }
 
-model Users {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  username String @unique
-  password String
-  email    String @unique
-  roleId   String @db.ObjectId
-  role     Role   @relation(fields: [roleId], references: [id])
+model Test {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  inputStringHere String
+}
+
+model User {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  username   String  @unique
+  password   String
+  email      String  @unique
+  isVerified Boolean @default(false)
+
+  roleId       String  @db.ObjectId
+  departmentId String  @db.ObjectId
+  programId    String? @db.ObjectId
+
+  uploadIds Book[]
+
+  program     Program?   @relation(fields: [programId], references: [id])
+  role        Role       @relation(fields: [roleId], references: [id])
+  departnment Department @relation(fields: [departmentId], references: [id])
 }
 
 model Role {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
   name  String
-  users Users[]
+  users User[]
 }
 
-model Research {
-  id               String @id @default(auto()) @map("_id") @db.ObjectId
+model Book {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
   title            String
-  abstract         String
-  keywords         String
-  language         String
-  yearOfSubmission Int
-  degreeType       String
+  abstract         String?
+  keywords         String?
+  language         String?
+  yearOfSubmission Int?
+  coverImageUrl    String?
 
-  // many researches to one relationship
-  departmentId String     @db.ObjectId
-  schoolId     String     @db.ObjectId
-  department   Department @relation(fields: [departmentId], references: [id])
-  school       School     @relation(fields: [schoolId], references: [id])
+  departmentId String?  @db.ObjectId
+  programId    String?  @db.ObjectId
+  schoolId     String?  @db.ObjectId
+  uploadedById String?  @db.ObjectId
+  authorIds    String[] @db.ObjectId
+  advisorIds   String[] @db.ObjectId
 
-  // many researches to many relationship
-  authorIds  String[]  @db.ObjectId
-  advisorIds String[]  @db.ObjectId
-  authors    Author[]  @relation(fields: [authorIds], references: [id])
-  advisors   Advisor[] @relation(fields: [advisorIds], references: [id])
+  department Department? @relation(fields: [departmentId], references: [id])
+  program    Program?    @relation(fields: [programId], references: [id])
+  school     School?     @relation(fields: [schoolId], references: [id])
+  uploadedBy User?       @relation(fields: [uploadedById], references: [id])
+  authors    Author[]    @relation(fields: [authorIds], references: [id])
+  advisors   Advisor[]   @relation(fields: [advisorIds], references: [id])
 }
 
 model Author {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  researchIds String[]   @db.ObjectId // many authors to many researches
-  researches  Research[] @relation(fields: [researchIds], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  bookIds   String[] @db.ObjectId // many authors to many researches
+  books     Book[]   @relation(fields: [bookIds], references: [id])
 }
 
 model Advisor {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  researchIds String[]   @db.ObjectId // many advisors to many researches
-  researches  Research[] @relation(fields: [researchIds], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  bookIds   String[] @db.ObjectId // many advisors to many researches
+  books     Book[]   @relation(fields: [bookIds], references: [id])
 }
 
 model Department {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  research Research[] // one department to many researches
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  bookIds Book[] // one department to many researches
+  userIds User[] // one department to many users
+}
+
+model Program {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  bookIds Book[] // one department to many researches
+  userIds User[] // one department to many users
 }
 
 model School {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  research Research[] // one school to many researches
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  bookIds Book[] // one school to many researches
 }
