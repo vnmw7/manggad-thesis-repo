@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import UploadImage from './UploadImage';
 
 // typescript nga mag set up types sa dictionary
@@ -26,6 +27,8 @@ const AddBook = () => {
 	const [advisors, setAdvisors] = useState<Author[]>([])
 	const [advisor_firstName, setAdvisor_firstName] = useState('');
 	const [advisor_lastName, setAdvisor_lastName] = useState('');
+
+	const router = useRouter();
 
 	// code para mag connect sa backend
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +58,9 @@ const AddBook = () => {
 				body: JSON.stringify(newBook)
 			})
 			console.log(response)
+			if (response.ok) {
+				router.back(); // Redirect to the previous page
+			}
 		} catch (error) {
 			console.error(error)
 		}
