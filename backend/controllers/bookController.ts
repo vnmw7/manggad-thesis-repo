@@ -83,7 +83,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
 
 export const getBookById = async (req: Request, res: Response) => {
     const { id } = req.params
-    res.json(id)
+    console.log(`fetching book with id: ${id}`);
     try {
         const book = await prisma.book.findUnique({
             where: { id: String(id) },
