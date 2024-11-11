@@ -44,7 +44,7 @@ const Dashboard = () => {
     return (
         <div>
             <h1 className='mt-10'> Current Uploaded Books </h1>
-            <button onClick={() => router.push('/addBook')}> add book </button>
+            <button onClick={() => router.push('/book/addBook')}> add book </button>
 
             {/* bookshelf */}
             <div className='flex flex-col gap-2 md:grid md:grid-cols-3 lg:grid-cols-4'>
@@ -56,7 +56,8 @@ const Dashboard = () => {
                             <p> {book.yearOfSubmission} </p>
                         </CardContent>
                         <CardActions>
-                            <Button size="small"> View Details </Button>
+                            <Button size="small" onClick={() => router.push(`/book/${book.id}`)}> View Details </Button>
+                            <Button size="small" onClick={() => router.push(`/book/${book.id}/edit`)}> Edit </Button>
                             <Button size="small" onClick={() => deleteBook(book.id)}> Delete </Button>
                         </CardActions>
                     </Card>
