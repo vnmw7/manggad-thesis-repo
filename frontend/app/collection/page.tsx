@@ -122,16 +122,19 @@ export default function Collections() {
         />
       </div>
 
-      {/* Main Content with Sidebar under the banner */}
-      <div className="flex flex-1 ml-4">
+       {/* Main Content with Sidebar under the banner */}
+       <div className="flex flex-1 ml-4">
         {/* Sidebar - Under Banner and on Full Left */}
         <div className="w-[250px] h-[428px] bg-white] p-4 border rounded-lg mt-5">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
             >
+              <svg className="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7h18M3 12h18m-7 5h7"/>
+              </svg>
               Browse
             </button>
             {openDropdown === "browse" && (
@@ -147,13 +150,16 @@ export default function Collections() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("author")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
             >
+              <svg className="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.5 15.5l2.5-2.5-2.5-2.5m-11 7l-2.5-2.5 2.5-2.5M5 9h14m-7 10l-5-5h10l-5 5z"/>
+              </svg>
               Author Corner
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a href="#" className="hover:underline text-lg">Author FAQ</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
               </ul>
             )}
           </div>
@@ -162,21 +168,23 @@ export default function Collections() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("connect")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2"
+              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
             >
+              <svg className="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 4.5l-7 7-7-7M19 15.5l-7 7-7-7"/>
+              </svg>
               About Manggad
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline">content1</a></li>
-                <li><a href="#" className="text-lg hover:underline">content2</a></li>
-                <li><a href="#" className="text-lg hover:underline">content3</a></li>
-                <li><a href="#" className="text-lg hover:underline">content4</a></li>
-                <li><a href="#" className="text-lg hover:underline">content5</a></li>
+                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact") }>Contact</a></li>
+                <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
             )}
           </div>
         </div>
+
 
         {/* Main content area */}
         <div className="flex-1">

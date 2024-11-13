@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import UploadImage from './UploadImage';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"
 
 // typescript nga mag set up types sa dictionary
 interface Author {
