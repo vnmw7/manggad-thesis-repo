@@ -59,7 +59,7 @@ const AddBookForm = () => {
 			})
 			console.log(response)
 			if (response.ok) {
-				router.back(); // Redirect to the previous page
+                router.push('/admin'); // Redirect to the books page
 			}
 		} catch (error) {
 			console.error(error)
