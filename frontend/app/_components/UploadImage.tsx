@@ -11,7 +11,7 @@ export default function UploadImage({ onUpload }: UploadImageProps) {
         const formData = new FormData(event.target as HTMLFormElement);
         const result = await upload(formData);
         if (result.success) {
-            onUpload(result.filePath);
+            onUpload(result.filePath_netxjs);
         }
     };
 

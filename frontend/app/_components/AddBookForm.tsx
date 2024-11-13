@@ -158,6 +158,7 @@ const AddBookForm = () => {
                 
                 {/* right side sang upload form ah */}
                 <div>
+                    <div style={{ backgroundImage: `url(/public/list.jpg)`, backgroundSize: 'cover', width: '200px', height: '300px' }}></div>
                     <UploadImage onUpload={setCoverImageUrl} />
                 </div>
             </div>

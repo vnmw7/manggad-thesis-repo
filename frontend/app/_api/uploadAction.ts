@@ -15,6 +15,8 @@ export async function upload(data: FormData) {
 
     const uploadDir = join(process.cwd(), 'public/uploads')
     const filePath = join(uploadDir, file.name)
+    // islan ko ang uploaddDir sa "/public"
+    const filePath_netxjs = join("/public", file.name)
 
     try {
         // Ensure the upload directory exists
@@ -27,5 +29,5 @@ export async function upload(data: FormData) {
         throw new Error('File upload failed')
     }
 
-    return { success: true, filePath }
+    return { success: true, filePath_netxjs }
 }

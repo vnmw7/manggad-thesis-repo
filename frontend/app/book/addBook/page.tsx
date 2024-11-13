@@ -49,7 +49,7 @@ export default function AboutPage() {
         <div className="flex items-center">
           {/* Logo Image */}
           <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
+            src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
             className="h-14 w-14 mr-2" // Adjust height and width as needed
           />
@@ -103,7 +103,7 @@ export default function AboutPage() {
       {/* Image Banner */}
       <div className="w-full">
         <img
-          src="Librarysample.jpg"
+          src="/Librarysample.jpg"
           alt="Banner"
           className="w-full object-cover h-[200px]" // Adjust height as needed
         />
