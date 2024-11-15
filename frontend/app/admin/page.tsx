@@ -237,10 +237,29 @@ const Dashboard = () => {
                     <p>{book.yearOfSubmission}</p>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={() => router.push(`/book/${book.id}`)}>View Details</Button>
-                    <Button size="small" onClick={() => router.push(`/book/${book.id}/edit`)}>Edit</Button>
-                    <Button size="small" onClick={() => deleteBook(book.id)}>Delete</Button>
-                  </CardActions>
+  <Button
+    size="small"
+    onClick={() => router.push(`/book/${book.id}`)}
+    className="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 transition duration-300"
+  >
+    View Details
+  </Button>
+  <Button
+    size="small"
+    onClick={() => router.push(`/book/${book.id}/edit`)}
+    className="text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg px-4 py-2 transition duration-300"
+  >
+    Edit
+  </Button>
+  <Button
+    size="small"
+    onClick={() => deleteBook(book.id)}
+    className="text-white bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition duration-300"
+  >
+    Delete
+  </Button>
+</CardActions>
+
                 </Card>
               ))}
             </div>
