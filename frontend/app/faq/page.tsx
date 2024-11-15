@@ -46,9 +46,9 @@ export default function FaqPage() {
           <img
             src="MANGGAD LOGO.png"
             alt="Logo"
-            className="h-14 w-14 mr-2"
-          />
-          <div className="text-lg font-extrabold">Manggad</div>
+            className="h-32 w-32 mr-2" // Adjust height and width as needed
+    />
+    <div className="text-2xl font-extrabold">Manggad Research Repository</div>
         </div>
         <div className="flex items-center space-x-8">
           <div className="flex space-x-5">

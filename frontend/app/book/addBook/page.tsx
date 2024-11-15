@@ -51,9 +51,9 @@ export default function AboutPage() {
           <img
             src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="h-14 w-14 mr-2" // Adjust height and width as needed
-          />
-          <div className="text-lg font-extrabold">Manggad</div>
+            className="h-32 w-32 mr-2" // Adjust height and width as needed
+            />
+            <div className="text-2xl font-extrabold">Manggad Research Repository</div>
         </div>
 
         {/* Centered Navigation Links and Real-time/ Admin section */}
@@ -191,7 +191,7 @@ export default function AboutPage() {
             </form>
           </div>
 
-          {/* About */}
+			
           	<div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
 				<AddBookForm />
           	</div>
