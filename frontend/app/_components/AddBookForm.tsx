@@ -3,6 +3,7 @@
 import UploadImage from "./UploadImage";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@mui/material";
 
 interface Author {
     firstName: string;
@@ -15,7 +16,7 @@ const AddBookForm = () => {
     const [keywords, setKeywords] = useState("");
     const [language, setLanguage] = useState("");
     const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(null);
-    const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
+    const [coverImageUrl, setCoverImageUrl] = useState<string | null>("/defaults/defaultBookCover.png");
 
     const [authors, setAuthors] = useState<Author[]>([]);
     const [author_firstName, setAuthor_firstName] = useState("");
@@ -229,9 +230,10 @@ const AddBookForm = () => {
 
                 {/* Image Upload Section */}
                 <div className="w-72 flex flex-col items-center">
-                    {/* <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(${coverImageUrl ?? '/public/list.jpg'})`,}}></div> */}
-                    <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(/uploads/list.jpg)`,}}></div>
+                    <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(${(coverImageUrl ?? "/defaults/defaultBookCover.png").replace(/\\/g, '/')})`,}}></div>
+                    <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(/defaults/defaultBookCover.png)`,}}></div>
                     <UploadImage onUpload={setCoverImageUrl} />
+                    <Button onClick={() => console.log(coverImageUrl)}> check cover url </Button>
                 </div>
             </div>
         </div>

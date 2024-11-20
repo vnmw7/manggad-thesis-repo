@@ -245,14 +245,14 @@ const Dashboard = () => {
     View Details
   </Button>
   <Button
-    size="small"
+    size="large"
     onClick={() => router.push(`/book/${book.id}/edit`)}
     className="text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg px-4 py-2 transition duration-300"
   >
     Edit
   </Button>
   <Button
-    size="small"
+    size="large"
     onClick={() => deleteBook(book.id)}
     className="text-white bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition duration-300"
   >
