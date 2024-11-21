@@ -47,5 +47,5 @@ app.use('/books', bookRoutes);
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {
-console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
