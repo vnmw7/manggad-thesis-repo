@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import Search from '@/app/test/search/Search'
+import Search from './Search';
 
 const TestSearchPage = () => {
 	const [results, setResults] = useState<{ id: number; title: string; content: string }[]>([]);
