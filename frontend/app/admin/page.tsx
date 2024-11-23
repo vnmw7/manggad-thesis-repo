@@ -209,7 +209,7 @@ const Dashboard = () => {
                     </div>
 
                     {/* Books Container */}
-                    <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[1020px]">
+                    <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[930px]">
                         <div className="mt-1 max-w-7xl mx-auto">
                             <h1 className="text-2xl font-semibold mb-4">Current Uploaded Books</h1>
                             <button
@@ -228,25 +228,25 @@ const Dashboard = () => {
                                             <p>{book.authors.map(author => `${author.firstName} ${author.lastName}`).join(', ')}</p>
                                             <p>{book.yearOfSubmission}</p>
                                         </CardContent>
-                                        <CardActions className="justify-start p-2">
+                                        <CardActions className="justify-start p-2 gap-2">
                                             <Button
                                                 size="small"
                                                 onClick={() => router.push(`/book/${book.id}`)}
-                                                className="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 transition duration-300"
+                                                className="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 transition duration-300 w-24 whitespace-nowrap"
                                             >
-                                                View Details
+                                                View
                                             </Button>
                                             <Button
                                                 size="small"
                                                 onClick={() => router.push(`/book/${book.id}/edit`)}
-                                                className="text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg px-4 py-2 transition duration-300"
+                                                className="text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg px-4 py-2 transition duration-300 w-24"
                                             >
                                                 Edit
                                             </Button>
                                             <Button
                                                 size="small"
                                                 onClick={() => deleteBook(book.id)}
-                                                className="text-white bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition duration-300"
+                                                className="text-white bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition duration-300 w-24"
                                             >
                                                 Delete
                                             </Button>
