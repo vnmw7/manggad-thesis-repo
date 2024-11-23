@@ -229,28 +229,40 @@ const Dashboard = () => {
                                             <p>{book.yearOfSubmission}</p>
                                         </CardContent>
                                         <CardActions className="justify-start p-2 gap-2">
-                                            <Button
-                                                size="small"
-                                                onClick={() => router.push(`/book/${book.id}`)}
-                                                className="text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 transition duration-300 w-24 whitespace-nowrap"
-                                            >
-                                                View
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                onClick={() => router.push(`/book/${book.id}/edit`)}
-                                                className="text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg px-4 py-2 transition duration-300 w-24"
-                                            >
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                onClick={() => deleteBook(book.id)}
-                                                className="text-white bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 transition duration-300 w-24"
-                                            >
-                                                Delete
-                                            </Button>
-                                        </CardActions>
+    <Button
+        size="small"
+        onClick={() => router.push(`/book/${book.id}`)} 
+        className="rounded-lg px-4 py-2 w-24 whitespace-nowrap cursor-pointer"
+        style={{
+            backgroundColor: '#2563eb',
+            color: '#ffffff'
+        }}
+    >
+        View
+    </Button>
+    <Button
+        size="small"
+        onClick={() => router.push(`/book/${book.id}/edit`)}
+        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+        style={{
+            backgroundColor: '#d1bf00',
+            color: '#ffffff'
+        }}
+    >
+        Edit
+    </Button>
+    <Button
+        size="small" 
+        onClick={() => deleteBook(book.id)}
+        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+        style={{
+            backgroundColor: '#ff2323',
+            color: '#ffffff'
+        }}
+    >
+        Delete  
+    </Button>
+</CardActions>
                                     </Card>
                                 ))}
                             </div>
