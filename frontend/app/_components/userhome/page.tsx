@@ -147,7 +147,7 @@ export default function HomePage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-
+                 <li><a className="text-lg hover:underline cursor-pointer">Submit Research</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
               </ul>
             )}

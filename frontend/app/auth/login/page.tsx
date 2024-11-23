@@ -32,7 +32,7 @@ const LoginPage = () => {
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
 							/>
 							<button
-								onClick={() => router.push("/admin")}
+								onClick={() => router.push("/userhome")}
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
 							>
 								Login
