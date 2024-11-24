@@ -18,7 +18,8 @@ const LoginPage = () => {
 				{/* Right Side - Login Form */}
 				<div className="flex flex-col w-full lg:w-1/2 justify-center items-center bg-white">
 					<div className="form-container bg-white shadow-lg rounded-lg p-8 max-w-md w-full space-y-4">
-						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Admin Login</h1>
+						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Welcome to Manggad</h1>
+						<h2 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Login</h2>
 						
 						<div className="space-y-4">
 							<input
