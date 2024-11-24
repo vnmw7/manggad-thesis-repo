@@ -53,9 +53,9 @@ export default function HomePage() {
     <img
       src="MANGGAD LOGO.png" // Replace with the path to your logo image
       alt="Logo"
-      className="h-14 w-14 mr-2" // Adjust height and width as needed
+      className="h-32 w-32 mr-2" // Adjust height and width as needed
     />
-    <div className="text-lg font-extrabold">Manggad</div>
+    <div className="text-2xl font-extrabold">Manggad Research Repository</div>
   </div>
 
   {/* Centered Navigation Links and Real-time/ Admin section */}
@@ -147,7 +147,7 @@ export default function HomePage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer">Submit Research</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/addBook") }>Submit Research</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
               </ul>
             )}
