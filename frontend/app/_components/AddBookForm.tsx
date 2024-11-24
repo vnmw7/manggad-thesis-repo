@@ -1,7 +1,6 @@
 "use client";
 
-import UploadImage from "./UploadImage";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
 
@@ -10,13 +9,42 @@ interface Author {
     lastName: string;
 }
 
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    message: string;
+    type: 'error' | 'success';
+}
+
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                <div className={`text-lg font-semibold mb-4 ${type === 'error' ? 'text-red-600' : 'text-green-600'}`}>
+                    {type === 'error' ? 'Error' : 'Success'}
+                </div>
+                <p className="text-gray-700 mb-4">{message}</p>
+                <button
+                    onClick={onClose}
+                    className="w-full bg-[#0442B1] text-white py-2 rounded hover:bg-blue-600"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    );
+};
+
 const AddBookForm = () => {
     const [title, setTitle] = useState("");
     const [abstract, setAbstract] = useState("");
     const [keywords, setKeywords] = useState("");
     const [language, setLanguage] = useState("");
     const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(null);
-    const [coverImageUrl, setCoverImageUrl] = useState<string | null>("/defaults/defaultBookCover.png");
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [authors, setAuthors] = useState<Author[]>([]);
     const [author_firstName, setAuthor_firstName] = useState("");
@@ -26,10 +54,63 @@ const AddBookForm = () => {
     const [advisor_firstName, setAdvisor_firstName] = useState("");
     const [advisor_lastName, setAdvisor_lastName] = useState("");
 
+    const [modalState, setModalState] = useState({
+        isOpen: false,
+        message: '',
+        type: 'error' as 'error' | 'success'
+    });
+
     const router = useRouter();
+
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const closeModal = () => {
+        setModalState({ ...modalState, isOpen: false });
+        if (modalState.type === 'success') {
+            router.push("/admin");
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validation checks
+        if (authors.length === 0) {
+            setModalState({
+                isOpen: true,
+                message: 'Please add at least one author',
+                type: 'error'
+            });
+            return;
+        }
+
+        if (advisors.length === 0) {
+            setModalState({
+                isOpen: true,
+                message: 'Please add at least one advisor',
+                type: 'error'
+            });
+            return;
+        }
+
+        if (!selectedImage) {
+            setModalState({
+                isOpen: true,
+                message: 'Please select a cover image',
+                type: 'error'
+            });
+            return;
+        }
+
         const newBook = {
             title,
             abstract,
@@ -38,9 +119,9 @@ const AddBookForm = () => {
             yearOfSubmission,
             authors,
             advisors,
-            coverImageUrl,
+            coverImageUrl: selectedImage,
         };
-        console.log("Sending new book:", newBook);
+
         try {
             const response = await fetch("http://localhost:3001/books", {
                 method: "POST",
@@ -49,11 +130,21 @@ const AddBookForm = () => {
                 },
                 body: JSON.stringify(newBook),
             });
+            
             if (response.ok) {
-                router.push("/admin");
+                setModalState({
+                    isOpen: true,
+                    message: 'Book added successfully!',
+                    type: 'success'
+                });
             }
         } catch (error) {
             console.error(error);
+            setModalState({
+                isOpen: true,
+                message: 'An error occurred while adding the book',
+                type: 'error'
+            });
         }
     };
 
@@ -63,7 +154,11 @@ const AddBookForm = () => {
             setAuthor_firstName("");
             setAuthor_lastName("");
         } else {
-            alert("Both names are required.");
+            setModalState({
+                isOpen: true,
+                message: 'Both first name and last name are required for authors.',
+                type: 'error'
+            });
         }
     };
 
@@ -78,7 +173,11 @@ const AddBookForm = () => {
             setAdvisor_firstName("");
             setAdvisor_lastName("");
         } else {
-            alert("Both names are required.");
+            setModalState({
+                isOpen: true,
+                message: 'Both first name and last name are required for advisors.',
+                type: 'error'
+            });
         }
     };
 
@@ -89,6 +188,12 @@ const AddBookForm = () => {
 
     return (
         <div className="p-6 rounded-lg max-w-full mx-auto">
+            <Modal 
+                isOpen={modalState.isOpen}
+                onClose={closeModal}
+                message={modalState.message}
+                type={modalState.type}
+            />
             <div className="flex gap-8 items-start">
                 {/* Form Section */}
                 <form className="flex-1" onSubmit={handleSubmit}>
@@ -174,7 +279,7 @@ const AddBookForm = () => {
                                     <button
                                         onClick={() => removeAdvisor(index)}
                                         type="button"
-                                         className="text-white bg-red-700 w-[510px] hover:bg-red-500"
+                                        className="text-white bg-red-700 w-[510px] hover:bg-red-500"
                                     >
                                         Remove
                                     </button>
@@ -230,10 +335,26 @@ const AddBookForm = () => {
 
                 {/* Image Upload Section */}
                 <div className="w-72 flex flex-col items-center">
-                    <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(${(coverImageUrl ?? "/defaults/defaultBookCover.png").replace(/\\/g, '/')})`,}}></div>
-                    <div className="w-full h-96 bg-cover bg-center rounded shadow-md" style={{ backgroundImage: `url(/defaults/defaultBookCover.png)`,}}></div>
-                    <UploadImage onUpload={setCoverImageUrl} />
-                    <Button onClick={() => console.log(coverImageUrl)}> check cover url </Button>
+                    <div 
+                        className="w-full h-96 bg-cover bg-center rounded shadow-md mb-4" 
+                        style={{ 
+                            backgroundImage: `url(${selectedImage || "/defaults/defaultBookCover.png"})` 
+                        }}
+                    ></div>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileSelect}
+                        accept="image/*"
+                        className="hidden"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full bg-[#0442B1] text-white py-2 rounded hover:bg-blue-600"
+                    >
+                        Choose Cover Image
+                    </button>
                 </div>
             </div>
         </div>
