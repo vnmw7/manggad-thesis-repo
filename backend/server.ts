@@ -4,10 +4,17 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import testRoutes from './routes/testRoutes';
 import bookRoutes from './routes/bookRoutes';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+// .env variables
+const port = process.env.PORT || 3001;
+const databaseUrl = process.env.DATABASE_URL;
 
 // +----------------------------------------+
 // +     Prisma Client Initialization       +
-// +----------------------------------------+
+// +----------------------------------------
 const prisma = new PrismaClient();
 
 // pang initialize lang pero inde gd necessary. gn copy ko mn lng sa docs
@@ -32,9 +39,8 @@ main()
 
 // +--------------------+
 // +     Express        +
-// +--------------------+
+// +--------------------
 const app = express();
-const port = 3001;
 
 // Middleware
 app.use(express.json());
@@ -48,4 +54,6 @@ app.use('/books', bookRoutes);
 // basta pabalo nga gagana ah
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Connected to ${databaseUrl}`);
+    console.log(`💬[vincent]: check ang database url sa .env or register ang ip mo sa mongodb atlas if inde maka crud sa database`);
 });

@@ -144,3 +144,40 @@ export const editBookById = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'An error occurred while updating the book.' });
     }
 };
+
+const searchBooks = async (req: Request, res: Response) => {
+    const { searchQuery } = req.query
+
+    try {
+        const searchResults = await prisma.book.findMany({
+            where: {
+            // OR: [
+            //     {
+                    title: {
+                        contains: searchQuery as string,
+                        mode: "insensitive" // case insensitive
+                    }
+                // },
+                // {
+                //     yearOfSubmission: {
+                //         equals: Number(searchQuery)
+                //     }
+                // }
+            // ]
+            }
+        })
+        res.json(searchResults)
+    } catch(error) {
+        res.status(500).json({ error })
+    }
+}
+
+
+export const bookController = {
+    addBook,
+    getAllBooks,
+    getBookById,
+    deleteBookById,
+    editBookById,
+    searchBooks
+};
