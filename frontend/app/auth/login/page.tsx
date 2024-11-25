@@ -18,7 +18,8 @@ const LoginPage = () => {
 				{/* Right Side - Login Form */}
 				<div className="flex flex-col w-full lg:w-1/2 justify-center items-center bg-white">
 					<div className="form-container bg-white shadow-lg rounded-lg p-8 max-w-md w-full space-y-4">
-						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Admin Login</h1>
+						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Welcome to Manggad</h1>
+						<h2 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Login</h2>
 						
 						<div className="space-y-4">
 							<input
@@ -32,7 +33,7 @@ const LoginPage = () => {
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
 							/>
 							<button
-								onClick={() => router.push("/admin")}
+								onClick={() => router.push("/usershome")}
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
 							>
 								Login
