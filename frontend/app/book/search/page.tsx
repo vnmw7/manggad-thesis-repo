@@ -193,9 +193,15 @@ const SearchBookPage = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                 {books.map(result => (
                                     <div key={result.id} className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400">
-                                        <div className='p-4 grid grid-cols-2 grid-rows-2'>
-                                            <h5 > {result.title} </h5>
-                                            <h6> {result.yearOfSubmission} </h6>
+                                        <div className='px-4 py-2 grid grid-cols-2 grid-rows-2'>
+                                            <p className='col-span-2'> {result.title} </p>
+                                            <p className='row-start-2 text-neutral-600'> {result.yearOfSubmission} </p>
+                                            <div className='row-start-2 row-span-3 column-start-2 w-full h-full flex items-center justify-end'>
+                                                <p className='pr-2 text-neutral-200'> 0 </p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                                    <path fill="#e5e5e5" fill-rule="evenodd" d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a1 1 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a1 1 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a1 1 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a1 1 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a1 1 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a1 1 0 0 1-.696-.288l-.893-.893A2.98 2.98 0 0 0 12 2m3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253l-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
                                         </div>
                                         <div className='bg-neutral-200 w-full h-60 flex items-end justify-center relative group'> {/* 💬[vincent]: nag gamit ko "group"(for the parent) kag "group-hover"(for its child) para mag ipa disappear ang text kng mag hover. */}
                                             <div className='aspect-[1/1.3] w-40 bg-cover bg-center group-hover:opacity-0' style={{ backgroundImage: `url("/defaults/defaultBookCover.png")` }}></div>
