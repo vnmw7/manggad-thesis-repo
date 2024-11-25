@@ -184,105 +184,60 @@ export default function FaqPage() {
     <ul className="space-y-4">
       {[
         {
-          question: "I don't have electronic versions of old working papers that I'd like to include in the repository. Is it okay to scan the printed page to a PDF file?",
-          answer: "Yes--scanning printed pages is a great way to create PDF files for inclusion in the repository. There are two ways to scan a page: using OCR (Optical Character Recognition) or scanning the page as an image. Making OCR scans requires careful proofreading and loses the original formatting of the documents. Image scans cannot be searched. The best solution takes advantage of both of these methods. Many software applications allow for the OCR capture of image scans. When documents are scanned this way, users see the image scan but search the full-text of the document. This is the preferred method for scanning documents for the repository."
+          question: "What is Manggad: Research Repository Management System?",
+          answer: "Manggad is a web-based repository system designed to make theses and academic studies accessible to students and faculty at LCCB. It aims to provide a streamlined way to search, filter, and explore academic works."
         },
         {
-          question: "When I copy and paste abstracts into the Submit form, some formatted text reverts to plain text. What's going on?",
+          question: "What are the primary features of the system?",
           answer: (
             <div>
               <p>
-                When copying abstracts from a word processing file or a PDF file, and pasting the text into the submission form, you are taking text from an environment that supports fonts and text style changes. Because the abstract is intended to be presented on the web, text styles must be specified using HTML codes.
+              ⦁ Online Accessibility: Students and faculty can access theses and academic studies from any device with an internet connection.
               </p>
               <p>
-                If submitting an abstract in HTML format, please be sure to select the corresponding option on the submission form.
+              ⦁ Search and Filter Tools: Users can easily locate specific research papers by using keywords, publication dates, or department filters.
               </p>
-              <p>The following HTML tags are recognized by the system and may be used to format an abstract:</p>
-              <ul className="list-disc ml-8"> {/* Bullet points for HTML tags */}
-                <li>&lt;p&gt; - paragraph</li>
-                <li>&lt;br&gt; - line break</li>
-                <li>&lt;strong&gt; - strong/bold</li>
-                <li>&lt;em&gt; - italics/emphasis</li>
-                <li>&lt;sub&gt; - subscript</li>
-                <li>&lt;sup&gt; - superscript</li>
-              </ul>
+              <p>⦁ Faculty Recommendations: Faculty members can mark and highlight recommended studies in the repository.</p>
             </div>
           )
         },
         { 
-          question: "How do I include accents and special characters in the abstracts and titles?", 
+          question: "Who can use the system?", 
           answer: (
             <div>
               <p>
-                The repository software supports the worldwide character set (Unicode, utf-8). Accents, symbols, and other special characters may be copied and pasted into the abstract or title field from a word processing file or typed in directly. 
-              </p>
-              <p>
-                Windows users may also use the <strong>Character Map</strong> to insert these characters. Macintosh users may use the <strong>Character Palette</strong> (available via <strong>Edit &gt; Special Characters</strong> in the Finder).
+              Students can use the system to search and view theses and academic studies, while faculty members have additional privileges such as marking recommended studies for reference.
               </p>
             </div>
           )
         },
         { 
-          question: "How do I revise a submission?", 
+          question: "How will Manggad promote the improvement of previous theses?", 
           answer: (
             <div>
               <p>
-              To revise a submission that has been posted to the repository, contact the repository administrator with the new version.
+              By making previous works easily accessible and enabling faculty to recommend exemplary studies, Manggad encourages students to build on existing research, fostering academic growth and innovation.
               </p>
-              <p>
-              If the submission has been submitted, but not yet posted, you may revise it via your <strong>My Account</strong> page: (available via <strong>Edit &gt; Special Characters</strong> in the Finder).
-              </p><br></br>
-              <p>1. Locate the article on your <strong>My Account</strong> page, and click the title.</p>
-              <br></br>
-              <p>2. Click Revise <strong>Submission</strong> from the list of options in the left sidebar.</p>
-              <br></br>
-              <p>3. Enter your changes in the Revise Submission form, and click Submit at the bottom of the page to submit your changes.</p> 
-                <p>(You only need to modify the portion of the form that corresponds to the changes you wish to make.)</p>
             </div>
           )
         },
         { 
-          question: "How can I submit a multi-part file, such as multiple chapters for a book?", 
+          question: "When will the system be implemented?", 
           answer: (
             <div>
               <p>
-              Combine all the sections together as one Microsoft Word file or PDF file and submit that.
+              The system will be launched after full development and testing. It will also be formally introduced to the LCCB community to ensure awareness and adoption.
               </p>
-              <br></br>
-              <p>
-              To make one PDF file from multiple files, open the first PDF file, then choose <strong>Document</strong> &gt; <strong>Insert Pages</strong> from Acrobat's menus to insert the second file (indicate it should go after the last page of the first file), and repeat for all documents. The result will be one compound PDF file which may then be submitted.
-              </p><br></br>
-              <p>If you feel that the one large PDF file might be too large for some people to download, we suggest that you submit the consolidated file as the full text of the article, and then upload the separate chapters or sections of the document as <strong>Associated Files</strong>. These files will appear on the web page alongside the complete document. For more information about uploading associated files, see "Can I post related files..." below.</p>
             </div>
           )
         },
         { 
-          question: "Can I post related files (sound clips, data sets, etc.) alongside the published article?", 
+          question: "Can faculty and students contribute to the repository?", 
           answer: (
             <div>
               <p>
-              Yes. The bepress system refers to these supplementary items as <strong>Associated Files</strong>. You will be prompted to submit Associated Files when you upload your submissions. The name of the files you upload will appear on the web site along with your short description of it. Viewers must have the necessary software to open your files; that is not provided by the bepress system.
+              Currently, only authorized personnel, such as faculty members or system administrators, can add new content to the repository. Students can only access and view the available resources.
               </p>
-              <br></br>
-              <p>
-              Please be sure that there are no permissions issues related to use of the associated material. Sometimes, especially with images, you must write a letter seeking permission to use the material before it can be posted.
-              </p><br></br>
-              <p>Also note that where possible, items such as images, charts and tables that are referenced in the document (or otherwise an integral part of the document) should be included directly in the article itself and not posted just as associated files.</p>
-            </div>
-          )
-        },
-        { 
-          question: "Can I post a reprint from a journal?", 
-          answer: (
-            <div>
-              <p>
-              Yes. The bepress system refers to these supplementary items as <strong>Associated Files</strong>. You will be prompted to submit Associated Files when you upload your submissions. The name of the files you upload will appear on the web site along with your short description of it. Viewers must have the necessary software to open your files; that is not provided by the bepress system.
-              </p>
-              <br></br>
-              <p>
-              Please be sure that there are no permissions issues related to use of the associated material. Sometimes, especially with images, you must write a letter seeking permission to use the material before it can be posted.
-              </p><br></br>
-              <p>Also note that where possible, items such as images, charts and tables that are referenced in the document (or otherwise an integral part of the document) should be included directly in the article itself and not posted just as associated files.</p>
             </div>
           )
         },
