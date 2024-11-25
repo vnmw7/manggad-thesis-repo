@@ -4,32 +4,29 @@ import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 const SearchBookPage = () => {
-	const [results, setResults] = useState<{ id: number; title: string; content: string }[]>([]);
-	const [data, setData] = useState<{ id: number; title: string; content: string }[]>([]);
-	const [query, setQuery] = useState<string>('');
+	const [books, getBooks] = useState<{ id: number; title: string; yearOfSubmission: number }[]>([]);
+	const [searchQuery, setSearchQuery] = useState<string>('');
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [currentTime, setCurrentTime] = useState(new Date());
 
     const router = useRouter()
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const response = await fetch('http://localhost:3001/books/search');
-			const allData = await response.json();
-			setData(allData);
-		}; fetchData();
-	}, []);
-
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setQuery(e.target.value);
+		setSearchQuery(e.target.value);
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const filteredResults = data.filter(item =>
-			item.title.toLowerCase().includes(query.toLowerCase()) ||
-			item.content.toLowerCase().includes(query.toLowerCase())
-		); setResults(filteredResults);
+        console.log(`Sending search request for: ${searchQuery}`);
+		const response = await fetch('http://localhost:3001/books/search', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ searchQuery }),
+		});
+		const searchResults = await response.json();
+		getBooks(searchResults);
 	};
 
     const toggleDropdown = (dropdownName: string) => {
@@ -59,19 +56,6 @@ const SearchBookPage = () => {
     });
 	
 	return (
-		// <div> 
-		// 	<form onSubmit={handleSubmit}>
-        //         <input type="text" value={query} onChange={handleChange} placeholder="Search..."/>
-        //         <button type="submit">Search</button>
-        //     </form>
-		// 	<ul>
-		// 		{results.map(result => (
-		// 		<li key={result.id}>
-		// 			<h2>{result.title}</h2>
-		// 		</li>
-		// 		))}
-		// 	</ul>
-		// </div>
         <div className="w-full min-h-screen flex flex-col">
             {/* Navbar */}
             <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
@@ -198,17 +182,28 @@ const SearchBookPage = () => {
                 <div className="flex-1 px-4">
                     {/* search input */}
                     <div className="w-full flex justify-center mt-5">
-                        <form className="w-full max-w-7xl flex items-center">
-                            <input type="text" className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg" placeholder="Search for documents, research, and more..." />
-                            <button className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96">
-                                Search
-                            </button>
+                        <form className="w-full max-w-7xl flex items-center" onSubmit={handleSubmit}>
+                            <input type="text" className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg" placeholder="Search for documents, research, and more..." value={searchQuery} onChange={handleChange}/>
+                            <button className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96" type='submit'> Search </button>
                         </form>
                     </div>
 
                     <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[930px]">
                         <div className="mt-1 max-w-7xl mx-auto">
-                        ano ni?
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {books.map(result => (
+                                    <div key={result.id} className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400">
+                                        <div className='p-4 grid grid-cols-2 grid-rows-2'>
+                                            <h5 > {result.title} </h5>
+                                            <h6> {result.yearOfSubmission} </h6>
+                                        </div>
+                                        <div className='bg-neutral-200 w-full h-60 flex items-end justify-center relative group'> {/* 💬[vincent]: nag gamit ko "group"(for the parent) kag "group-hover"(for its child) para mag ipa disappear ang text kng mag hover. */}
+                                            <div className='aspect-[1/1.3] w-40 bg-cover bg-center group-hover:opacity-0' style={{ backgroundImage: `url("/defaults/defaultBookCover.png")` }}></div>
+                                            <p className="text-gray-600 absolute top-0 w-full h-full p-2 text-justify overflow-y-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

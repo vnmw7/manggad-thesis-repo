@@ -146,15 +146,24 @@ export const editBookById = async (req: Request, res: Response) => {
 };
 
 const searchBooks = async (req: Request, res: Response) => {
-    const { searchQuery } = req.body
+    const { searchQuery } = req.query
 
     try {
         const searchResults = await prisma.book.findMany({
             where: {
-                title: {
-                    contains: searchQuery,
-                    mode: "insensitive" // case insensitive
-                }
+            // OR: [
+            //     {
+                    title: {
+                        contains: searchQuery as string,
+                        mode: "insensitive" // case insensitive
+                    }
+                // },
+                // {
+                //     yearOfSubmission: {
+                //         equals: Number(searchQuery)
+                //     }
+                // }
+            // ]
             }
         })
         res.json(searchResults)
