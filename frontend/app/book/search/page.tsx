@@ -1,11 +1,13 @@
 "use client"
 
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const SearchBookPage = () => {
 	const [books, getBooks] = useState<{ id: number; title: string; yearOfSubmission: number }[]>([]);
-	const [searchQuery, setSearchQuery] = useState<string>('');
+	const searchParams = useSearchParams();
+	const initialQuery = searchParams.get('query') || '';
+	const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -26,6 +28,7 @@ const SearchBookPage = () => {
 			body: JSON.stringify({ searchQuery }),
 		});
 		const searchResults = await response.json();
+        console.log(`Received search results: ${searchResults}`);
 		getBooks(searchResults);
 	};
 
@@ -40,6 +43,13 @@ const SearchBookPage = () => {
 
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        if (initialQuery) {
+            const formEvent = new Event('submit', { bubbles: true, cancelable: true }) as unknown as FormEvent<HTMLFormElement>;
+            handleSubmit(formEvent);
+        }
+    }, [initialQuery]);
 
     const formattedTime = currentTime.toLocaleTimeString('en-US', {
         hour: 'numeric',

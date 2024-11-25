@@ -145,10 +145,11 @@ export const editBookById = async (req: Request, res: Response) => {
     }
 };
 
-const searchBooks = async (req: Request, res: Response) => {
+export const searchBooks = async (req: Request, res: Response) => {
     const { searchQuery } = req.query
 
     try {
+        res.json(`Searching for books with query: ${searchQuery}`);
         const searchResults = await prisma.book.findMany({
             where: {
             // OR: [
