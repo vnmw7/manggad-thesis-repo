@@ -146,7 +146,7 @@ export const editBookById = async (req: Request, res: Response) => {
 };
 
 export const searchBooks = async (req: Request, res: Response) => {
-    const { searchQuery } = req.body
+    const { searchQuery } = req.body // 💬[vincent]: nag sala ko kay dapat req.body, inde req.query
 
     if (!searchQuery) {
         return res.status(400).json({ error: "searchQuery parameter is required" });
@@ -156,19 +156,10 @@ export const searchBooks = async (req: Request, res: Response) => {
         console.log(`Searching for books with query: ${searchQuery}`);
         const searchResults = await prisma.book.findMany({
             where: {
-            // OR: [
-            //     {
-                    title: {
-                        contains: searchQuery,
-                        mode: "insensitive" // case insensitive
-                    }
-                // },
-                // {
-                //     yearOfSubmission: {
-                //         equals: Number(searchQuery)
-                //     }
-                // }
-            // ]
+                title: {
+                    contains: searchQuery,
+                    mode: "insensitive" // case insensitive
+                }
             }
         })
         res.json(searchResults)
