@@ -52,6 +52,10 @@ input[type="text"], input[type="password"] {
     src: url('./_fonts/sourceSansPro/SourceSansPro-Regular.ttf') format('truetype'),
 }
 @font-face {
+    font-family: 'Source Sans Pro Semibold';
+    src: url('./_fonts/sourceSansPro/SourceSansPro-Semibold.ttf') format('truetype'),
+}
+@font-face {
     font-family: 'Lora';
     src: url('./_fonts/lora/Lora-VariableFont_wght.ttf') format('truetype'),
 }
