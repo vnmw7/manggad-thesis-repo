@@ -7,6 +7,7 @@ const RegistrationPage = () => {
 	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordMatch, setPasswordMatch] = useState(true);
 
 	return (
 		<div className="flex flex-col min-h-screen bg-gray-50">
@@ -40,15 +41,9 @@ const RegistrationPage = () => {
 								type="password"
 								placeholder="Retype Password"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
-								onChange={(e) => {
-									if (e.target.value !== password) {
-										e.target.setCustomValidity("Passwords do not match");
-									} else {
-										e.target.setCustomValidity("");
-									}
-								}}
+								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) {/* shortcut sng if else statement */} }}
 							/>
-							<p className="text-red-500 text-sm mt-1"> Passwords do not match </p>
+							<p className={`text-red-500 text-sm mt-1 ${passwordMatch ? 'opacity-0' : 'opacity-100'}`}> Passwords do not match </p>
 							<button
 								onClick={() => router.push("/admin")}
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
@@ -58,7 +53,7 @@ const RegistrationPage = () => {
 						</div>
 
 						<div className="text-center mt-4">
-							<p className="text-gray-600">Already have an account?</p>
+							<p className="text-gray-600"> Already have an account? </p>
 							<button
 								className="secondary text-[#0442B1] font-medium mt-2"
 								onClick={() => router.push("/auth/login")}
