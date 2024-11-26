@@ -203,11 +203,7 @@ const SearchBookPage = () => {
                             {/* book grid nga ga contain sng mga search results / books */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {books.map(result => (
-                                    <div 
-                                        key={result.id} 
-                                        className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400"
-                                        onClick={() => router.push(`/book/${result.id}`)}
-                                    >
+                                    <div key={result.id} className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400" onClick={() => router.push(`/book/${result.id}`)}>
                                         <div className='px-4 py-2 grid grid-cols-2 grid-rows-2'>
                                             <p className='col-span-2'> {result.title} </p>
                                             <p className='row-start-2 text-neutral-600'> {result.yearOfSubmission} </p>
