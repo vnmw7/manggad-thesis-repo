@@ -1,15 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import AddBookForm from "@/app/_components/AddBookForm";
 import Header from "@/app/_components/Header";
 import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
 
 export default function AddBookPage() {
-	const router = useRouter();
-
 	return (
 		<div className="w-full min-h-screen flex flex-col">
 			<Header />

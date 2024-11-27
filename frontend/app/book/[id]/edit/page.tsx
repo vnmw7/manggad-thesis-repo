@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import UploadImage from './UploadImage'
 import Header from '@/app/_components/Header'
 import SideNav from '@/app/_components/SideNav'
 import Footer from '@/app/_components/Footer'
 import AddBookForm from '@/app/_components/AddBookForm'
+import { error } from 'console'
 
 // typescript nga mag set up types sa dictionary
 interface Author {
@@ -46,93 +46,31 @@ const EditBook = () => {
 	const { id } = useParams()
 
 	// Fetch book details and set form fields
+	// useEffect(() => {
+	// 	fetch(`http://localhost:3001/books/view/${id}`)
+	// 		.then(response => response.json())
+	// 		.then(data => {
+	// 			setTitle(data.title)
+	// 			setAbstract(data.abstract)
+	// 			setKeywords(data.keywords)
+	// 			setLanguage(data.language)
+	// 			setYearOfSubmission(data.yearOfSubmission)
+	// 			setCoverImageUrl(data.coverImageUrl)
+	// 			setAuthors(data.authors)
+	// 			setAdvisors(data.advisors)
+	// 			setBook(data)
+	// 		})
+	// }, [id])
+
+	const [Book, setBook] = useState<Book | null>(null)
 	useEffect(() => {
 		fetch(`http://localhost:3001/books/view/${id}`)
 			.then(response => response.json())
-			.then(data => {
-				setTitle(data.title)
-				setAbstract(data.abstract)
-				setKeywords(data.keywords)
-				setLanguage(data.language)
-				setYearOfSubmission(data.yearOfSubmission)
-				setCoverImageUrl(data.coverImageUrl)
-				setAuthors(data.authors)
-				setAdvisors(data.advisors)
-				setBook(data)
-			})
+			.then(data => setBook(data))
+			.catch(error => console.error(error))
 	}, [id])
 
-	// code para mag connect sa backend
-	const handleSubmit = async (e: React.FormEvent) => {
-		// initialization
-		e.preventDefault()
-
-		// naka same naming sa prisma schema model
-		const newBook = {
-			title,
-			abstract,
-			language,
-			keywords,
-			yearOfSubmission,
-			authors,
-			advisors,
-			coverImageUrl
-		}
-
-		console.log("Sending new book:", newBook)
-
-		try {
-			const response = await fetch(`http://localhost:3001/books/edit/${id}`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(newBook)
-			})
-			console.log(response)
-			if (response.ok) {
-				router.back() // Redirect to the previous page
-			}
-		} catch (error) {
-			console.error(error)
-		}
-	}
-
-	const addAuthor = () => {
-		if (author_firstName && author_lastName) {
-			setAuthors([...authors, { firstName: author_firstName, lastName: author_lastName }])
-			// clear dayung ang state pagkatapus insert sa array sng authors
-			setAuthor_firstName('')
-			setAuthor_lastName('')
-		} else {
-			alert("Both names are required.")
-		}
-	}
-
-	const removeAuthor = (removeIndex: number) => {
-		const newArray = authors.filter((author, authorIndex) => removeIndex !== authorIndex)
-		setAuthors(newArray)
-	}
-
-	const addAdvisor = () => {
-		if (advisor_firstName && advisor_lastName) {
-			setAdvisors([...advisors, { firstName: advisor_firstName, lastName: advisor_lastName }])
-			// clear dayung ang state pagkatapus insert sa array sng authors
-			setAdvisor_firstName('')
-			setAdvisor_lastName('')
-		} else {
-			alert("Both names are required.")
-		}
-	}
-
-	const removeAdvisor = (removeIndex: number) => {
-		const newArray = advisors.filter((advisors, advisorIndex) => removeIndex !== advisorIndex)
-		setAdvisors(newArray)
-	}
-
-	const [book, setBook] = useState<Book | null>(null)
-
-	if (!book) return <div> Loading...</div>
+	if (!Book) return <div> Loading...</div>
 
 	return (
 		<div className="w-full min-h-screen flex flex-col">
@@ -143,7 +81,10 @@ const EditBook = () => {
 				<SideNav />
 
 				<div className="flex-1">
-					<AddBookForm />
+					<AddBookForm
+						heading="Edit Book / Research"
+						Book={Book}
+					/>
 				</div>
 			</div>
 
