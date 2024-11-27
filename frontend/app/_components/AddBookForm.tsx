@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
     );
 };
 
-const AddBookForm = () => {
+const AddBookForm = (props: any) => {
     const [title, setTitle] = useState("");
     const [abstract, setAbstract] = useState("");
     const [keywords, setKeywords] = useState("");
@@ -197,9 +197,9 @@ const AddBookForm = () => {
             <div className="flex gap-8 items-start">
                 {/* Form Section */}
                 <form className="flex-1" onSubmit={handleSubmit}>
-                    <h2 className="text-2xl font-semibold mb-4">Add New Book / Research</h2>
+                    <h2 className="text-2xl font-semibold mb-4"> {props.title} </h2>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium">Title:</label>
+                        <label className="block text-gray-700 font-medium">Title: {props.otherTitle} </label>
                         <input
                             className="w-full p-2 border border-gray-300 rounded mt-1"
                             value={title}

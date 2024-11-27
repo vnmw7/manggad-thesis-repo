@@ -143,7 +143,10 @@ const EditBook = () => {
 				<SideNav />
 
 				<div className="flex-1">
-					<AddBookForm />
+					<AddBookForm 
+						title="Add Book"
+						otherTitle="Test Title"
+					/>
 				</div>
 			</div>
 
