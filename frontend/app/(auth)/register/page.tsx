@@ -1,9 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const RegistrationPage = () => {
 	const router = useRouter();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [passwordMatch, setPasswordMatch] = useState(true);
 
 	return (
 		<div className="flex flex-col min-h-screen bg-gray-50">
@@ -25,22 +29,21 @@ const RegistrationPage = () => {
 								type="text"
 								placeholder="Email"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
+								onChange={(e) => setEmail(e.target.value)}
 							/>
 							<input
 								type="password"
 								placeholder="Password"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
+								onChange={(e) => setPassword(e.target.value)}
 							/>
 							<input
-								type="text"
-								placeholder="First Name"
+								type="password"
+								placeholder="Retype Password"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
+								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) {/* shortcut sng if else statement */} }}
 							/>
-							<input
-								type="text"
-								placeholder="Last Name"
-								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
-							/>
+							<p className={`text-red-500 text-sm mt-1 ${passwordMatch ? 'opacity-0' : 'opacity-100'}`}> Passwords do not match </p>
 							<button
 								onClick={() => router.push("/admin")}
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
@@ -50,7 +53,7 @@ const RegistrationPage = () => {
 						</div>
 
 						<div className="text-center mt-4">
-							<p className="text-gray-600">Already have an account?</p>
+							<p className="text-gray-600"> Already have an account? </p>
 							<button
 								className="secondary text-[#0442B1] font-medium mt-2"
 								onClick={() => router.push("/auth/login")}
