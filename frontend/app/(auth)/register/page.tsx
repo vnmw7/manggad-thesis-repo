@@ -41,7 +41,7 @@ const RegistrationPage = () => {
 								type="password"
 								placeholder="Retype Password"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
-								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) {/* shortcut sng if else statement */} }}
+								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) /* shortcut sng if else statement */ }}
 							/>
 							<p className={`text-red-500 text-sm mt-1 ${passwordMatch ? 'opacity-0' : 'opacity-100'}`}> Passwords do not match </p>
 							<button
