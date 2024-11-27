@@ -195,7 +195,7 @@ const Dashboard = () => {
                 {/* Main Content Area */}
                 <div className="flex-1 px-4">
                     {/* Books Container */}
-                    <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[930px]">
+                    <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto min-h-[500px]">
                         <div className="mt-1 max-w-7xl mx-auto">
                             <h1 className="text-2xl font-semibold mb-4">Current Uploaded Books</h1>
                             <button
@@ -215,40 +215,40 @@ const Dashboard = () => {
                                             <p>{book.yearOfSubmission}</p>
                                         </CardContent>
                                         <CardActions className="justify-start p-2 gap-2">
-    <Button
-        size="small"
-        onClick={() => router.push(`/book/${book.id}`)} 
-        className="rounded-lg px-4 py-2 w-24 whitespace-nowrap cursor-pointer"
-        style={{
-            backgroundColor: '#2563eb',
-            color: '#ffffff'
-        }}
-    >
-        View
-    </Button>
-    <Button
-        size="small"
-        onClick={() => router.push(`/book/${book.id}/edit`)}
-        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
-        style={{
-            backgroundColor: '#d1bf00',
-            color: '#ffffff'
-        }}
-    >
-        Edit
-    </Button>
-    <Button
-        size="small" 
-        onClick={() => deleteBook(book.id)}
-        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
-        style={{
-            backgroundColor: '#ff2323',
-            color: '#ffffff'
-        }}
-    >
-        Delete  
-    </Button>
-</CardActions>
+                                            <Button
+                                                size="small"
+                                                onClick={() => router.push(`/book/${book.id}`)} 
+                                                className="rounded-lg px-4 py-2 w-24 whitespace-nowrap cursor-pointer"
+                                                style={{
+                                                    backgroundColor: '#2563eb',
+                                                    color: '#ffffff'
+                                                }}
+                                            >
+                                                View
+                                            </Button>
+                                            <Button
+                                                size="small"
+                                                onClick={() => router.push(`/book/${book.id}/edit`)}
+                                                className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                                                style={{
+                                                    backgroundColor: '#d1bf00',
+                                                    color: '#ffffff'
+                                                }}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                size="small" 
+                                                onClick={() => deleteBook(book.id)}
+                                                className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                                                style={{
+                                                    backgroundColor: '#ff2323',
+                                                    color: '#ffffff'
+                                                }}
+                                            >
+                                                Delete  
+                                            </Button>
+                                        </CardActions>
                                     </Card>
                                 ))}
                             </div>
