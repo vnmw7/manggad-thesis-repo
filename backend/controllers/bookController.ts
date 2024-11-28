@@ -170,13 +170,16 @@ export const searchBooks = async (req: Request, res: Response) => {
 }
 
 export const addEditBook = async (req: Request, res: Response) => {
-    const { id, title } = req.body;
+    const { id } = req.params;
     if (id) {
-        editBookById(req, res);
+        // edit book
+        req.params.id = id; // set the id in req.params for editBookById to use
+        await editBookById(req, res);
     } else {
-        addBook(req, res);
+        // add book
+        await addBook(req, res);
     }
-} 
+}
 
 export const bookController = {
     addBook,
