@@ -169,6 +169,14 @@ export const searchBooks = async (req: Request, res: Response) => {
     }
 }
 
+export const addEditBook = async (req: Request, res: Response) => {
+    const { id, title } = req.body;
+    if (id) {
+        editBookById(req, res);
+    } else {
+        addBook(req, res);
+    }
+} 
 
 export const bookController = {
     addBook,
@@ -176,5 +184,6 @@ export const bookController = {
     getBookById,
     deleteBookById,
     editBookById,
-    searchBooks
+    searchBooks,
+    addEditBook
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 interface Author {
@@ -122,7 +122,7 @@ const AddEditBookForm = (props: any) => {
         };
 
         try {
-            const response = await fetch("http://localhost:3001/books", {
+            const response = await fetch("http://localhost:3001/books/addEdit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
