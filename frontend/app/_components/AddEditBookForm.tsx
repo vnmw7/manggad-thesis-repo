@@ -38,10 +38,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
 
 const AddEditBookForm = (props: any) => {
     const [title, setTitle] = useState(props.Book?.title || "");
-    const [abstract, setAbstract] = useState("");
-    const [keywords, setKeywords] = useState("");
-    const [language, setLanguage] = useState("");
-    const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(null);
+    const [abstract, setAbstract] = useState(props.Book?.abstract || "");
+    const [keywords, setKeywords] = useState(props.Book?.keywords || "");
+    const [language, setLanguage] = useState(props.Book?.language || "");
+    const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(props.Book?.yearOfSubmission || null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
