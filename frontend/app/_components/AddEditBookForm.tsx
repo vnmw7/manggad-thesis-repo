@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
 
 interface Author {
     firstName: string;
@@ -38,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
 };
 
 const AddEditBookForm = (props: any) => {
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState(props.Book?.title || "");
     const [abstract, setAbstract] = useState("");
     const [keywords, setKeywords] = useState("");
     const [language, setLanguage] = useState("");
@@ -200,8 +199,7 @@ const AddEditBookForm = (props: any) => {
                 <form className="flex-1" onSubmit={handleSubmit}>
                     <h2 className="text-2xl font-semibold mb-4"> {props.heading} </h2>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium">Title:</label>
-                        <input
+                          <input
                             className="w-full p-2 border border-gray-300 rounded mt-1"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
