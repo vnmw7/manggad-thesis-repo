@@ -42,14 +42,14 @@ const AddEditBookForm = (props: any) => {
     const [keywords, setKeywords] = useState(props.Book?.keywords || "");
     const [language, setLanguage] = useState(props.Book?.language || "");
     const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(props.Book?.yearOfSubmission || null);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(props.Book?.coverImage || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const [authors, setAuthors] = useState<Author[]>([]);
+    const [authors, setAuthors] = useState<Author[]>(props.Book?.authors || []);
     const [author_firstName, setAuthor_firstName] = useState("");
     const [author_lastName, setAuthor_lastName] = useState("");
 
-    const [advisors, setAdvisors] = useState<Author[]>([]);
+    const [advisors, setAdvisors] = useState<Author[]>(props.Book?.authors || []);
     const [advisor_firstName, setAdvisor_firstName] = useState("");
     const [advisor_lastName, setAdvisor_lastName] = useState("");
 
