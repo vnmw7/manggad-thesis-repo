@@ -19,7 +19,7 @@ interface Book {
 	keywords?: string;
 	language?: string;
 	yearOfSubmission?: number;
-	coverImageUrl?: string;
+	coverImage?: string;
 	authors: Author[];
 }
 
@@ -45,6 +45,7 @@ const EditBook = () => {
 				<SideNav />
 
 				<div className="flex-1">
+					<button onClick={() => console.log(Book)}>Log Book</button>
 					<AddEditBookForm
 						heading="Edit Book / Research"
 						Book={Book}

@@ -118,7 +118,7 @@ const AddEditBookForm = (props: any) => {
             yearOfSubmission,
             authors,
             advisors,
-            coverImageUrl: selectedImage,
+            coverImage: selectedImage,
         };
 
         try {

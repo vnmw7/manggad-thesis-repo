@@ -15,7 +15,7 @@ interface Book {
     keywords?: string;
     language?: string;
     yearOfSubmission?: number;
-    coverImageUrl?: string;
+    coverImage?: string;
     authors: Author[];
 }
 
@@ -181,9 +181,9 @@ export default function ViewBookPage() {
                         
                         <div className="grid grid-cols-2 gap-8">
                             <div>
-                                {book.coverImageUrl && (
+                                {book.coverImage && (
                                     <img 
-                                        src={book.coverImageUrl} 
+                                        src={book.coverImage} 
                                         alt={book.title}
                                         className="w-full rounded-lg shadow-md mb-4"
                                     />
