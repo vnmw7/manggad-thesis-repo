@@ -17,7 +17,9 @@ export default function AddBookPage() {
 				{/* Main Content Area */}
 				<div className="flex-1">
 					<div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
-						<AddEditBookForm />
+						<AddEditBookForm
+							heading="Add Book / Repository"
+						/>
 					</div>
 				</div>
 			</div>

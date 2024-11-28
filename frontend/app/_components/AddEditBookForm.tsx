@@ -187,7 +187,6 @@ const AddEditBookForm = (props: any) => {
 
     return (
         <div className="p-6 rounded-lg max-w-full mx-auto">
-            <button onClick={() => console.log(props.Book.title)}> test </button>
             <Modal 
                 isOpen={modalState.isOpen}
                 onClose={closeModal}
