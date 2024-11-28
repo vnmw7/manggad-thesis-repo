@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
     );
 };
 
-const AddBookForm = (props: any) => {
+const AddEditBookForm = (props: any) => {
     const [title, setTitle] = useState("");
     const [abstract, setAbstract] = useState("");
     const [keywords, setKeywords] = useState("");
@@ -188,6 +188,7 @@ const AddBookForm = (props: any) => {
 
     return (
         <div className="p-6 rounded-lg max-w-full mx-auto">
+            <button onClick={() => console.log(props.Book.title)}> test </button>
             <Modal 
                 isOpen={modalState.isOpen}
                 onClose={closeModal}
@@ -361,4 +362,4 @@ const AddBookForm = (props: any) => {
     );
 };
 
-export default AddBookForm;
+export default AddEditBookForm;

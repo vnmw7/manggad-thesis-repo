@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import Header from '@/app/_components/Header'
 import SideNav from '@/app/_components/SideNav'
 import Footer from '@/app/_components/Footer'
-import AddBookForm from '@/app/_components/AddBookForm'
+import AddEditBookForm from '@/app/_components/AddEditBookForm'
 import { error } from 'console'
 
 // typescript nga mag set up types sa dictionary
@@ -81,7 +81,7 @@ const EditBook = () => {
 				<SideNav />
 
 				<div className="flex-1">
-					<AddBookForm
+					<AddEditBookForm
 						heading="Edit Book / Research"
 						Book={Book}
 					/>
