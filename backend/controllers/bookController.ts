@@ -144,3 +144,36 @@ export const editBookById = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'An error occurred while updating the book.' });
     }
 };
+
+export const searchBooks = async (req: Request, res: Response) => {
+    const { searchQuery } = req.body // 💬[vincent]: nag sala ko kay dapat req.body, inde req.query
+
+    if (!searchQuery) {
+        return res.status(400).json({ error: "searchQuery parameter is required" });
+    }
+
+    try {
+        console.log(`Searching for books with query: ${searchQuery}`);
+        const searchResults = await prisma.book.findMany({
+            where: {
+                title: {
+                    contains: searchQuery,
+                    mode: "insensitive" // case insensitive
+                }
+            }
+        })
+        res.json(searchResults)
+    } catch(error) {
+        res.status(500).json({ error })
+    }
+}
+
+
+export const bookController = {
+    addBook,
+    getAllBooks,
+    getBookById,
+    deleteBookById,
+    editBookById,
+    searchBooks
+};
