@@ -111,6 +111,7 @@ const AddEditBookForm = (props: any) => {
         }
 
         const newBook = {
+            id: props.Book?.id,
             title,
             abstract,
             language,
@@ -187,6 +188,7 @@ const AddEditBookForm = (props: any) => {
 
     return (
         <div className="p-6 rounded-lg max-w-full mx-auto">
+            <button onClick={() => console.log(`[AddEditBookForm]: Received Book props: ${JSON.stringify(props.Book)}`)}>Log Book Props</button>
             <Modal 
                 isOpen={modalState.isOpen}
                 onClose={closeModal}

@@ -170,7 +170,7 @@ export const searchBooks = async (req: Request, res: Response) => {
 }
 
 export const addEditBook = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const { id } = req.body;
     if (id) {
         // edit book
         req.params.id = id; // set the id in req.params for editBookById to use
