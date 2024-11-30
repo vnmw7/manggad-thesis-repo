@@ -250,3 +250,18 @@ export default function ViewBookPage() {
         </div>
     );
 }
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full bg-[#0442B1] text-white py-2 px-4 rounded-md hover:bg-[#03308a]"
+                            >
+                                Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <footer className="bg-[#0442B1] text-white py-4 mt-14">
+                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+                    <p className="text-sm">
