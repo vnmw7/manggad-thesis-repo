@@ -44,7 +44,7 @@ const LoginPage = () => {
 							<p className="text-gray-600">Don't have an account?</p>
 							<button
 								className="secondary text-[#0442B1] font-medium mt-2"
-								onClick={() => router.push("/auth/register")}
+								onClick={() => router.push("/register")}
 							>
 								Register
 							</button>

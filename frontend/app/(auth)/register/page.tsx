@@ -56,13 +56,13 @@ const RegistrationPage = () => {
 							<p className="text-gray-600"> Already have an account? </p>
 							<button
 								className="secondary text-[#0442B1] font-medium mt-2"
-								onClick={() => router.push("/auth/login")}
+								onClick={() => router.push("/login")}
 							>
 								Login
 							</button>
 							<button
 								className="tritiary text-gray-500 mt-2 hover:underline"
-								onClick={() => router.push("/auth/login")}
+								onClick={() => router.back()}
 							>
 								Back
 							</button>
