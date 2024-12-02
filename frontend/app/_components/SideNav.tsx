@@ -26,8 +26,8 @@ const SideNav = () => {
                 </button>
                 {openDropdown === "browse" && (
                     <ul className="space-y-1">
+                        <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/search")}>Search Repository</a></li>
                         <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection")}>Collections</a></li>
-                        <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline")}>Disciplines</a></li>
                         <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author")}>Authors</a></li>
                     </ul>
                 )}
@@ -46,7 +46,7 @@ const SideNav = () => {
                 </button>
                 {openDropdown === "author" && (
                     <ul className="space-y-1">
-                        <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
+                        <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
                     </ul>
                 )}
             </div>
@@ -64,7 +64,6 @@ const SideNav = () => {
                 </button>
                 {openDropdown === "connect" && (
                     <ul className="space-y-1">
-                        <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
                         <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact")}>Contact</a></li>
                         <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
                     </ul>

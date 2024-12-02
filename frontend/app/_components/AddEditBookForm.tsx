@@ -228,7 +228,7 @@ const AddEditBookForm = (props: any) => {
                                 onClick={addAuthor}
                                 className="bg-[#0442B1] text-white px-4 py-2 rounded mt-1 hover:bg-blue-600"
                             >
-                                Add Author
+                                Edit Author
                             </button>
                         </div>
                         <ul className="mt-2">
@@ -268,7 +268,7 @@ const AddEditBookForm = (props: any) => {
                                 onClick={addAdvisor}
                                 className="bg-[#0442B1] text-white px-4 py-2 rounded mt-1 hover:bg-blue-600"
                             >
-                                Add Advisor
+                                Edit Advisor
                             </button>
                         </div>
                         <ul className="mt-2">

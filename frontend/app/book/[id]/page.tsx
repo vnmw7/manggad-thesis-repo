@@ -132,7 +132,6 @@ export default function ViewBookPage() {
                         {openDropdown === "browse" && (
                             <ul className="space-y-1">
                                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection")}>Collections</a></li>
-                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline")}>Disciplines</a></li>
                                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author")}>Authors</a></li>
                             </ul>
                         )}
@@ -150,7 +149,7 @@ export default function ViewBookPage() {
                         </button>
                         {openDropdown === "author" && (
                             <ul className="space-y-1">
-                                <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
+                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
                             </ul>
                         )}
                     </div>
@@ -167,7 +166,6 @@ export default function ViewBookPage() {
                         </button>
                         {openDropdown === "connect" && (
                             <ul className="space-y-1">
-                                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
                                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact")}>Contact</a></li>
                                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
                             </ul>
@@ -250,18 +248,4 @@ export default function ViewBookPage() {
         </div>
     );
 }
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full bg-[#0442B1] text-white py-2 px-4 rounded-md hover:bg-[#03308a]"
-                            >
-                                Register
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <footer className="bg-[#0442B1] text-white py-4 mt-14">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                    <p className="text-sm">
+                        

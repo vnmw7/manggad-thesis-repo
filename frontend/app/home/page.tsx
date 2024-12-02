@@ -57,21 +57,6 @@ export default function HomePage() {
 
 			{/* Main Content Area */}
 			<div className="flex-1">
-			{/* Centered Search Field */}
-			<div className="w-full flex justify-center mt-5">
-				<form className="w-full max-w-7xl flex items-center">
-				{/* Input field takes most of the width */}
-				<input
-					type="text"
-					className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg"
-					placeholder="Search for documents, research, and more..."
-				/>
-				{/* Search button on the right side of the input */}
-				<button className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96">
-					Search
-				</button>
-				</form>
-			</div>
 
 			{/* Image Carousel */}
 			<div className="w-full mt-8 flex justify-center rounded-lg">

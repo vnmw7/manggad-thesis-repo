@@ -142,9 +142,9 @@ const SearchBookPage = () => {
                         </button>
                         {openDropdown === "browse" && (
                             <ul className="space-y-1">
-                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection")}>Collections</a></li>
-                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline")}>Disciplines</a></li>
-                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author")}>Authors</a></li>
+                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/search")}>Search Repository</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
                             </ul>
                         )}
                     </div>
@@ -162,7 +162,7 @@ const SearchBookPage = () => {
                         </button>
                         {openDropdown === "author" && (
                             <ul className="space-y-1">
-                                <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
+                                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
                             </ul>
                         )}
                     </div>
@@ -180,7 +180,6 @@ const SearchBookPage = () => {
                         </button>
                         {openDropdown === "connect" && (
                             <ul className="space-y-1">
-                                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
                                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact")}>Contact</a></li>
                                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
                             </ul>
@@ -233,9 +232,18 @@ const SearchBookPage = () => {
                         © {new Date().getFullYear()} Manggad. All rights reserved.
                     </p>
                     <div className="flex space-x-4">
-                        <a href="#" className="hover:underline">Privacy Policy</a>
-                        <a href="#" className="hover:underline">Terms of Service</a>
-                        <a href="#" className="hover:underline">Contact Us</a>
+                    <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/about")}
+          >
+            About Us
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/contact")}
+          >
+            Contact Us
+          </a>
                     </div>
                 </div>
             </footer>

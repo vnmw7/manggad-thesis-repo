@@ -233,9 +233,18 @@ const SearchBookPage = () => {
                         © {new Date().getFullYear()} Manggad. All rights reserved.
                     </p>
                     <div className="flex space-x-4">
-                        <a href="#" className="hover:underline">Privacy Policy</a>
-                        <a href="#" className="hover:underline">Terms of Service</a>
-                        <a href="#" className="hover:underline">Contact Us</a>
+                    <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/about")}
+          >
+            About Us
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/contact")}
+          >
+            Contact Us
+          </a>
                     </div>
                 </div>
             </footer>
