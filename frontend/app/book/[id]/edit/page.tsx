@@ -144,8 +144,7 @@ const EditBook = () => {
 
 				<div className="flex-1">
 					<AddBookForm 
-						title="Add Book"
-						otherTitle="Test Title"
+						title="Edit Book / Research"
 					/>
 				</div>
 			</div>

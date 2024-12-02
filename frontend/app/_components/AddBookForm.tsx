@@ -199,7 +199,7 @@ const AddBookForm = (props: any) => {
                 <form className="flex-1" onSubmit={handleSubmit}>
                     <h2 className="text-2xl font-semibold mb-4"> {props.title} </h2>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium">Title: {props.otherTitle} </label>
+                        <label className="block text-gray-700 font-medium"> Title: </label>
                         <input
                             className="w-full p-2 border border-gray-300 rounded mt-1"
                             value={title}
