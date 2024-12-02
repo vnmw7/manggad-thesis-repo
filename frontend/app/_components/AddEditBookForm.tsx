@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
 
 interface Author {
     firstName: string;
@@ -37,20 +36,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
     );
 };
 
-const AddBookForm = (props: any) => {
-    const [title, setTitle] = useState("");
-    const [abstract, setAbstract] = useState("");
-    const [keywords, setKeywords] = useState("");
-    const [language, setLanguage] = useState("");
-    const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(null);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+const AddEditBookForm = (props: any) => {
+    const [title, setTitle] = useState(props.Book?.title || "");
+    const [abstract, setAbstract] = useState(props.Book?.abstract || "");
+    const [keywords, setKeywords] = useState(props.Book?.keywords || "");
+    const [language, setLanguage] = useState(props.Book?.language || "");
+    const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(props.Book?.yearOfSubmission || null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(props.Book?.coverImage || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const [authors, setAuthors] = useState<Author[]>([]);
+    const [authors, setAuthors] = useState<Author[]>(props.Book?.authors || []);
     const [author_firstName, setAuthor_firstName] = useState("");
     const [author_lastName, setAuthor_lastName] = useState("");
 
-    const [advisors, setAdvisors] = useState<Author[]>([]);
+    const [advisors, setAdvisors] = useState<Author[]>(props.Book?.authors || []);
     const [advisor_firstName, setAdvisor_firstName] = useState("");
     const [advisor_lastName, setAdvisor_lastName] = useState("");
 
@@ -112,6 +111,7 @@ const AddBookForm = (props: any) => {
         }
 
         const newBook = {
+            id: props.Book?.id,
             title,
             abstract,
             language,
@@ -119,11 +119,11 @@ const AddBookForm = (props: any) => {
             yearOfSubmission,
             authors,
             advisors,
-            coverImageUrl: selectedImage,
+            coverImage: selectedImage,
         };
 
         try {
-            const response = await fetch("http://localhost:3001/books", {
+            const response = await fetch("http://localhost:3001/books/addEdit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -197,10 +197,9 @@ const AddBookForm = (props: any) => {
             <div className="flex gap-8 items-start">
                 {/* Form Section */}
                 <form className="flex-1" onSubmit={handleSubmit}>
-                    <h2 className="text-2xl font-semibold mb-4"> {props.title} </h2>
+                    <h2 className="text-2xl font-semibold mb-4"> {props.heading} </h2>
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium"> Title: </label>
-                        <input
+                          <input
                             className="w-full p-2 border border-gray-300 rounded mt-1"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
@@ -361,4 +360,4 @@ const AddBookForm = (props: any) => {
     );
 };
 
-export default AddBookForm;
+export default AddEditBookForm;

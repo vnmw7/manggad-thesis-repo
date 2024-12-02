@@ -9,6 +9,35 @@ const RegistrationPage = () => {
 	const [password, setPassword] = useState("");
 	const [passwordMatch, setPasswordMatch] = useState(true);
 
+	const newUser = {
+		email,
+		password,
+	};
+
+	const registerUser = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (password !== password) {
+			setPasswordMatch(false);
+			return;
+		}
+
+		try {
+			const response = await fetch("http://localhost:3001/user", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify( newUser ),
+			});
+
+			if (response.ok) {
+				router.push("/admin");
+			}
+		} catch (error) {            
+			console.error("Registration error:", error);
+        }
+	}
+
 	return (
 		<div className="flex flex-col min-h-screen bg-gray-50">
 			{/* Main Content Area */}
@@ -21,7 +50,7 @@ const RegistrationPage = () => {
 
 				{/* Right Side - Registration Form */}
 				<div className="flex flex-col w-full lg:w-1/2 justify-center items-center bg-white">
-					<div className="form-container bg-white shadow-lg rounded-lg p-8 max-w-md w-full space-y-4">
+					<form className="form-container bg-white shadow-lg rounded-lg p-8 max-w-md w-full space-y-4" onSubmit={registerUser}>
 						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6">Register</h1>
 						
 						<div className="space-y-4">
@@ -41,10 +70,11 @@ const RegistrationPage = () => {
 								type="password"
 								placeholder="Retype Password"
 								className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#0442B1]"
-								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) {/* shortcut sng if else statement */} }}
+								onChange={(e) => { e.target.value !== password ? setPasswordMatch(false) : setPasswordMatch(true) /* shortcut sng if else statement */ }}
 							/>
 							<p className={`text-red-500 text-sm mt-1 ${passwordMatch ? 'opacity-0' : 'opacity-100'}`}> Passwords do not match </p>
 							<button
+								type="submit"
 								onClick={() => router.push("/admin")}
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
 							>
@@ -56,18 +86,18 @@ const RegistrationPage = () => {
 							<p className="text-gray-600"> Already have an account? </p>
 							<button
 								className="secondary text-[#0442B1] font-medium mt-2"
-								onClick={() => router.push("/auth/login")}
+								onClick={() => router.push("/login")}
 							>
 								Login
 							</button>
 							<button
 								className="tritiary text-gray-500 mt-2 hover:underline"
-								onClick={() => router.push("/auth/login")}
+								onClick={() => router.back()}
 							>
 								Back
 							</button>
 						</div>
-					</div>
+					</form>
 
 					{/* Credit Section */}
 					<div className="w-full flex justify-center mt-8">
