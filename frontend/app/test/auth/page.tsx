@@ -1,6 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const TestAuthPage = () => {
+
     const { data: session } = useSession()
 
     if (session) {
