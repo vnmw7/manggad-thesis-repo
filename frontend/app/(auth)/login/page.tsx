@@ -11,7 +11,8 @@ const LoginPage = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:3001/users", {
+			console.log("User Credentials:", userCredentials);
+			const response = await fetch("http://localhost:3001/user/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

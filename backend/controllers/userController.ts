@@ -30,6 +30,7 @@ export const addUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log('Login request:', email, password);
 
     const user = await prisma.user.findUnique({
         where: { email: email },
