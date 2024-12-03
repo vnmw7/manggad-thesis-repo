@@ -1,5 +1,6 @@
 import "./globals.css";
 import ThemedElement from "./_components/theme/ThemedElement";
+import { SessionProvider } from "next-auth/react"
 
 export default function RootLayout({
 	children,
@@ -9,7 +10,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body>
-				<ThemedElement> {children} </ThemedElement>
+				<SessionProvider>
+					<ThemedElement> {children} </ThemedElement>
+				</SessionProvider>
 			</body>
 		</html>
 	);
