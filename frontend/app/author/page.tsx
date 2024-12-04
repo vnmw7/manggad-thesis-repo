@@ -19,30 +19,7 @@ export default function AuthorsPage() {
 
   // Sample list of items to display based on alphabetical selection
   const items = [
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Elderberry",
-    "Fig",
-    "Grape",
-    "Honeydew",
-    "Kiwi",
-    "Lemon",
-    "Mango",
-    "Nectarine",
-    "Orange",
-    "Papaya",
-    "Quince",
-    "Raspberry",
-    "Strawberry",
-    "Tangerine",
-    "Ugli fruit",
-    "Vanilla",
-    "Watermelon",
-    "Xigua",
-    "Yellow Passion Fruit",
-    "Zucchini",
+    "A"
   ];
 
   // Function to toggle dropdown

@@ -166,7 +166,7 @@ export default function HomePage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
+                <li><a href="#" className="text-lg hover:underline cursor-pointer">Contact</a></li>
                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
             )}
@@ -284,8 +284,7 @@ export default function HomePage() {
             © {new Date().getFullYear()} Manggad. All rights reserved.
           </p>
           <div className="flex space-x-4">
-            <a href="#" className="hover:underline">Privacy Policy</a>
-            <a href="#" className="hover:underline">Terms of Service</a>
+          <a href="#" className="hover:underline">About Us</a>
             <a href="#" className="hover:underline">Contact Us</a>
           </div>
         </div>
