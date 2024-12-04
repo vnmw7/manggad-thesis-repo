@@ -181,6 +181,24 @@ export const addEditBook = async (req: Request, res: Response) => {
     }
 }
 
+export const addRecommendationCounter = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const updatedBook = await prisma.book.update({
+            where: { id: String(id) },
+            data: {
+                recommendations: {
+                    increment: 1
+                }
+            }
+        });
+        res.json(updatedBook);
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while updating the recommendation counter.' });
+    }
+};
+
 export const bookController = {
     addBook,
     getAllBooks,
@@ -188,5 +206,6 @@ export const bookController = {
     deleteBookById,
     editBookById,
     searchBooks,
-    addEditBook
+    addEditBook,
+    addRecommendationCounter
 };

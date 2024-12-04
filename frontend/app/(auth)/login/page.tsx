@@ -5,10 +5,12 @@ import { useState } from "react";
 
 const LoginPage = () => {
 	const router = useRouter();
-	const [ userCredentials, setUserCredentials] = useState({ email: "", password: "" });
+	const [userCredentials, setUserCredentials] = useState({ email: "", password: "" });
+	const [error, setError] = useState("");
 
 	const loginUser = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setError(""); // Clear previous error
 
 		try {
 			console.log("User Credentials:", userCredentials);
@@ -22,9 +24,13 @@ const LoginPage = () => {
 
 			if (response.ok) {
 				router.push("/admin");
+			} else {
+				const data = await response.json();
+				setError(data.error);
 			}
 		} catch (error) {
 			console.error("Login error:", error);
+			setError("An unexpected error occurred. Please try again.");
 		}
 	}
 
@@ -43,6 +49,8 @@ const LoginPage = () => {
 					<form className="form-container bg-white shadow-lg rounded-lg p-8 max-w-md w-full space-y-4" onSubmit={loginUser}>
 						<h1 className="text-2xl font-semibold text-center text-[#0442B1] mb-6"> Welcome to Manggad </h1>
 						<h2 className="text-2xl font-semibold text-center text-[#0442B1] mb-6"> Login </h2>
+						
+						{error && <p className="text-red-500 text-center">{error}</p>}
 						
 						<div className="space-y-4">
 							<input

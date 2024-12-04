@@ -36,7 +36,11 @@ export const loginUser = async (req: Request, res: Response) => {
         where: { email: email },
     });
 
-    if (!user || user.password !== password) {
+    if (!user) {
+        return res.status(404).json({ error: 'Email not found' });
+    }
+
+    if (user.password !== password) {
         return res.status(401).json({ error: 'Invalid email or password' });
     }
 
