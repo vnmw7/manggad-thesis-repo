@@ -41,7 +41,7 @@ const findOrCreateAdvisor = async (firstName: string, lastName: string) => {
 // |        Main Controllers        |
 // +--------------------------------+
 export const addBook = async (req: Request, res: Response) => {
-    const { title, abstract, language, keywords, yearOfSubmission, authors, advisors, coverImageUrl } = req.body;
+    const { title, abstract, language, keywords, yearOfSubmission, authors, advisors, coverImage } = req.body;
 
     // gamit promise para mahultanay matapus anay ang mga execution sa promises
     const authorIds = await Promise.all(authors.map(({ firstName, lastName }: { firstName: string, lastName: string }) => findOrCreateAuthor(firstName, lastName)))
@@ -57,7 +57,7 @@ export const addBook = async (req: Request, res: Response) => {
             yearOfSubmission,
             authorIds,
             advisorIds,
-            coverImageUrl
+            coverImage
         }
     });
     res.json(test);
@@ -97,6 +97,7 @@ export const getBookById = async (req: Request, res: Response) => {
             }
         });
         if (book) {
+            console.log(book);
             res.json(book)
         } else {
             res.status(404).json({ error: 'Book not found.' })
@@ -120,7 +121,7 @@ export const deleteBookById = async (req: Request, res: Response) => {
 
 export const editBookById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { title, abstract, language, keywords, yearOfSubmission, authors, advisors, coverImageUrl } = req.body;
+    const { title, abstract, language, keywords, yearOfSubmission, authors, advisors, coverImage } = req.body;
 
     try {
         const authorIds = await Promise.all(authors.map(({ firstName, lastName }: { firstName: string, lastName: string }) => findOrCreateAuthor(firstName, lastName)));
@@ -136,7 +137,7 @@ export const editBookById = async (req: Request, res: Response) => {
                 yearOfSubmission,
                 authorIds,
                 advisorIds,
-                coverImageUrl
+                coverImage
             }
         });
         res.json(updatedBook);
@@ -168,6 +169,17 @@ export const searchBooks = async (req: Request, res: Response) => {
     }
 }
 
+export const addEditBook = async (req: Request, res: Response) => {
+    const { id } = req.body;
+    if (id) {
+        // edit book
+        req.params.id = id; // set the id in req.params for editBookById to use
+        await editBookById(req, res);
+    } else {
+        // add book
+        await addBook(req, res);
+    }
+}
 
 export const bookController = {
     addBook,
@@ -175,5 +187,6 @@ export const bookController = {
     getBookById,
     deleteBookById,
     editBookById,
-    searchBooks
+    searchBooks,
+    addEditBook
 };

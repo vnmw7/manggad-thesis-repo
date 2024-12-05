@@ -20,20 +20,19 @@ model Test {
 
 model User {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  username   String  @unique
   password   String
   email      String  @unique
   isVerified Boolean @default(false)
 
-  roleId       String  @db.ObjectId
-  departmentId String  @db.ObjectId
+  roleId       String? @db.ObjectId
+  departmentId String? @db.ObjectId
   programId    String? @db.ObjectId
 
   uploadIds Book[]
 
-  program     Program?   @relation(fields: [programId], references: [id])
-  role        Role       @relation(fields: [roleId], references: [id])
-  departnment Department @relation(fields: [departmentId], references: [id])
+  program     Program?    @relation(fields: [programId], references: [id])
+  role        Role?       @relation(fields: [roleId], references: [id])
+  departnment Department? @relation(fields: [departmentId], references: [id])
 }
 
 model Role {
@@ -49,7 +48,7 @@ model Book {
   keywords         String?
   language         String?
   yearOfSubmission Int?
-  coverImageUrl    String?
+  coverImage       String?
 
   departmentId String?  @db.ObjectId
   programId    String?  @db.ObjectId
