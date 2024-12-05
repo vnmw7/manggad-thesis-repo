@@ -88,7 +88,7 @@ export default function ViewBookPage() {
 
                         <button
                             className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-                            onClick={() => console.log("Login as admin")}
+                            onClick={() => console.log("/login")}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -239,8 +239,7 @@ export default function ViewBookPage() {
                         © {new Date().getFullYear()} Manggad. All rights reserved.
                     </p>
                     <div className="flex space-x-4">
-                        <a href="#" className="hover:underline">Privacy Policy</a>
-                        <a href="#" className="hover:underline">Terms of Service</a>
+                    <a href="#" className="hover:underline">About Us</a>
                         <a href="#" className="hover:underline">Contact Us</a>
                     </div>
                 </div>

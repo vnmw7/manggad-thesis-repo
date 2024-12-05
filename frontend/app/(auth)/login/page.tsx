@@ -59,6 +59,7 @@ const LoginPage = () => {
 							<button
 								type="submit"
 								className="w-full py-3 bg-[#0442B1] text-white font-semibold rounded-md hover:bg-[#033b9b] transition-colors duration-200"
+								onClick={() => router.push("/usershome")}
 							>
 								Login
 							</button>
@@ -74,7 +75,7 @@ const LoginPage = () => {
 							</button>
 							<button
 								className="tritiary text-gray-500 mt-2 hover:underline"
-								onClick={() => router.push("/home") }
+								onClick={() => router.push("/register") }
 							>
 								Back
 							</button>
