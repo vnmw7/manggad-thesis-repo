@@ -62,8 +62,8 @@ export default function HomePage() {
   <div className="flex items-center space-x-8">
     {/* Navigation Links */}
     <div className="flex space-x-5">
-    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/home") }>Home</a>
-    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/about") }>About</a>
+    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/usershome") }>Home</a>
+    <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/usersabout") }>About</a>
     <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/contact") }>Contact</a>
     </div>
 
@@ -80,7 +80,7 @@ export default function HomePage() {
       {/* Profile Icon Button for Admin Login */}
       <button
         className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-        onClick={() => router.push("/auth/login") }
+        onClick={() => router.push("/login") }
       >
         {/* SVG Icon for Person */}
         <svg
@@ -128,8 +128,8 @@ export default function HomePage() {
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/userscollection") }>Collections</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/usersauthor") }>Authors</a></li>
               </ul>
             )}
           </div>
@@ -148,7 +148,7 @@ export default function HomePage() {
             {openDropdown === "author" && (
               <ul className="space-y-1">
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/addBook") }>Submit Research</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/usersfaq")}>Author FAQ</a></li>
               </ul>
             )}
           </div>
@@ -166,7 +166,7 @@ export default function HomePage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline cursor-pointer">Contact</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/userscontact")}>Contact</a></li>
                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
             )}
