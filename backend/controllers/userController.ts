@@ -27,3 +27,24 @@ export const addUser = async (req: Request, res: Response) => {
     });
     res.json(user);
 };
+
+export const loginUser = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    const user = await prisma.user.findUnique({
+        where: { email: email },
+    });
+
+    if (!user || user.password !== password) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    res.json({ message: 'Login successful' });
+};
+
+export const userController = {
+    getAllUsers,
+    getUserById,
+    addUser,
+    loginUser,
+}
