@@ -11,5 +11,6 @@ router.delete('/delete/:id', bookController.deleteBookById);
 router.post('/edit/:id', bookController.editBookById);
 router.post('/search/', bookController.searchBooks);
 router.post('/addEdit', bookController.addEditBook);
+router.post('/addRecommendation/:id', bookController.addRecommendationCounter);
 
 export default router;
