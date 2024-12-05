@@ -24,8 +24,6 @@ interface Book {
 
 const Dashboard = () => {
     const [books, setBooks] = useState<Book[]>([])
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-    const [currentTime, setCurrentTime] = useState(new Date())
 
     const router = useRouter();
 
@@ -46,31 +44,11 @@ const Dashboard = () => {
         });
     };
 
-    const toggleDropdown = (dropdownName: string) => {
-        setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
+    const addRecommendation = (id: number) => {
+        fetch(`http://localhost:3001/books/addRecommendation/${id}`, {
+            method: 'POST',
+        })
     };
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const formattedTime = currentTime.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: true,
-    });
-
-    const formattedDate = currentTime.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
 
     return (
         <div className="w-full min-h-screen flex flex-col">
@@ -93,8 +71,8 @@ const Dashboard = () => {
                             </button>
 
                             {/* Book Cards Grid */}
-                            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-max">
-                                {books.map(book => (
+                            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 auto-rows-max">
+                                {books.map((book: Book) => (
                                     <Card key={book.id} variant="outlined" className="flex flex-col">
                                         <CardContent className="flex-1">
                                             <h1 className="text-lg font-bold">{book.title}</h1>
@@ -134,6 +112,17 @@ const Dashboard = () => {
                                                 }}
                                             >
                                                 Delete  
+                                            </Button>
+                                            <Button
+                                                size="small" 
+                                                onClick={() => addRecommendation(book.id)}
+                                                className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                                                style={{
+                                                    backgroundColor: '#d1bf00',
+                                                    color: '#ffffff'
+                                                }}
+                                            >
+                                                ★ 
                                             </Button>
                                         </CardActions>
                                     </Card>

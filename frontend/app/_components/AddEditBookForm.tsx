@@ -101,14 +101,14 @@ const AddEditBookForm = (props: any) => {
             return;
         }
 
-        if (!selectedImage) {
-            setModalState({
-                isOpen: true,
-                message: 'Please select a cover image',
-                type: 'error'
-            });
-            return;
-        }
+        // if (!selectedImage) {
+        //     setModalState({
+        //         isOpen: true,
+        //         message: 'Please select a cover image',
+        //         type: 'error'
+        //     });
+        //     return;
+        // }
 
         const newBook = {
             id: props.Book?.id,
