@@ -25,30 +25,42 @@ const SearchBookPage = () => {
         setSearchQuery(e.target.value);
     };
 
+    const fetchData = async (query: string) => {
+        try {
+            const response = await fetch(`http://localhost:3001/books${query ? '/search' : ''}`, {
+                method: query ? 'POST' : 'GET', // Conditional method
+                headers: {
+                    'Content-Type': query ? 'application/json' : 'application/json', // Correct header even for GET (optional, depends on your API)
+
+                },
+                body: query ? JSON.stringify({ searchQuery: query }) : undefined, // Conditional body
+            });
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);  // Handle errors properly
+            }
+
+            const data = await response.json();
+            getBooks(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // Optionally display an error message to the user
+            getBooks([]); // Or handle the error state as needed
+        }
+    };
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(`Sending search request for: ${searchQuery}`);
-        const response = await fetch('http://localhost:3001/books/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ searchQuery }),
-        });
-        const searchResults = await response.json();
-        console.log(`Received search results: ${searchResults}`);
-        getBooks(searchResults);
+
+        // Use router.push instead of directly calling fetchData.
+        // This allows nextjs to handle the searchparams properly.
+        router.push(`/book/search?query=${searchQuery}`);
     };
 
     useEffect(() => {
-        if (initialQuery) {
-            const formEvent = new Event('submit', { bubbles: true, cancelable: true }) as unknown as FormEvent<HTMLFormElement>;
-            handleSubmit(formEvent);
-        } else {
-            fetch('http://localhost:3001/books/')
-                .then(response => response.json())
-                .then(data => getBooks(data));
-        }
+        // Use a single useEffect and fetchData function
+        fetchData(initialQuery);
     }, [initialQuery]);
 
     return (
