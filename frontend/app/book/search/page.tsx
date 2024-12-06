@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, ChangeEvent, FormEvent, Suspense } from 'react';
+import { useState, ChangeEvent, FormEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/app/_components/Header';
 import SideNav from '@/app/_components/SideNav';
