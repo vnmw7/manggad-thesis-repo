@@ -1,12 +1,11 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Header from '@/app/_components/Header'
 import SideNav from '@/app/_components/SideNav'
 import Footer from '@/app/_components/Footer'
 import AddEditBookForm from '@/app/_components/AddEditBookForm'
-import { error } from 'console'
 
 // typescript nga mag set up types sa dictionary
 interface Author {

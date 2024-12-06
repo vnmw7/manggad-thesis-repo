@@ -190,7 +190,7 @@ export default function AuthorsPage() {
           <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
             <h2 className="text-3xl font-semibold mb-2">Browse by Author</h2>
             <p className="text-lg text-gray-600 mb-4">
-            Here is a list of authors from La Consolacion College Bacolod who have works in this repository as of {formattedDate}. Click an author's name to see their work. For more details, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
+            Here is a list of authors from La Consolacion College Bacolod who have works in this repository as of {formattedDate}. Click an author&apos;s name to see their work. For more details, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
             </p>
           </div>
 

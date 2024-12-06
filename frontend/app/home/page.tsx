@@ -3,50 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
-import { useRouter } from "next/navigation";
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 import SideNav from "../_components/SideNav";
 
 export default function HomePage() {
-  const router = useRouter();
-
-  // State for the dropdown
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-  // State for real-time clock and date
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  // Function to toggle dropdown
-  const toggleDropdown = (dropdownName: string) => {
-    setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
-  };
-
-  // Use useEffect to update the clock and date every second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000); // Updates every second
-
-    return () => clearInterval(interval); // Clear interval when component unmounts
-  }, []);
-
-  // Format time as HH:MM:SS AM/PM
-  const formattedTime = currentTime.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true,
-  });
-
-  // Format date as Month Day, Year (e.g., October 26, 2024)
-  const formattedDate = currentTime.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  
   	return (
       	<div className="w-full min-h-screen flex flex-col">
 			<Header />
