@@ -7,7 +7,7 @@ import SideNav from '@/app/_components/SideNav';
 import Footer from '@/app/_components/Footer';
 
 const SearchBookPage = () => {
-	const [books, getBooks] = useState<{ 
+    const [books, getBooks] = useState<{ 
         id: number
         title: string
         yearOfSubmission: number
@@ -15,30 +15,30 @@ const SearchBookPage = () => {
         recommendations: number
         abstract: string
     }[]>([]);
-	const searchParams = useSearchParams();
-	const initialQuery = searchParams.get('query') || '';
-	const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
+    
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const initialQuery = searchParams.get('query') || '';
+    const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
 
-    const router = useRouter()
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    };
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearchQuery(e.target.value);
-	};
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         console.log(`Sending search request for: ${searchQuery}`);
-		const response = await fetch('http://localhost:3001/books/search', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ searchQuery }),
-		});
-		const searchResults = await response.json();
+        const response = await fetch('http://localhost:3001/books/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ searchQuery }),
+        });
+        const searchResults = await response.json();
         console.log(`Received search results: ${searchResults}`);
-		getBooks(searchResults);
-	};
+        getBooks(searchResults);
+    };
 
     useEffect(() => {
         if (initialQuery) {
@@ -50,8 +50,8 @@ const SearchBookPage = () => {
                 .then(data => getBooks(data));
         }
     }, [initialQuery]);
-	
-	return (
+
+    return (
         <div className="w-full min-h-screen flex flex-col">
             <Header />
 
@@ -101,7 +101,7 @@ const SearchBookPage = () => {
 
             <Footer />
         </div>
-	)
+    )
 }
 
 export default SearchBookPage;
