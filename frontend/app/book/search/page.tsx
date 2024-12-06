@@ -53,15 +53,17 @@ const SearchBookPage = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        await fetchData(searchQuery);
+
         // Use router.push instead of directly calling fetchData.
         // This allows nextjs to handle the searchparams properly.
-        router.push(`/book/search?query=${searchQuery}`);
+        // router.push(`/book/search?query=${searchQuery}`);
     };
 
-    useEffect(() => {
-        // Use a single useEffect and fetchData function
-        fetchData(initialQuery);
-    }, [initialQuery]);
+    // useEffect(() => {
+    //     // Use a single useEffect and fetchData function
+    //     fetchData(initialQuery);
+    // }, [initialQuery]);
 
     return (
         <div className="w-full min-h-screen flex flex-col">
