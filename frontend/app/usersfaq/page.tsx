@@ -130,7 +130,8 @@ export default function FaqPage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/addBook") }>Submit Research</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/usersfaq")}>Author FAQ</a></li>
               </ul>
             )}
           </div>

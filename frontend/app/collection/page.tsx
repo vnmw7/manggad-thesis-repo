@@ -47,7 +47,7 @@ export default function Collections() {
   // Dropdown items with unique subcategories
   const dropdownItems = [
     { name: "LCCB College Departments", subcategories: ["School of Architecture, Fine Arts & Interior Design", "School of Business and Information Technology ", "School of Hospitality and Tourism Management", "School of Sciences Liberal Arts and Teacher Education "] },
-    { name: "College Courses", subcategories: ["Course 1", "Course 2", "Course 3"] },
+    { name: "Theses and Dissertations", subcategories: ["Advertising Arts", "Architecture", "Culinary Arts", "Digital Media Arts", "Elementary Education", "English Language Studies", "Entertainment & Multimedia Computing", "Fashion Design", "Hospitality Management", "Human Resource Management", "Industrial Design", "Information Technology", "Interior Design", "Library & Information Science", "Marketing Management", "Psychology", "Studio Arts", "Tourism Management"]},
   ];
 
   // Toggle the expandAll state
@@ -139,8 +139,8 @@ export default function Collections() {
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/search")}>Search Repository</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline") }>Disciplines</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
               </ul>
             )}
@@ -177,7 +177,6 @@ export default function Collections() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact") }>Contact</a></li>
                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
@@ -188,20 +187,6 @@ export default function Collections() {
 
         {/* Main content area */}
         <div className="flex-1">
-          {/* Search Form */}
-          <div className="w-full flex justify-center mt-5">
-            <form className="w-full max-w-7xl flex items-center">
-              <input
-                type="text"
-                className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg"
-                placeholder="Search for documents, research, and more..."
-              />
-              <button className="bg-[#0442B1] text-white px-6 py-2 text-lg ml-2 max-w-96">
-                Search
-              </button>
-            </form>
-          </div>
-
           {/* Browse by Department and Course Section */}
           <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
             <h2 className="text-3xl font-semibold mb-2">Browse by Department and Course</h2>
@@ -240,17 +225,28 @@ export default function Collections() {
         </div>
       </div>
 
-      {/* Footer Section */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-32">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <p className="text-sm">© {new Date().getFullYear()} Manggad. All rights reserved.</p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:underline">Privacy Policy</a>
-            <a href="#" className="hover:underline">Terms of Service</a>
-            <a href="#" className="hover:underline">Contact Us</a>
-          </div>
+      {/* Footer */}
+      <footer className="bg-[#0442B1] text-white py-4 mt-14">
+                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+                    <p className="text-sm">
+                        © {new Date().getFullYear()} Manggad. All rights reserved.
+                    </p>
+                    <div className="flex space-x-4">
+                    <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/about")}
+          >
+            About Us
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/contact")}
+          >
+            Contact Us
+          </a>
+                    </div>
+                </div>
+            </footer>
         </div>
-      </footer>
-    </div>
-  );
+	)
 }

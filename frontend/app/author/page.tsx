@@ -19,30 +19,7 @@ export default function AuthorsPage() {
 
   // Sample list of items to display based on alphabetical selection
   const items = [
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Elderberry",
-    "Fig",
-    "Grape",
-    "Honeydew",
-    "Kiwi",
-    "Lemon",
-    "Mango",
-    "Nectarine",
-    "Orange",
-    "Papaya",
-    "Quince",
-    "Raspberry",
-    "Strawberry",
-    "Tangerine",
-    "Ugli fruit",
-    "Vanilla",
-    "Watermelon",
-    "Xigua",
-    "Yellow Passion Fruit",
-    "Zucchini",
+    "A"
   ];
 
   // Function to toggle dropdown
@@ -110,9 +87,9 @@ export default function AuthorsPage() {
 
             {/* Profile Icon Button for Admin Login */}
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-              onClick={() => console.log("Login as admin")}
-            >
+							className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+							onClick={() => router.push("/login")}
+						>
               {/* SVG Icon for Person */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -159,8 +136,8 @@ export default function AuthorsPage() {
             </button>
             {openDropdown === "browse" && (
               <ul className="space-y-1">
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/search")}>Search Repository</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/discipline") }>Disciplines</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
               </ul>
             )}
@@ -179,7 +156,7 @@ export default function AuthorsPage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer">Author FAQ</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
               </ul>
             )}
           </div>
@@ -197,7 +174,6 @@ export default function AuthorsPage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a href="#" className="text-lg hover:underline cursor-pointer">Policies</a></li>
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact") }>Contact</a></li>
                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
@@ -208,27 +184,12 @@ export default function AuthorsPage() {
 
         {/* Main Content Area */}
         <div className="flex-1">
-          {/* Centered Search Field */}
-          <div className="w-full flex justify-center mt-5">
-            <form className="w-full max-w-7xl flex items-center">
-              {/* Input field takes most of the width */}
-              <input
-                type="text"
-                className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg"
-                placeholder="Search for documents, research, and more..."
-              />
-              {/* Search button on the right side of the input */}
-              <button className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96">
-                Search
-              </button>
-            </form>
-          </div>
 
           {/* About */}
           <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
             <h2 className="text-3xl font-semibold mb-2">Browse by Author</h2>
             <p className="text-lg text-gray-600 mb-4">
-            Here is a list of authors from La Consolacion College Bacolod who have works in this repository as of {formattedDate}. Click an author's name to see their work. For more details, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
+            Here is a list of authors from La Consolacion College Bacolod who have works in this repository as of {formattedDate}. Click an author&apos;s name to see their work. For more details, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
             </p>
           </div>
 
@@ -275,19 +236,28 @@ export default function AuthorsPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-14">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <p className="text-sm">
-            © {new Date().getFullYear()} Manggad. All rights reserved.
-          </p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:underline">Privacy Policy</a>
-            <a href="#" className="hover:underline">Terms of Service</a>
-            <a href="#" className="hover:underline">Contact Us</a>
-          </div>
+     {/* Footer */}
+     <footer className="bg-[#0442B1] text-white py-4 mt-14">
+                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+                    <p className="text-sm">
+                        © {new Date().getFullYear()} Manggad. All rights reserved.
+                    </p>
+                    <div className="flex space-x-4">
+                    <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/about")}
+          >
+            About Us
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/contact")}
+          >
+            Contact Us
+          </a>
+                    </div>
+                </div>
+            </footer>
         </div>
-      </footer>
-    </div>
-  );
+	)
 }

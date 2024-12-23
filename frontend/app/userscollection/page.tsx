@@ -3,24 +3,32 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function FaqPage() {
-  const router = useRouter();
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [openQuestion, setOpenQuestion] = useState<string | null>(null);
 
+export default function Collections() {
+  const router = useRouter();
+
+  // State for the dropdown and expand all feature
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandAll, setExpandAll] = useState(false);
+
+  // State for real-time clock and date
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
+    if (expandAll) setExpandAll(false); // If "Expand All" is active, turn it off when toggling a specific dropdown
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
   };
 
+  // Use useEffect to update the clock and date every second
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
+    }, 1000); // Updates every second
+    return () => clearInterval(interval); // Clear interval when component unmounts
   }, []);
 
+  // Format time as HH:MM:SS AM/PM
   const formattedTime = currentTime.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -28,6 +36,7 @@ export default function FaqPage() {
     hour12: true,
   });
 
+  // Format date as Month Day, Year (e.g., October 26, 2024)
   const formattedDate = currentTime.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -35,37 +44,56 @@ export default function FaqPage() {
     day: "numeric",
   });
 
-  const toggleQuestion = (question: string) => {
-    setOpenQuestion(openQuestion === question ? null : question);
+  // Dropdown items with unique subcategories
+  const dropdownItems = [
+    { name: "LCCB College Departments", subcategories: ["School of Architecture, Fine Arts & Interior Design", "School of Business and Information Technology ", "School of Hospitality and Tourism Management", "School of Sciences Liberal Arts and Teacher Education "] },
+    { name: "Theses and Dissertations", subcategories: ["Advertising Arts", "Architecture", "Culinary Arts", "Digital Media Arts", "Elementary Education", "English Language Studies", "Entertainment & Multimedia Computing", "Fashion Design", "Hospitality Management", "Human Resource Management", "Industrial Design", "Information Technology", "Interior Design", "Library & Information Science", "Marketing Management", "Psychology", "Studio Arts", "Tourism Management"]},
+  ];
+
+  // Toggle the expandAll state
+  const handleExpandAll = () => {
+    setExpandAll(!expandAll);
+    setOpenDropdown(null); // Reset any single open dropdown to avoid conflicts
   };
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      {/* Navbar */}
+      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center" >
         <div className="flex items-center">
-          <img
-            src="MANGGAD LOGO.png"
+          {/* Logo Image */}
+          <img src="MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
             className="h-32 w-32 mr-2" // Adjust height and width as needed
-    />
-    <div className="text-2xl font-extrabold">Manggad Research Repository</div>
+            />
+            <div className="text-2xl font-extrabold">Manggad Research Repository</div>
         </div>
+
+        {/* Centered Navigation Links and Real-time/ Admin section */}
         <div className="flex items-center space-x-8">
+          {/* Navigation Links */}
           <div className="flex space-x-5">
-            <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/home")}>Home</a>
-            <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/about")}>About</a>
-            <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/contact")}>Contact</a>
+            <a className="hover:underline cursor-pointer text-lg" onClick={() => router.push("/usershome") }>Home</a>
+            <a className="hover:underline text-lg" onClick={() => router.push("/usersabout") }>About</a>
+            <a className="hover:underline text-lg" onClick={() => router.push("/userscontact") }>Contact</a>
           </div>
+
+          {/* Divider Line */}
           <div className="border-l border-white h-10 mx-4"></div>
+
+          {/* Real-time Date, Time and Admin Button */}
           <div className="flex items-center space-x-4">
             <div className="font-mono text-lg text-right">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
+
+            {/* Profile Icon Button for Admin Login */}
             <button
-							className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
-							onClick={() => router.push("/login")}
-						>
+              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              onClick={() => console.log("Login as admin")}
+            >
+              {/* SVG Icon for Person */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -84,7 +112,8 @@ export default function FaqPage() {
           </div>
         </div>
       </nav>
-
+      
+      {/* Banner Image */}
       <div className="w-full">
         <img
           src="Librarysample.jpg"
@@ -111,8 +140,8 @@ export default function FaqPage() {
             {openDropdown === "browse" && (
               <ul className="space-y-1">
                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/search")}>Search Repository</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/collection") }>Collections</a></li>
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/author") }>Authors</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/userscollection") }>Collections</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/usersauthor") }>Authors</a></li>
               </ul>
             )}
           </div>
@@ -130,7 +159,8 @@ export default function FaqPage() {
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/faq")}>Author FAQ</a></li>
+                 <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/book/addBook") }>Submit Research</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/userfaq") }>Author FAQ</a></li>
               </ul>
             )}
           </div>
@@ -148,7 +178,7 @@ export default function FaqPage() {
             </button>
             {openDropdown === "connect" && (
               <ul className="space-y-1">
-                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/contact") }>Contact</a></li>
+                <li><a className="text-lg hover:underline cursor-pointer" onClick={() => router.push("/userscontact") }>Contact</a></li>
                 <li><a href="https://lcc.edu.ph/" className="text-lg hover:underline cursor-pointer">LCCB Website</a></li>
               </ul>
             )}
@@ -156,97 +186,47 @@ export default function FaqPage() {
         </div>
 
 
-        {/* Main Content Area */}
+        {/* Main content area */}
         <div className="flex-1">
-          {/* Centered Search Field */}
-          
+          {/* Browse by Department and Course Section */}
+          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
+            <h2 className="text-3xl font-semibold mb-2">Browse by Department and Course</h2>
+            <p className="text-lg text-gray-600 mb-4">
+              The content available here has been selected and deposited by individual departments. For more information, see <a href="#" className="text-blue-500 hover:underline">About the Repository</a>.
+            </p>
+            <button onClick={handleExpandAll} className="text-white text-lg bg-[#0442B1] px-4 py-2 rounded-md mb-2">
+              {expandAll ? "Collapse All" : "Expand All"}
+            </button>
 
-{/* FAQ Section */}
-<div className="mt-8 flex-1 w-full">
-  <h2 className="text-3xl font-semibold mb-4 text-[#0A379C] w-full max-w-7xl mx-auto">
-    Frequently Asked Questions
-  </h2>
-  <div className="w-full max-w-7xl ml-44"> {/* Div for alignment */}
-    <ul className="space-y-4">
-      {[
-        {
-          question: "What is Manggad: Research Repository Management System?",
-          answer: "Manggad is a web-based repository system designed to make theses and academic studies accessible to students and faculty at LCCB. It aims to provide a streamlined way to search, filter, and explore academic works."
-        },
-        {
-          question: "What are the primary features of the system?",
-          answer: (
-            <div>
-              <p>
-              ⦁ Online Accessibility: Students and faculty can access theses and academic studies from any device with an internet connection.
-              </p>
-              <p>
-              ⦁ Search and Filter Tools: Users can easily locate specific research papers by using keywords, publication dates, or department filters.
-              </p>
-              <p>⦁ Faculty Recommendations: Faculty members can mark and highlight recommended studies in the repository.</p>
-            </div>
-          )
-        },
-        { 
-          question: "Who can use the system?", 
-          answer: (
-            <div>
-              <p>
-              Students can use the system to search and view theses and academic studies, while faculty members have additional privileges such as marking recommended studies for reference.
-              </p>
-            </div>
-          )
-        },
-        { 
-          question: "How will Manggad promote the improvement of previous theses?", 
-          answer: (
-            <div>
-              <p>
-              By making previous works easily accessible and enabling faculty to recommend exemplary studies, Manggad encourages students to build on existing research, fostering academic growth and innovation.
-              </p>
-            </div>
-          )
-        },
-        { 
-          question: "When will the system be implemented?", 
-          answer: (
-            <div>
-              <p>
-              The system will be launched after full development and testing. It will also be formally introduced to the LCCB community to ensure awareness and adoption.
-              </p>
-            </div>
-          )
-        },
-        { 
-          question: "Can faculty and students contribute to the repository?", 
-          answer: (
-            <div>
-              <p>
-              Currently, only authorized personnel, such as faculty members or system administrators, can add new content to the repository. Students can only access and view the available resources.
-              </p>
-            </div>
-          )
-        },
-        // Add more FAQs here as needed
-      ].map(({ question, answer }, index) => (
-        <li key={index} className="ml-4"> {/* Align questions with margin */}
-          <a
-            className="text-lg text-[#0A379C] font-medium cursor-pointer underline"
-            onClick={() => toggleQuestion(question)}
-          >
-            {question}
-          </a>
-          {openQuestion === question && (
-            <div className="mt-2 text-gray-700 ml-4">{answer}</div> // Align answer with question
-          )}
-        </li>
-      ))}
-    </ul>
-  </div> {/* End of added div */}
-</div>
+            {/* Dropdown items with expand/collapse functionality */}
+            <ul className="space-y-2">
+              {dropdownItems.map((item, index) => (
+                <li key={index} className="border-b flex flex-col">
+                  {/* Expand/Collapse Icons */}
+                  <button
+                    onClick={() => toggleDropdown(item.name)}
+                    className="text-lg text-[#0442B1] bg-transparent hover:bg-inherit font-semibold py-2 w-full text-left" // Adjusted for full width
+                  >
+                    {/* Render + or - based on the dropdown state */}
+                    {openDropdown === item.name || expandAll ? '-' : '+'} {item.name}
+                  </button>
+                  {(openDropdown === item.name || expandAll) && (
+                    <ul className="ml-5 space-y-1 text-lg text-gray-700 font-semibold">
+                      {item.subcategories.map((sub, subIndex) => (
+                        <li key={subIndex}>
+                          <a href="#" className="hover:underline">{sub}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
+      {/* Footer */}
       <footer className="bg-[#0442B1] text-white py-4 mt-14">
                 <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
                     <p className="text-sm">
@@ -269,7 +249,5 @@ export default function FaqPage() {
                 </div>
             </footer>
         </div>
-  );
+	)
 }
-
-

@@ -2,7 +2,6 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
-import testRoutes from './routes/testRoutes';
 import bookRoutes from './routes/bookRoutes';
 import dotenv from 'dotenv';
 
@@ -47,8 +46,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use('/tests', testRoutes);
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 app.use('/books', bookRoutes);
 
 // basta pabalo nga gagana ah

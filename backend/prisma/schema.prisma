@@ -49,6 +49,7 @@ model Book {
   language         String?
   yearOfSubmission Int?
   coverImage       String?
+  recommendations  Int    @default(0)
 
   departmentId String?  @db.ObjectId
   programId    String?  @db.ObjectId
