@@ -4,6 +4,8 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import dotenv from "dotenv";
+import { createRouteHandler } from "uploadthing/express";
+import { uploadRouter } from "./uploadthing";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -47,6 +49,13 @@ app.use(cors());
 // Routes
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
+app.use(
+  "/api/uploadthing",
+  createRouteHandler({
+    router: uploadRouter,
+    config: {},
+  }),
+);
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {

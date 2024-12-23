@@ -42,15 +42,15 @@ export default function AboutPage() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       {/* Navbar */}
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
           <img
             src="MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="h-32 w-32 mr-2" // Adjust height and width as needed
+            className="mr-2 h-32 w-32" // Adjust height and width as needed
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -62,19 +62,19 @@ export default function AboutPage() {
           {/* Navigation Links */}
           <div className="flex space-x-5">
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/home")}
             >
               Home
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/about")}
             >
               About
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact
@@ -82,18 +82,18 @@ export default function AboutPage() {
           </div>
 
           {/* Divider Line */}
-          <div className="border-l border-white h-10 mx-4"></div>
+          <div className="mx-4 h-10 border-l border-white"></div>
 
           {/* Real-time Date, Time and Admin Button */}
           <div className="flex items-center space-x-4">
-            <div className="font-mono text-lg text-right">
+            <div className="text-right font-mono text-lg">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
 
             {/* Profile Icon Button for Admin Login */}
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
               onClick={() => console.log("Login as admin")}
             >
               {/* SVG Icon for Person */}
@@ -102,7 +102,7 @@ export default function AboutPage() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-800"
+                className="h-6 w-6 text-gray-800"
               >
                 <path
                   strokeLinecap="round"
@@ -121,22 +121,22 @@ export default function AboutPage() {
         <img
           src="Librarysample.jpg"
           alt="Banner"
-          className="w-full object-cover h-[200px]" // Adjust height as needed
+          className="h-[200px] w-full object-cover" // Adjust height as needed
         />
       </div>
 
       {/* Main Content with Sidebar under the banner */}
-      <div className="flex flex-1 ml-4">
+      <div className="ml-4 flex flex-1">
         {/* Sidebar - Under Banner and on Full Left */}
-        <div className="w-[250px] h-[428px] bg-white] p-4 border rounded-lg mt-5">
+        <div className="bg-white] mt-5 h-[428px] w-[250px] rounded-lg border p-4">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -155,7 +155,7 @@ export default function AboutPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/collection")}
                   >
                     Collections
@@ -163,7 +163,7 @@ export default function AboutPage() {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/author")}
                   >
                     Authors
@@ -177,10 +177,10 @@ export default function AboutPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("author")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -199,7 +199,7 @@ export default function AboutPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/faq")}
                   >
                     Author FAQ
@@ -213,10 +213,10 @@ export default function AboutPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("connect")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -235,7 +235,7 @@ export default function AboutPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/contact")}
                   >
                     Contact
@@ -244,7 +244,7 @@ export default function AboutPage() {
                 <li>
                   <a
                     href="https://lcc.edu.ph/"
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                   >
                     LCCB Website
                   </a>
@@ -259,12 +259,12 @@ export default function AboutPage() {
           {/* Centered Search Field */}
 
           {/* About */}
-          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
-            <div className="text-center max-w-4xl">
-              <h2 className="text-5xl text-left font-bold text-[#0A379C] mb-2">
+          <div className="mx-auto mt-5 max-w-7xl rounded-lg border px-4 py-2">
+            <div className="max-w-4xl text-center">
+              <h2 className="mb-2 text-left text-5xl font-bold text-[#0A379C]">
                 Manggad Research Repository
               </h2>
-              <p className="text-gray-600 text-xl text-justify mt-5 max-full">
+              <p className="max-full mt-5 text-justify text-xl text-gray-600">
                 A platform to store and share research and creative work from
                 students and researchers. It works with LCCB to make academic
                 resources easier to access.
@@ -275,20 +275,20 @@ export default function AboutPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-14">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <footer className="mt-14 bg-[#0442B1] py-4 text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
           <p className="text-sm">
             © {new Date().getFullYear()} Manggad. All rights reserved.
           </p>
           <div className="flex space-x-4">
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/about")}
             >
               About Us
             </a>
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact Us

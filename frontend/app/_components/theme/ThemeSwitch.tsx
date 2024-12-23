@@ -28,7 +28,7 @@ export default function ThemeSwitch() {
     // para mag switch ang theme pati ang button
     return (
       <button
-        className="bg-[#262832] rounded w-full"
+        className="w-full rounded bg-[#262832]"
         onClick={() => setTheme("light")}
       >
         {" "}
@@ -41,7 +41,7 @@ export default function ThemeSwitch() {
     // para mag switch ang theme pati ang button
     return (
       <button
-        className="bg-[#262832] rounded w-full"
+        className="w-full rounded bg-[#262832]"
         onClick={() => setTheme("dark")}
       >
         {" "}

@@ -5,8 +5,8 @@ const Footer = () => {
   const router = useRouter(); // Ensure the router is initialized here
 
   return (
-    <footer className="bg-[#0442B1] text-white py-4 mt-14">
-      <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+    <footer className="mt-14 bg-[#0442B1] py-4 text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
         <p className="text-sm">
           © {new Date().getFullYear()} Manggad. All rights reserved.
         </p>
@@ -19,7 +19,7 @@ const Footer = () => {
             About
           </a>
           <a
-            className="hover:underline cursor-pointer"
+            className="cursor-pointer hover:underline"
             onClick={() => router.push("/contact")}
           >
             Contact Us
