@@ -11,8 +11,12 @@ const Footer = () => {
           © {new Date().getFullYear()} Manggad. All rights reserved.
         </p>
         <div className="flex space-x-4">
-          <a href="#" className="hover:underline" onClick={() => router.push("/about")}>
-            About 
+          <a
+            href="#"
+            className="hover:underline"
+            onClick={() => router.push("/about")}
+          >
+            About
           </a>
           <a
             className="hover:underline cursor-pointer"
