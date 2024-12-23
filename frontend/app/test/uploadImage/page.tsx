@@ -1,45 +1,45 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 
 const UploadPage = () => {
-    const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        if (!file) return
-    
-        try {
-          const data = new FormData()
-          data.set('file', file)
-    
-          const res = await fetch('/api/upload', {
-            method: 'POST',
-            body: data
-          })
-          // handle the error
-          if (!res.ok) throw new Error(await res.text())
-        } catch (e: any) {
-          // Handle errors here
-          console.error(e)
-        }
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+
+    try {
+      const data = new FormData();
+      data.set("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+      // handle the error
+      if (!res.ok) throw new Error(await res.text());
+    } catch (e: any) {
+      // Handle errors here
+      console.error(e);
     }
+  };
 
-    return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <input
-                    type="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files?.[0] || null)}
-                />
-                <input type="submit" value="Upload" />
-            </form>
-        </div>
-    )
-}
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        <input
+          type="file"
+          name="file"
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
+        />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+  );
+};
 
-export default UploadPage
+export default UploadPage;
 
 // 'use client'
 
@@ -109,12 +109,12 @@ export default UploadPage
 //             <input type="file" onChange={handleImageChange} accept="image/*" />
 
 //             {previewImage && (
-//                 <img 
-//                     src={previewImage} 
-//                     alt="Uploaded image" 
-//                     width={200} 
-//                     height={200} 
-//                     style={{ objectFit: 'cover' }} 
+//                 <img
+//                     src={previewImage}
+//                     alt="Uploaded image"
+//                     width={200}
+//                     height={200}
+//                     style={{ objectFit: 'cover' }}
 //                 />
 //             )}
 
