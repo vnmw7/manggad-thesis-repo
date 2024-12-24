@@ -21,4 +21,4 @@ export const uploadRouter = {
   }),
 } satisfies FileRouter;
 
-export type uploadRouter = typeof uploadRouter;
+export type OurFileRouter  = typeof uploadRouter;
