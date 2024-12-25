@@ -50,15 +50,15 @@ export default function AuthorsPage() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       {/* Navbar */}
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
           <img
             src="MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="h-32 w-32 mr-2" // Adjust height and width as needed
+            className="mr-2 h-32 w-32" // Adjust height and width as needed
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -70,19 +70,19 @@ export default function AuthorsPage() {
           {/* Navigation Links */}
           <div className="flex space-x-5">
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/usershome")}
             >
               Home
             </a>
             <a
-              className="hover:underline text-lg"
+              className="text-lg hover:underline"
               onClick={() => router.push("/usersabout")}
             >
               About
             </a>
             <a
-              className="hover:underline text-lg"
+              className="text-lg hover:underline"
               onClick={() => router.push("/userscontact")}
             >
               Contact
@@ -90,18 +90,18 @@ export default function AuthorsPage() {
           </div>
 
           {/* Divider Line */}
-          <div className="border-l border-white h-10 mx-4"></div>
+          <div className="mx-4 h-10 border-l border-white"></div>
 
           {/* Real-time Date, Time and Admin Button */}
           <div className="flex items-center space-x-4">
-            <div className="font-mono text-lg text-right">
+            <div className="text-right font-mono text-lg">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
 
             {/* Profile Icon Button for Admin Login */}
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
               onClick={() => router.push("/login")}
             >
               {/* SVG Icon for Person */}
@@ -110,7 +110,7 @@ export default function AuthorsPage() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-800"
+                className="h-6 w-6 text-gray-800"
               >
                 <path
                   strokeLinecap="round"
@@ -129,22 +129,22 @@ export default function AuthorsPage() {
         <img
           src="Librarysample.jpg"
           alt="Banner"
-          className="w-full object-cover h-[200px]" // Adjust height as needed
+          className="h-[200px] w-full object-cover" // Adjust height as needed
         />
       </div>
 
       {/* Main Content with Sidebar under the banner */}
-      <div className="flex flex-1 ml-4">
+      <div className="ml-4 flex flex-1">
         {/* Sidebar - Under Banner and on Full Left */}
-        <div className="w-[250px] h-[428px] bg-white] p-4 border rounded-lg mt-5">
+        <div className="bg-white] mt-5 h-[428px] w-[250px] rounded-lg border p-4">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -163,7 +163,7 @@ export default function AuthorsPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/book/search")}
                   >
                     Search Repository
@@ -171,7 +171,7 @@ export default function AuthorsPage() {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/userscollection")}
                   >
                     Collections
@@ -179,7 +179,7 @@ export default function AuthorsPage() {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/usersauthor")}
                   >
                     Authors
@@ -193,10 +193,10 @@ export default function AuthorsPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("author")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -215,7 +215,7 @@ export default function AuthorsPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/book/addBook")}
                   >
                     Submit Research
@@ -223,7 +223,7 @@ export default function AuthorsPage() {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/usersfaq")}
                   >
                     Author FAQ
@@ -237,10 +237,10 @@ export default function AuthorsPage() {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("connect")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -259,7 +259,7 @@ export default function AuthorsPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/userscontact")}
                   >
                     Contact
@@ -268,7 +268,7 @@ export default function AuthorsPage() {
                 <li>
                   <a
                     href="https://lcc.edu.ph/"
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                   >
                     LCCB Website
                   </a>
@@ -281,9 +281,9 @@ export default function AuthorsPage() {
         {/* Main Content Area */}
         <div className="flex-1">
           {/* About */}
-          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
-            <h2 className="text-3xl font-semibold mb-2">Browse by Author</h2>
-            <p className="text-lg text-gray-600 mb-4">
+          <div className="mx-auto mt-5 max-w-7xl rounded-lg border px-4 py-2">
+            <h2 className="mb-2 text-3xl font-semibold">Browse by Author</h2>
+            <p className="mb-4 text-lg text-gray-600">
               Here is a list of authors from La Consolacion College Bacolod who
               have works in this repository as of {formattedDate}. Click an
               author&apos;s name to see their work. For more details, see{" "}
@@ -295,15 +295,15 @@ export default function AuthorsPage() {
           </div>
 
           {/* Alphabetical Selector Section */}
-          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
+          <div className="mx-auto mt-5 max-w-7xl rounded-lg border px-4 py-2">
             {/* Alphabetical Selector */}
-            <div className="flex justify-left space-x-2 mb-4">
+            <div className="justify-left mb-4 flex space-x-2">
               {Array.from(Array(26)).map((_, index) => {
                 const letter = String.fromCharCode(65 + index); // A-Z
                 return (
                   <span
                     key={letter}
-                    className={`text-lg cursor-pointer ${selectedLetter === letter ? "font-bold underline" : "text-[#0442B1]"} hover:underline`}
+                    className={`cursor-pointer text-lg ${selectedLetter === letter ? "font-bold underline" : "text-[#0442B1]"} hover:underline`}
                     onClick={() => setSelectedLetter(letter)}
                   >
                     {letter}
@@ -314,7 +314,7 @@ export default function AuthorsPage() {
 
             {/* Display selected letter */}
             <div className="mt-4 text-xl font-bold">
-              <span className="text-[#0442B1] text-3xl">{selectedLetter}</span>
+              <span className="text-3xl text-[#0442B1]">{selectedLetter}</span>
             </div>
 
             {/* Alphabetical List */}
@@ -325,7 +325,7 @@ export default function AuthorsPage() {
                   .map((item) => (
                     <span
                       key={item}
-                      className="text-lg underline hover:text-blue-600 cursor-pointer"
+                      className="cursor-pointer text-lg underline hover:text-blue-600"
                       onClick={() => console.log(`Clicked on ${item}`)} // Replace with your click handling logic
                     >
                       {item}
@@ -338,20 +338,20 @@ export default function AuthorsPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-14">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <footer className="mt-14 bg-[#0442B1] py-4 text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
           <p className="text-sm">
             © {new Date().getFullYear()} Manggad. All rights reserved.
           </p>
           <div className="flex space-x-4">
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/about")}
             >
               About Us
             </a>
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact Us

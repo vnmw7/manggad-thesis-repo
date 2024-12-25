@@ -59,19 +59,19 @@ export default function ViewBookPage() {
 
   if (!book)
     return (
-      <div className="w-full h-screen flex justify-center items-center">
+      <div className="flex h-screen w-full items-center justify-center">
         Loading...
       </div>
     );
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+    <div className="flex min-h-screen w-full flex-col">
+      <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           <img
             src="../MANGGAD LOGO.png"
             alt="Logo"
-            className="h-32 w-32 mr-2"
+            className="mr-2 h-32 w-32"
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -81,35 +81,35 @@ export default function ViewBookPage() {
         <div className="flex items-center space-x-8">
           <div className="flex space-x-5">
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/home")}
             >
               Home
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/about")}
             >
               About
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact
             </a>
           </div>
 
-          <div className="border-l border-white h-10 mx-4"></div>
+          <div className="mx-4 h-10 border-l border-white"></div>
 
           <div className="flex items-center space-x-4">
-            <div className="font-mono text-lg text-right">
+            <div className="text-right font-mono text-lg">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
 
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
               onClick={() => console.log("/login")}
             >
               <svg
@@ -117,7 +117,7 @@ export default function ViewBookPage() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-800"
+                className="h-6 w-6 text-gray-800"
               >
                 <path
                   strokeLinecap="round"
@@ -135,19 +135,19 @@ export default function ViewBookPage() {
         <img
           src="../Librarysample.jpg"
           alt="Banner"
-          className="w-full object-cover h-[200px]"
+          className="h-[200px] w-full object-cover"
         />
       </div>
 
-      <div className="flex flex-1 ml-4">
-        <div className="w-[250px] h-[428px] bg-white p-4 border rounded-lg mt-5">
+      <div className="ml-4 flex flex-1">
+        <div className="mt-5 h-[428px] w-[250px] rounded-lg border bg-white p-4">
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ export default function ViewBookPage() {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/collection")}
                   >
                     Collections
@@ -174,7 +174,7 @@ export default function ViewBookPage() {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/author")}
                   >
                     Authors
@@ -186,15 +186,15 @@ export default function ViewBookPage() {
         </div>
 
         <div className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-            <h1 className="text-4xl font-bold text-[#0442B1] mb-6">
+          <div className="mx-auto max-w-7xl rounded-lg bg-white p-8 shadow-lg">
+            <h1 className="mb-6 text-4xl font-bold text-[#0442B1]">
               {book.title}
             </h1>
 
             {/* Back Button */}
             <button
               onClick={router.back}
-              className="mb-6 bg-[#0442B1] text-white px-4 py-2 rounded-lg hover:bg-[#033391]"
+              className="mb-6 rounded-lg bg-[#0442B1] px-4 py-2 text-white hover:bg-[#033391]"
             >
               Back
             </button>
@@ -205,12 +205,12 @@ export default function ViewBookPage() {
                   <img
                     src={book.coverImage}
                     alt={book.title}
-                    className="w-full rounded-lg shadow-md mb-4"
+                    className="mb-4 w-full rounded-lg shadow-md"
                   />
                 )}
 
-                <h2 className="text-2xl font-semibold mb-3">Authors</h2>
-                <ul className="list-disc list-inside mb-6">
+                <h2 className="mb-3 text-2xl font-semibold">Authors</h2>
+                <ul className="mb-6 list-inside list-disc">
                   {book.authors.map((author, index) => (
                     <li key={index} className="text-lg">
                       {author.firstName} {author.lastName}
@@ -222,7 +222,7 @@ export default function ViewBookPage() {
               <div>
                 {book.abstract && (
                   <div className="mb-6">
-                    <h2 className="text-2xl font-semibold mb-2">Abstract</h2>
+                    <h2 className="mb-2 text-2xl font-semibold">Abstract</h2>
                     <p className="text-gray-700">{book.abstract}</p>
                   </div>
                 )}
@@ -255,8 +255,8 @@ export default function ViewBookPage() {
         </div>
       </div>
 
-      <footer className="bg-[#0442B1] text-white py-4 mt-14">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <footer className="mt-14 bg-[#0442B1] py-4 text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
           <p className="text-sm">
             © {new Date().getFullYear()} Manggad. All rights reserved.
           </p>

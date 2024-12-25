@@ -19,17 +19,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
         <div
-          className={`text-lg font-semibold mb-4 ${type === "error" ? "text-red-600" : "text-green-600"}`}
+          className={`mb-4 text-lg font-semibold ${type === "error" ? "text-red-600" : "text-green-600"}`}
         >
           {type === "error" ? "Error" : "Success"}
         </div>
-        <p className="text-gray-700 mb-4">{message}</p>
+        <p className="mb-4 text-gray-700">{message}</p>
         <button
           onClick={onClose}
-          className="w-full bg-[#0442B1] text-white py-2 rounded hover:bg-blue-600"
+          className="w-full rounded bg-[#0442B1] py-2 text-white hover:bg-blue-600"
         >
           Close
         </button>
@@ -203,20 +203,20 @@ const AddEditBookForm = (props: any) => {
   };
 
   return (
-    <div className="p-6 rounded-lg max-w-full mx-auto">
+    <div className="mx-auto max-w-full rounded-lg p-6">
       <Modal
         isOpen={modalState.isOpen}
         onClose={closeModal}
         message={modalState.message}
         type={modalState.type}
       />
-      <div className="flex gap-8 items-start">
+      <div className="flex items-start gap-8">
         {/* Form Section */}
         <form className="flex-1" onSubmit={handleSubmit}>
-          <h2 className="text-2xl font-semibold mb-4"> {props.heading} </h2>
+          <h2 className="mb-4 text-2xl font-semibold"> {props.heading} </h2>
           <div className="mb-4">
             <input
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="mt-1 w-full rounded border border-gray-300 p-2"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -225,18 +225,18 @@ const AddEditBookForm = (props: any) => {
 
           {/* Authors Section */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">
+            <label className="block font-medium text-gray-700">
               Author(s):
             </label>
             <div className="flex gap-2">
               <input
-                className="flex-1 p-2 border border-gray-300 rounded mt-1"
+                className="mt-1 flex-1 rounded border border-gray-300 p-2"
                 value={author_firstName}
                 onChange={(e) => setAuthor_firstName(e.target.value)}
                 placeholder="First Name"
               />
               <input
-                className="flex-1 p-2 border border-gray-300 rounded mt-1"
+                className="mt-1 flex-1 rounded border border-gray-300 p-2"
                 value={author_lastName}
                 onChange={(e) => setAuthor_lastName(e.target.value)}
                 placeholder="Last Name"
@@ -244,7 +244,7 @@ const AddEditBookForm = (props: any) => {
               <button
                 type="button"
                 onClick={addAuthor}
-                className="bg-[#0442B1] text-white px-4 py-2 rounded mt-1 hover:bg-blue-600"
+                className="mt-1 rounded bg-[#0442B1] px-4 py-2 text-white hover:bg-blue-600"
               >
                 Add Author(s)
               </button>
@@ -253,7 +253,7 @@ const AddEditBookForm = (props: any) => {
               {authors.map((author, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center mt-1"
+                  className="mt-1 flex items-center justify-between"
                 >
                   <span>
                     {author.firstName} {author.lastName}
@@ -261,7 +261,7 @@ const AddEditBookForm = (props: any) => {
                   <button
                     onClick={() => removeAuthor(index)}
                     type="button"
-                    className="text-white bg-red-700 w-[510px] hover:bg-red-500"
+                    className="w-[510px] bg-red-700 text-white hover:bg-red-500"
                   >
                     Remove
                   </button>
@@ -272,18 +272,18 @@ const AddEditBookForm = (props: any) => {
 
           {/* Advisors Section */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">
+            <label className="block font-medium text-gray-700">
               Advisor(s):
             </label>
             <div className="flex gap-2">
               <input
-                className="flex-1 p-2 border border-gray-300 rounded mt-1"
+                className="mt-1 flex-1 rounded border border-gray-300 p-2"
                 value={advisor_firstName}
                 onChange={(e) => setAdvisor_firstName(e.target.value)}
                 placeholder="First Name"
               />
               <input
-                className="flex-1 p-2 border border-gray-300 rounded mt-1"
+                className="mt-1 flex-1 rounded border border-gray-300 p-2"
                 value={advisor_lastName}
                 onChange={(e) => setAdvisor_lastName(e.target.value)}
                 placeholder="Last Name"
@@ -291,7 +291,7 @@ const AddEditBookForm = (props: any) => {
               <button
                 type="button"
                 onClick={addAdvisor}
-                className="bg-[#0442B1] text-white px-4 py-2 rounded mt-1 hover:bg-blue-600"
+                className="mt-1 rounded bg-[#0442B1] px-4 py-2 text-white hover:bg-blue-600"
               >
                 Add Advisor(s)
               </button>
@@ -300,7 +300,7 @@ const AddEditBookForm = (props: any) => {
               {advisors.map((advisor, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center mt-1"
+                  className="mt-1 flex items-center justify-between"
                 >
                   <span>
                     {advisor.firstName} {advisor.lastName}
@@ -308,7 +308,7 @@ const AddEditBookForm = (props: any) => {
                   <button
                     onClick={() => removeAdvisor(index)}
                     type="button"
-                    className="text-white bg-red-700 w-[510px] hover:bg-red-500"
+                    className="w-[510px] bg-red-700 text-white hover:bg-red-500"
                   >
                     Remove
                   </button>
@@ -319,35 +319,35 @@ const AddEditBookForm = (props: any) => {
 
           {/* Other Fields */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">Abstract:</label>
+            <label className="block font-medium text-gray-700">Abstract:</label>
             <textarea
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="mt-1 w-full rounded border border-gray-300 p-2"
               value={abstract}
               onChange={(e) => setAbstract(e.target.value)}
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">Language:</label>
+            <label className="block font-medium text-gray-700">Language:</label>
             <input
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="mt-1 w-full rounded border border-gray-300 p-2"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">Keywords:</label>
+            <label className="block font-medium text-gray-700">Keywords:</label>
             <input
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="mt-1 w-full rounded border border-gray-300 p-2"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium">
+            <label className="block font-medium text-gray-700">
               Published Year:
             </label>
             <input
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="mt-1 w-full rounded border border-gray-300 p-2"
               type="number"
               min="2010"
               max="3000"
@@ -358,16 +358,16 @@ const AddEditBookForm = (props: any) => {
 
           <button
             type="submit"
-            className="w-full bg-[#0442B1] text-white py-2 rounded hover:bg-blue-600 mt-4"
+            className="mt-4 w-full rounded bg-[#0442B1] py-2 text-white hover:bg-blue-600"
           >
             Add Book
           </button>
         </form>
 
         {/* Image Upload Section */}
-        <div className="w-72 flex flex-col items-center">
+        <div className="flex w-72 flex-col items-center">
           <div
-            className="w-full h-96 bg-cover bg-center rounded shadow-md mb-4"
+            className="mb-4 h-96 w-full rounded bg-cover bg-center shadow-md"
             style={{
               backgroundImage: `url(${selectedImage || "/defaults/defaultBookCover.png"})`,
             }}
@@ -382,7 +382,7 @@ const AddEditBookForm = (props: any) => {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="w-full bg-[#0442B1] text-white py-2 rounded hover:bg-blue-600"
+            className="w-full rounded bg-[#0442B1] py-2 text-white hover:bg-blue-600"
           >
             Choose Cover Image
           </button>

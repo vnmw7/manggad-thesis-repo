@@ -56,30 +56,30 @@ const SearchBookPage = () => {
   }, [initialQuery]);
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       <Header />
 
       {/* Main Content with Sidebar */}
-      <div className="flex flex-1 ml-4">
+      <div className="ml-4 flex flex-1">
         <SideNav />
 
         {/* Main Content Area */}
         <div className="flex-1 px-4">
           {/* search input */}
-          <div className="w-full flex justify-center mt-5">
+          <div className="mt-5 flex w-full justify-center">
             <form
-              className="w-full max-w-7xl flex items-center"
+              className="flex w-full max-w-7xl items-center"
               onSubmit={handleSubmit}
             >
               <input
                 type="text"
-                className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg"
+                className="w-full border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
                 placeholder="Search for documents, research, and more..."
                 value={searchQuery}
                 onChange={handleChange}
               />
               <button
-                className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96"
+                className="ml-2 max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
                 type="submit"
               >
                 {" "}
@@ -88,23 +88,23 @@ const SearchBookPage = () => {
             </form>
           </div>
 
-          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[930px]">
-            <div className="mt-1 max-w-7xl mx-auto">
+          <div className="mx-auto mt-5 h-[930px] max-w-7xl rounded-lg border px-4 py-2">
+            <div className="mx-auto mt-1 max-w-7xl">
               {/* book grid nga ga contain sng mga search results / books */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {books.map((Book) => (
                   <div
                     key={Book.id}
-                    className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400"
+                    className="overflow-clip rounded-lg border hover:cursor-pointer hover:border-neutral-400"
                     onClick={() => router.push(`/book/${Book.id}`)}
                   >
-                    <div className="px-4 py-2 grid grid-cols-2 grid-rows-2">
+                    <div className="grid grid-cols-2 grid-rows-2 px-4 py-2">
                       <p className="col-span-2"> {Book.title} </p>
                       <p className="row-start-2 text-neutral-600">
                         {" "}
                         {Book.yearOfSubmission}{" "}
                       </p>
-                      <div className="row-start-2 row-span-3 column-start-2 w-full h-full flex items-center justify-end">
+                      <div className="column-start-2 row-span-3 row-start-2 flex h-full w-full items-center justify-end">
                         <p
                           className={`pr-2 ${Book.recommendations > 0 ? "text-blue-700" : "text-neutral-200"}`}
                         >
@@ -128,7 +128,7 @@ const SearchBookPage = () => {
                         </svg>
                       </div>
                     </div>
-                    <div className="bg-neutral-200 w-full h-60 flex items-end justify-center relative group">
+                    <div className="group relative flex h-60 w-full items-end justify-center bg-neutral-200">
                       {" "}
                       {/* 💬[vincent]: nag gamit ko "group"(for the parent) kag "group-hover"(for its child) para mag ipa disappear ang text kng mag hover. */}
                       <div
@@ -137,7 +137,7 @@ const SearchBookPage = () => {
                           backgroundImage: `url(${Book.coverImage || "/defaults/defaultBookCover.png"})`,
                         }}
                       ></div>
-                      <p className="text-gray-600 absolute top-0 w-full h-full p-2 text-justify overflow-y-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="absolute top-0 h-full w-full overflow-y-hidden p-2 text-justify text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Sed do eiusmod tempor incididunt ut labore et dolore
                         magna aliqua.

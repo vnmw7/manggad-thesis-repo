@@ -11,7 +11,7 @@ const MobileHeader = () => {
 
   return (
     <div>
-      <div className="bg-slate-400 flex w-full fixed z-10 top-0 left-0">
+      <div className="fixed left-0 top-0 z-10 flex w-full bg-slate-400">
         {" "}
         {/* this is the container sang header. gn separate ko into 2 parts —— navigations and others*/}
         {/* ari d ang navigation. basta burger menu */}
@@ -36,7 +36,7 @@ const MobileHeader = () => {
 
       {/* amo ni ang burger menu. wala ko gn butang sa header kay ga adjust ang height ka header kng magpakita ni */}
       <ul
-        className={`bg-zinc-400 fixed z-[9] top-8 left-0 ${showNav ? "block navigationMenu-shown" : "hidden"}`}
+        className={`fixed left-0 top-8 z-[9] bg-zinc-400 ${showNav ? "navigationMenu-shown block" : "hidden"}`}
       >
         <li> Home </li>
         <li> Categories </li>

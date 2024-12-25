@@ -12,15 +12,15 @@ const SideNav = () => {
   };
 
   return (
-    <div className="w-[250px] h-[428px] bg-white] p-4 border rounded-lg mt-5">
+    <div className="bg-white] mt-5 h-[428px] w-[250px] rounded-lg border p-4">
       {/* BROWSE Section */}
       <div className="mb-4">
         <button
           onClick={() => toggleDropdown("browse")}
-          className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+          className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="mr-2 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -39,7 +39,7 @@ const SideNav = () => {
           <ul className="space-y-1">
             <li>
               <a
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
                 onClick={() => router.push("/book/search")}
               >
                 Search Repository
@@ -47,7 +47,7 @@ const SideNav = () => {
             </li>
             <li>
               <a
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
                 onClick={() => router.push("/collection")}
               >
                 Collections
@@ -55,7 +55,7 @@ const SideNav = () => {
             </li>
             <li>
               <a
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
                 onClick={() => router.push("/author")}
               >
                 Authors
@@ -69,10 +69,10 @@ const SideNav = () => {
       <div className="mb-4">
         <button
           onClick={() => toggleDropdown("author")}
-          className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+          className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="mr-2 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ const SideNav = () => {
           <ul className="space-y-1">
             <li>
               <a
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
                 onClick={() => router.push("/faq")}
               >
                 Author FAQ
@@ -105,10 +105,10 @@ const SideNav = () => {
       <div className="mb-4">
         <button
           onClick={() => toggleDropdown("connect")}
-          className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+          className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="mr-2 h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -127,7 +127,7 @@ const SideNav = () => {
           <ul className="space-y-1">
             <li>
               <a
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
                 onClick={() => router.push("/contact")}
               >
                 Contact
@@ -136,7 +136,7 @@ const SideNav = () => {
             <li>
               <a
                 href="https://lcc.edu.ph/"
-                className="text-lg hover:underline cursor-pointer"
+                className="cursor-pointer text-lg hover:underline"
               >
                 LCCB Website
               </a>
