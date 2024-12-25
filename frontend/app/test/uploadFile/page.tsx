@@ -2,24 +2,25 @@
 
 import { useState } from 'react';
 
+
 export default function UploadForm() {
   const [file, setFile] = useState<File | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
-    const response = await fetch('/api/upload', {
-      method: 'POST',
+    const res = await fetch("http://localhost:3001/test/upload", {
+      method: "POST",
       body: formData,
     });
 
-    const data = await response.json();
-    console.log(data); // Handle success or error
+    const responseFromServer = await res.json();
+    console.log(responseFromServer);
   };
 
   return (
