@@ -6,25 +6,23 @@ import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
 
 export default function AddBookPage() {
-	return (
-		<div className="w-full min-h-screen flex flex-col">
-			<Header />
+  return (
+    <div className="w-full min-h-screen flex flex-col">
+      <Header />
 
-			{/* Main Content with Sidebar under the banner */}
-			<div className="flex flex-1 ml-4">
-				<SideNav />
+      {/* Main Content with Sidebar under the banner */}
+      <div className="flex flex-1 ml-4">
+        <SideNav />
 
-				{/* Main Content Area */}
-				<div className="flex-1">
-					<div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
-						<AddEditBookForm
-							heading="Add Book / Repository"
-						/>
-					</div>
-				</div>
-			</div>
+        {/* Main Content Area */}
+        <div className="flex-1">
+          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto">
+            <AddEditBookForm heading="Add Book / Repository" />
+          </div>
+        </div>
+      </div>
 
-			<Footer />
-		</div>
-	);
+      <Footer />
+    </div>
+  );
 }
