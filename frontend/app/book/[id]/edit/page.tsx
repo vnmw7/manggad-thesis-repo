@@ -42,11 +42,11 @@ const EditBook = () => {
   console.log(`Current Book state:`, Book);
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       <Header />
 
       {/* Main Content with Sidebar under the banner */}
-      <div className="flex flex-1 ml-4">
+      <div className="ml-4 flex flex-1">
         <SideNav />
 
         <div className="flex-1">

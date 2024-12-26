@@ -50,29 +50,29 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       <Header />
       {/* Main Content with Sidebar */}
-      <div className="flex flex-1 ml-4">
+      <div className="flex flex-1 flex-col lg:flex-row">
         <SideNav />
 
         {/* Main Content Area */}
         <div className="flex-1 px-4">
           {/* Books Container */}
-          <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto min-h-[500px]">
-            <div className="mt-1 max-w-7xl mx-auto">
-              <h1 className="text-2xl font-semibold mb-4">
+          <div className="mx-auto mt-5 min-h-[500px] max-w-7xl rounded-lg border px-4 py-2">
+            <div className="mx-auto mt-1 max-w-7xl">
+              <h1 className="mb-4 text-2xl font-semibold">
                 Current Uploaded Books
               </h1>
               <button
-                className="mb-6 px-4 py-2 bg-[#0442B1] text-white rounded hover:bg-blue-700"
+                className="mb-6 rounded bg-[#0442B1] px-4 py-2 text-white hover:bg-blue-700"
                 onClick={() => router.push("/book/addBook")}
               >
                 Add Book
               </button>
 
               {/* Book Cards Grid */}
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 auto-rows-max">
+              <div className="grid auto-rows-max grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {books.map((book: Book) => (
                   <Card
                     key={book.id}
@@ -91,11 +91,11 @@ const Dashboard = () => {
                       </p>
                       <p>{book.yearOfSubmission}</p>
                     </CardContent>
-                    <CardActions className="justify-start p-2 gap-2">
+                    <CardActions className="justify-start gap-2 p-2">
                       <Button
                         size="small"
                         onClick={() => router.push(`/book/${book.id}`)}
-                        className="rounded-lg px-4 py-2 w-24 whitespace-nowrap cursor-pointer"
+                        className="w-24 cursor-pointer whitespace-nowrap rounded-lg px-4 py-2"
                         style={{
                           backgroundColor: "#2563eb",
                           color: "#ffffff",
@@ -106,7 +106,7 @@ const Dashboard = () => {
                       <Button
                         size="small"
                         onClick={() => router.push(`/book/${book.id}/edit`)}
-                        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                        className="w-24 cursor-pointer rounded-lg px-4 py-2"
                         style={{
                           backgroundColor: "#d1bf00",
                           color: "#ffffff",
@@ -117,7 +117,7 @@ const Dashboard = () => {
                       <Button
                         size="small"
                         onClick={() => deleteBook(book.id)}
-                        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                        className="w-24 cursor-pointer rounded-lg px-4 py-2"
                         style={{
                           backgroundColor: "#ff2323",
                           color: "#ffffff",
@@ -128,7 +128,7 @@ const Dashboard = () => {
                       <Button
                         size="small"
                         onClick={() => addRecommendation(book.id)}
-                        className="rounded-lg px-4 py-2 w-24 cursor-pointer"
+                        className="w-24 cursor-pointer rounded-lg px-4 py-2"
                         style={{
                           backgroundColor: "#d1bf00",
                           color: "#ffffff",

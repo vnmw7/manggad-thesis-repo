@@ -33,15 +33,15 @@ const Header = () => {
   return (
     <div>
       {/* Navbar */}
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
           <img
             src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="h-32 w-32 mr-2" // Adjust height and width as needed
+            className="mr-2 h-32 w-32 hidden lg:block" // Adjust height and width as needed
           />
-          <div className="text-2xl font-extrabold">
+          <div className="text-lg lg:text-2xl font-extrabold">
             Manggad Research Repository
           </div>
         </div>
@@ -51,19 +51,19 @@ const Header = () => {
           {/* Navigation Links */}
           <div className="flex space-x-5">
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/home")}
             >
               Home
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/about")}
             >
               About
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact
@@ -71,18 +71,18 @@ const Header = () => {
           </div>
 
           {/* Divider Line */}
-          <div className="border-l border-white h-10 mx-4"></div>
+          <div className="mx-4 h-10 border-l border-white hidden lg:block"></div>
 
           {/* Real-time Date, Time and Admin Button */}
           <div className="flex items-center space-x-4">
-            <div className="font-mono text-lg text-right">
+            <div className="text-right font-mono text-lg hidden lg:block">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
 
             {/* Profile Icon Button for Admin Login */}
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
               onClick={() => router.push("/login")}
             >
               {/* SVG Icon for Person */}
@@ -91,7 +91,7 @@ const Header = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-800"
+                className="h-6 w-6 text-gray-800"
               >
                 <path
                   strokeLinecap="round"
@@ -110,7 +110,7 @@ const Header = () => {
         <img
           src="/Librarysample.jpg"
           alt="Banner"
-          className="w-full object-cover h-[200px]" // Adjust height as needed
+          className="h-20 lg:h-[200px] w-full object-cover" // Adjust height as needed
         />
       </div>
     </div>

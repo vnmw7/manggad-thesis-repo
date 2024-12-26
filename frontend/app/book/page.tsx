@@ -71,14 +71,14 @@ const SearchBookPage = () => {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       {/* Navbar */}
-      <nav className="w-full bg-[#0442B1] text-white px-4 py-2 flex justify-between items-center">
+      <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           <img
             src="/MANGGAD LOGO.png"
             alt="Manggad Logo"
-            className="h-32 w-32 mr-2"
+            className="mr-2 h-32 w-32"
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -88,35 +88,35 @@ const SearchBookPage = () => {
         <div className="flex items-center space-x-8">
           <div className="flex space-x-5">
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/home")}
             >
               Home
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/about")}
             >
               About
             </a>
             <a
-              className="hover:underline cursor-pointer text-lg"
+              className="cursor-pointer text-lg hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact
             </a>
           </div>
 
-          <div className="border-l border-white h-10 mx-4"></div>
+          <div className="mx-4 h-10 border-l border-white"></div>
 
           <div className="flex items-center space-x-4">
-            <div className="font-mono text-lg text-right">
+            <div className="text-right font-mono text-lg">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
 
             <button
-              className="ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300"
+              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300"
               onClick={() => router.push("../login")}
             >
               <svg
@@ -124,7 +124,7 @@ const SearchBookPage = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-800"
+                className="h-6 w-6 text-gray-800"
               >
                 <path
                   strokeLinecap="round"
@@ -143,22 +143,22 @@ const SearchBookPage = () => {
         <img
           src="/Librarysample.jpg"
           alt="Banner"
-          className="w-full object-cover h-[200px]"
+          className="h-[200px] w-full object-cover"
         />
       </div>
 
       {/* Main Content with Sidebar */}
-      <div className="flex flex-1 ml-4">
+      <div className="ml-4 flex flex-1">
         {/* Sidebar */}
-        <div className="sticky top-5 w-[250px] bg-white p-4 border rounded-lg mt-5 self-start">
+        <div className="sticky top-5 mt-5 w-[250px] self-start rounded-lg border bg-white p-4">
           {/* BROWSE Section */}
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("browse")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -177,7 +177,7 @@ const SearchBookPage = () => {
               <ul className="space-y-1">
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/collection")}
                   >
                     Collections
@@ -185,7 +185,7 @@ const SearchBookPage = () => {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/discipline")}
                   >
                     Disciplines
@@ -193,7 +193,7 @@ const SearchBookPage = () => {
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/author")}
                   >
                     Authors
@@ -207,10 +207,10 @@ const SearchBookPage = () => {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("author")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -228,7 +228,7 @@ const SearchBookPage = () => {
             {openDropdown === "author" && (
               <ul className="space-y-1">
                 <li>
-                  <a className="text-lg hover:underline cursor-pointer">
+                  <a className="cursor-pointer text-lg hover:underline">
                     Author FAQ
                   </a>
                 </li>
@@ -240,10 +240,10 @@ const SearchBookPage = () => {
           <div className="mb-4">
             <button
               onClick={() => toggleDropdown("connect")}
-              className="bg-[#0442B1] text-white text-xl font-thin p-4 w-full text-left rounded-lg mb-2 flex items-center"
+              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
             >
               <svg
-                className="w-5 h-5 mr-2"
+                className="mr-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -263,14 +263,14 @@ const SearchBookPage = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                   >
                     Policies
                   </a>
                 </li>
                 <li>
                   <a
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/contact")}
                   >
                     Contact
@@ -279,7 +279,7 @@ const SearchBookPage = () => {
                 <li>
                   <a
                     href="https://lcc.edu.ph/"
-                    className="text-lg hover:underline cursor-pointer"
+                    className="cursor-pointer text-lg hover:underline"
                   >
                     LCCB Website
                   </a>
@@ -293,20 +293,20 @@ const SearchBookPage = () => {
         <Suspense fallback={<div>Loading search results...</div>}>
           <div className="flex-1 px-4">
             {/* search input */}
-            <div className="w-full flex justify-center mt-5">
+            <div className="mt-5 flex w-full justify-center">
               <form
-                className="w-full max-w-7xl flex items-center"
+                className="flex w-full max-w-7xl items-center"
                 onSubmit={handleSubmit}
               >
                 <input
                   type="text"
-                  className="border border-gray-300 placeholder:text-[#262832] px-4 py-2 w-full text-lg"
+                  className="w-full border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
                   placeholder="Search for documents, research, and more..."
                   value={searchQuery}
                   onChange={handleChange}
                 />
                 <button
-                  className="bg-[#0442B1] transition hover:bg-blue-600 text-white px-6 py-2 text-lg ml-2 max-w-96"
+                  className="ml-2 max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
                   type="submit"
                 >
                   {" "}
@@ -315,23 +315,23 @@ const SearchBookPage = () => {
               </form>
             </div>
 
-            <div className="mt-5 px-4 py-2 border rounded-lg max-w-7xl mx-auto h-[930px]">
-              <div className="mt-1 max-w-7xl mx-auto">
+            <div className="mx-auto mt-5 h-[930px] max-w-7xl rounded-lg border px-4 py-2">
+              <div className="mx-auto mt-1 max-w-7xl">
                 {/* book grid nga ga contain sng mga search results / books */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {books.map((result) => (
                     <div
                       key={result.id}
-                      className="border rounded-lg overflow-clip hover:cursor-pointer hover:border-neutral-400"
+                      className="overflow-clip rounded-lg border hover:cursor-pointer hover:border-neutral-400"
                       onClick={() => router.push(`/book/${result.id}`)}
                     >
-                      <div className="px-4 py-2 grid grid-cols-2 grid-rows-2">
+                      <div className="grid grid-cols-2 grid-rows-2 px-4 py-2">
                         <p className="col-span-2"> {result.title} </p>
                         <p className="row-start-2 text-neutral-600">
                           {" "}
                           {result.yearOfSubmission}{" "}
                         </p>
-                        <div className="row-start-2 row-span-3 column-start-2 w-full h-full flex items-center justify-end">
+                        <div className="column-start-2 row-span-3 row-start-2 flex h-full w-full items-center justify-end">
                           <p className="pr-2 text-neutral-200"> 0 </p>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -348,7 +348,7 @@ const SearchBookPage = () => {
                           </svg>
                         </div>
                       </div>
-                      <div className="bg-neutral-200 w-full h-60 flex items-end justify-center relative group">
+                      <div className="group relative flex h-60 w-full items-end justify-center bg-neutral-200">
                         {" "}
                         {/* 💬[vincent]: nag gamit ko "group"(for the parent) kag "group-hover"(for its child) para mag ipa disappear ang text kng mag hover. */}
                         <div
@@ -357,7 +357,7 @@ const SearchBookPage = () => {
                             backgroundImage: `url("/defaults/defaultBookCover.png")`,
                           }}
                         ></div>
-                        <p className="text-gray-600 absolute top-0 w-full h-full p-2 text-justify overflow-y-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="absolute top-0 h-full w-full overflow-y-hidden p-2 text-justify text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                           Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit. Sed do eiusmod tempor incididunt ut labore et
                           dolore magna aliqua.
@@ -373,20 +373,20 @@ const SearchBookPage = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#0442B1] text-white py-4 mt-14">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+      <footer className="mt-14 bg-[#0442B1] py-4 text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4">
           <p className="text-sm">
             © {new Date().getFullYear()} Manggad. All rights reserved.
           </p>
           <div className="flex space-x-4">
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/about")}
             >
               About Us
             </a>
             <a
-              className="hover:underline cursor-pointer"
+              className="cursor-pointer hover:underline"
               onClick={() => router.push("/contact")}
             >
               Contact Us

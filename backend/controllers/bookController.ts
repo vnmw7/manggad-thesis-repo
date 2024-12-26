@@ -93,7 +93,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
       },
     });
     res.json(books);
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "An error occurred while fetching books." });
   }
 };
@@ -119,7 +119,7 @@ export const getBookById = async (req: Request, res: Response) => {
     } else {
       res.status(404).json({ error: "Book not found." });
     }
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ error: "An error occurred while fetching the book." });
@@ -133,7 +133,7 @@ export const deleteBookById = async (req: Request, res: Response) => {
       where: { id: String(id) },
     });
     res.json({ message: "Book deleted successfully.", book });
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ error: "An error occurred while deleting the book." });
@@ -181,7 +181,7 @@ export const editBookById = async (req: Request, res: Response) => {
       },
     });
     res.json(updatedBook);
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({ error: "An error occurred while updating the book." });
@@ -236,7 +236,7 @@ export const addRecommendationCounter = async (req: Request, res: Response) => {
       },
     });
     res.json(updatedBook);
-  } catch (error) {
+  } catch {
     res
       .status(500)
       .json({

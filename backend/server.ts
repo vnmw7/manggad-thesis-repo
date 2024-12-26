@@ -4,6 +4,11 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import dotenv from "dotenv";
+import multer from "multer";
+
+
+// const variables
+const app = express();
 
 // Load environment variables from .env file
 dotenv.config();
@@ -35,10 +40,10 @@ main()
     process.exit(1);
   });
 
+
 // +--------------------+
 // +     Express        +
 // +--------------------
-const app = express();
 
 // Middleware
 app.use(express.json());
@@ -47,6 +52,28 @@ app.use(cors());
 // Routes
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
+
+const storage = multer.diskStorage({ // function
+  destination: function (req, file, cb) {
+    cb(null, `${__dirname}/uploads`)
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({ storage }); // destination sang uploaded file
+
+// with mutlter middleware --> upload.any()
+// 💬[vincent]: api endpoint para mag test sang upload
+app.post("/test/upload", upload.any(), (req, res) => { 
+  console.log(req.files); // Log the file information
+
+  if (!req.files) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  
+  res.json({ file: req.files });
+})
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {
