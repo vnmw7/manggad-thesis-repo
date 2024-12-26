@@ -10,28 +10,6 @@ import multer from "multer";
 // const variables
 const app = express();
 
-const storage = multer.diskStorage({ // function
-  destination: function (req, file, cb) {
-    cb(null, `${__dirname}/uploads`)
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-})
-const upload = multer({ storage }); // destination sang uploaded file
-
-// with mutlter middleware --> upload.any()
-// 💬[vincent]: api endpoint para mag test sang upload
-app.post("/test/upload", upload.any(), (req, res) => { 
-  console.log(req.files); // Log the file information
-  console.log(req.body)
-  if (!req.files) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
-  res.json({ file: req.files });
-})
-
-
 // Load environment variables from .env file
 dotenv.config();
 // .env variables
@@ -74,6 +52,28 @@ app.use(cors());
 // Routes
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
+
+const storage = multer.diskStorage({ // function
+  destination: function (req, file, cb) {
+    cb(null, `${__dirname}/uploads`)
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+const upload = multer({ storage }); // destination sang uploaded file
+
+// with mutlter middleware --> upload.any()
+// 💬[vincent]: api endpoint para mag test sang upload
+app.post("/test/upload", upload.any(), (req, res) => { 
+  console.log(req.files); // Log the file information
+
+  if (!req.files) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  
+  res.json({ file: req.files });
+})
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {

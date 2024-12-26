@@ -53,7 +53,7 @@ const Dashboard = () => {
     <div className="flex min-h-screen w-full flex-col">
       <Header />
       {/* Main Content with Sidebar */}
-      <div className="ml-4 flex flex-1">
+      <div className="flex flex-1 flex-col lg:flex-row">
         <SideNav />
 
         {/* Main Content Area */}

@@ -49,6 +49,7 @@ const AddEditBookForm = (props: any) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(
     props.Book?.coverImage || null,
   );
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [authors, setAuthors] = useState<Author[]>(props.Book?.authors || []);
@@ -107,15 +108,6 @@ const AddEditBookForm = (props: any) => {
       return;
     }
 
-    // if (!selectedImage) {
-    //     setModalState({
-    //         isOpen: true,
-    //         message: 'Please select a cover image',
-    //         type: 'error'
-    //     });
-    //     return;
-    // }
-
     const newBook = {
       id: props.Book?.id,
       title,
@@ -151,6 +143,20 @@ const AddEditBookForm = (props: any) => {
         message: "An error occurred while adding the book",
         type: "error",
       });
+    }
+
+    // upload pdf file sa backend kng may ara
+    if(pdfFile) {
+      const formData = new FormData();
+      formData.append("file", pdfFile);
+  
+      const res = await fetch("http://localhost:3001/test/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const responseFromServer = await res.json();
+      console.log(responseFromServer);
     }
   };
 
@@ -386,6 +392,7 @@ const AddEditBookForm = (props: any) => {
           >
             Choose Cover Image
           </button>
+          <input type="file" accept=".pdf" onChange={(e) => setPdfFile(e.target.files?.[0] || null)} />
         </div>
       </div>
     </div>
