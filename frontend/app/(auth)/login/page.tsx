@@ -11,7 +11,6 @@ const LoginPage = () => {
   });
   const [error, setError] = useState("");
 
-  // Notification creation function
   const createNotification = (message: string, type: string) => {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
@@ -50,6 +49,17 @@ const LoginPage = () => {
         to {
           transform: translateX(0);
           opacity: 1;
+        }
+      }
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
         }
       }
     `;
@@ -131,7 +141,8 @@ const LoginPage = () => {
         {/* Right Side - Login Form */}
         <div className="flex w-full flex-col items-center justify-center bg-white lg:w-1/2">
           <form
-            className="form-container w-full max-w-md space-y-4 rounded-lg bg-white p-8 shadow-lg"
+            className="form-container w-full max-w-md space-y-4 rounded-lg bg-white p-8 shadow-lg animate-bounce" // Added animation class
+            style={{ animation: 'bounce 1s' }} // Apply bounce animation
             onSubmit={loginUser}
           >
             <h1 className="mb-6 text-center text-2xl font-semibold text-[#0442B1]">
