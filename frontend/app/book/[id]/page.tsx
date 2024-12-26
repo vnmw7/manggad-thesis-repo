@@ -118,6 +118,15 @@ export default function ViewBookPage() {
                       </li>
                     ))}
                   </ul>
+
+                  <button
+                    className="rounded-lg bg-[#0442B1] px-4 py-2 text-white hover:bg-[#033391]"
+                    onClick={() => {
+                      window.open("http://localhost:3000/api/download/dummy", "_blank");
+                    }}
+                  > 
+                    Download PDF 
+                  </button>
                 </div>
               </div>
             </div>
