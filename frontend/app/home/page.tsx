@@ -12,7 +12,7 @@ export default function HomePage() {
       <Header />
 
       {/* Main Content with Sidebar under the banner */}
-      <div className="ml-4 flex flex-1">
+      <div className="flex flex-1 flex-col lg:flex-row">
         <SideNav />
 
         {/* Main Content Area */}
@@ -69,84 +69,86 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* First New Div Below the Carousel */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
-            <div className="max-w-4xl text-center">
-              <h2 className="mb-2 text-left text-5xl font-bold text-[#0A379C]">
-                The First Higher Education Institution in Negros Occidental
-              </h2>
-              <p className="max-full mt-5 text-justify text-xl text-gray-600">
-                Dive deep into various disciplines and explore a wealth of
-                knowledge contributed by our students and faculty. Our
-                repository houses documents, research papers, and valuable
-                resources curated for your academic and professional growth.
-              </p>
+          <div className="px-6 lg:px-0">
+            {/* First New Div Below the Carousel */}
+            <div className="m-0 lg:-ml-48 mt-8 flex w-full justify-center">
+              <div className="max-w-4xl text-center">
+                <h2 className="mb-2 text-left text-5xl font-bold text-[#0A379C]">
+                  The First Higher Education Institution in Negros Occidental
+                </h2>
+                <p className="max-full mt-5 text-justify text-xl text-gray-600">
+                  Dive deep into various disciplines and explore a wealth of
+                  knowledge contributed by our students and faculty. Our
+                  repository houses documents, research papers, and valuable
+                  resources curated for your academic and professional growth.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Second New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
-            <div className="max-w-4xl text-center">
-              <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
-                Founded by the Augustinian Sisters of our Lady of Consolation
-              </h2>
-              <p className="mt-5 text-justify text-xl text-gray-600">
-                La Consolacion College Bacolod was first established in 1919 by
-                the Augustinian Sisters from Spain under the leadership of Mo.
-                Rita Barcelo, OSA and Mo. Consuelo, OSA upon the invitation of a
-                Catholic Bishop to put up a school in Bacolod City, now the
-                capital of Negros Occidental, Philippines – one of the world’s
-                top suppliers of sugar at that time.
-              </p>
+            {/* Second New Div */}
+            <div className="m-0 lg:-ml-48 mt-8 flex w-full justify-center">
+              <div className="max-w-4xl text-center">
+                <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
+                  Founded by the Augustinian Sisters of our Lady of Consolation
+                </h2>
+                <p className="mt-5 text-justify text-xl text-gray-600">
+                  La Consolacion College Bacolod was first established in 1919 by
+                  the Augustinian Sisters from Spain under the leadership of Mo.
+                  Rita Barcelo, OSA and Mo. Consuelo, OSA upon the invitation of a
+                  Catholic Bishop to put up a school in Bacolod City, now the
+                  capital of Negros Occidental, Philippines – one of the world’s
+                  top suppliers of sugar at that time.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Third New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
-            <div className="max-w-4xl text-center">
-              <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
-                Pioneer in Education
-              </h2>
-              <p className="mt-5 text-justify text-xl text-gray-600">
-                With a campus located at the center of Bacolod City, the first
-                educational offerings of La Consolacion College Bacolod were
-                primary and intermediate school certificates.
-              </p>
+            {/* Third New Div */}
+            <div className="m-0 lg:-ml-48 mt-8 flex w-full justify-center">
+              <div className="max-w-4xl text-center">
+                <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
+                  Pioneer in Education
+                </h2>
+                <p className="mt-5 text-justify text-xl text-gray-600">
+                  With a campus located at the center of Bacolod City, the first
+                  educational offerings of La Consolacion College Bacolod were
+                  primary and intermediate school certificates.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Fourth New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
-            <div className="max-w-4xl text-center">
-              <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
-                School of Girls
-              </h2>
-              <p className="mt-5 text-justify text-xl text-gray-600">
-                The first students of La Consolacion College Bacolod were girls
-                from wealthy families of Negros Occidental until the 1960’s when
-                the provincial economy was hit by a global crisis in the sugar
-                industry, LCCB became co-educational and opened its doors to
-                provide greater access to education for the poor – reinforcing
-                its mission for evangelization through education.
-              </p>
+            {/* Fourth New Div */}
+            <div className="m-0 lg:-ml-48 mt-8 flex w-full justify-center">
+              <div className="max-w-4xl text-center">
+                <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
+                  School of Girls
+                </h2>
+                <p className="mt-5 text-justify text-xl text-gray-600">
+                  The first students of La Consolacion College Bacolod were girls
+                  from wealthy families of Negros Occidental until the 1960’s when
+                  the provincial economy was hit by a global crisis in the sugar
+                  industry, LCCB became co-educational and opened its doors to
+                  provide greater access to education for the poor – reinforcing
+                  its mission for evangelization through education.
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* Fifth New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
-            <div className="max-w-4xl text-center">
-              <h2 className="mb-2 text-justify text-3xl font-bold text-[#0A379C]">
-                Physical and Academic Advancement
-              </h2>
-              <p className="mt-5 text-justify text-xl text-gray-600">
-                There was a rapid growth of student population as educational
-                offerings and scholarship opportunities were increasingly
-                offered. The college pioneered the offering of architecture,
-                fine arts and interior design degree programs in addition to its
-                teacher education and commerce degrees. It was followed by the
-                offering of culinary, hospitality and tourism degree programs
-                which were also the first of their kind in the province.
-              </p>
+            {/* Fifth New Div */}
+            <div className="m-0 lg:-ml-48 mt-8 flex w-full justify-center">
+              <div className="max-w-4xl text-center">
+                <h2 className="mb-2 text-justify text-3xl font-bold text-[#0A379C]">
+                  Physical and Academic Advancement
+                </h2>
+                <p className="mt-5 text-justify text-xl text-gray-600">
+                  There was a rapid growth of student population as educational
+                  offerings and scholarship opportunities were increasingly
+                  offered. The college pioneered the offering of architecture,
+                  fine arts and interior design degree programs in addition to its
+                  teacher education and commerce degrees. It was followed by the
+                  offering of culinary, hospitality and tourism degree programs
+                  which were also the first of their kind in the province.
+                </p>
+              </div>
             </div>
           </div>
         </div>

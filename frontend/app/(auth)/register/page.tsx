@@ -98,7 +98,7 @@ const RegistrationPage = () => {
               </button>
             </div>
 
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center flex flex-col w-full items-center">
               <p className="text-gray-600"> Already have an account? </p>
               <button
                 className="secondary mt-2 font-medium text-[#0442B1]"
@@ -107,10 +107,16 @@ const RegistrationPage = () => {
                 Login
               </button>
               <button
-                className="tritiary mt-2 text-gray-500 hover:underline"
+                className="tritiary"
                 onClick={() => router.back()}
               >
                 Back
+              </button>
+              <button
+                className="fourtiary"
+                onClick={() => router.push("/admin")}
+              >
+                Bypass Authentication
               </button>
             </div>
           </form>

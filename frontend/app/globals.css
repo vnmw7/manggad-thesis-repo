@@ -16,6 +16,9 @@ button.secondary {
 button.tritiary {
   @apply my-1 w-fit rounded border border-transparent bg-transparent py-2 text-black hover:underline hover:shadow-none dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white;
 }
+button.fourtiary {
+  @apply my-1 w-fit rounded border border-transparent bg-transparent py-2 text-gray-500 hover:underline hover:shadow-none dark:border-primary-dark dark:text-primary-dark dark:hover:bg-primary-dark dark:hover:text-white;
+}
 
 input[type="text"],
 input[type="password"] {
