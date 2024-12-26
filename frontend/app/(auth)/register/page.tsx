@@ -9,6 +9,60 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
 
+  const createNotification = (message: string, type: string) => {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 4px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.5s ease-in-out;
+    `;
+
+    if (type === 'success') {
+      notification.style.backgroundColor = '#4CAF50';
+    } else if (type === 'error') {
+      notification.style.backgroundColor = '#f44336';
+    } else {
+      notification.style.backgroundColor = '#2196F3';
+    }
+
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.5s ease-in-out';
+      notification.style.transform = 'translateX(100%)';
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 500);
+    }, 3000);
+  };
+
   const newUser = {
     email,
     password,
@@ -18,6 +72,7 @@ const RegistrationPage = () => {
     e.preventDefault();
     if (password !== password) {
       setPasswordMatch(false);
+      createNotification('Passwords do not match!', 'error');
       return;
     }
 
@@ -31,11 +86,38 @@ const RegistrationPage = () => {
       });
 
       if (response.ok) {
-        router.push("/admin");
+        createNotification('Registration successful!', 'success');
+        setTimeout(() => {
+          router.push("/login");
+        }, 1500);
+      } else {
+        createNotification('Registration failed. Please try again.', 'error');
       }
     } catch (error) {
       console.error("Registration error:", error);
+      createNotification('An unexpected error occurred.', 'error');
     }
+  };
+
+  const handleLoginClick = () => {
+    createNotification('Redirecting to login...', 'info');
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
+  };
+
+  const handleBackClick = () => {
+    createNotification('Going back...', 'info');
+    setTimeout(() => {
+      router.back();
+    }, 1000);
+  };
+
+  const handleBypassClick = () => {
+    createNotification('Bypassing authentication...', 'success');
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
   };
 
   return (
@@ -78,9 +160,7 @@ const RegistrationPage = () => {
                 onChange={(e) => {
                   e.target.value !== password
                     ? setPasswordMatch(false)
-                    : setPasswordMatch(
-                        true,
-                      ); /* shortcut sng if else statement */
+                    : setPasswordMatch(true);
                 }}
               />
               <p
@@ -91,7 +171,6 @@ const RegistrationPage = () => {
               </p>
               <button
                 type="submit"
-                onClick={() => router.push("/admin")}
                 className="w-full rounded-md bg-[#0442B1] py-3 font-semibold text-white transition-colors duration-200 hover:bg-[#033b9b]"
               >
                 Register
@@ -101,20 +180,23 @@ const RegistrationPage = () => {
             <div className="mt-4 text-center flex flex-col w-full items-center">
               <p className="text-gray-600"> Already have an account? </p>
               <button
+                type="button"
                 className="secondary mt-2 font-medium text-[#0442B1]"
-                onClick={() => router.push("/login")}
+                onClick={handleLoginClick}
               >
                 Login
               </button>
               <button
+                type="button"
                 className="tritiary"
-                onClick={() => router.back()}
+                onClick={handleBackClick}
               >
                 Back
               </button>
               <button
+                type="button"
                 className="fourtiary"
-                onClick={() => router.push("/admin")}
+                onClick={handleBypassClick}
               >
                 Bypass Authentication
               </button>

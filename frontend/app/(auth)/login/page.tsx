@@ -11,6 +11,61 @@ const LoginPage = () => {
   });
   const [error, setError] = useState("");
 
+  // Notification creation function
+  const createNotification = (message: string, type: string) => {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 4px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.5s ease-in-out;
+    `;
+
+    if (type === 'success') {
+      notification.style.backgroundColor = '#4CAF50';
+    } else if (type === 'error') {
+      notification.style.backgroundColor = '#f44336';
+    } else {
+      notification.style.backgroundColor = '#2196F3';
+    }
+
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.5s ease-in-out';
+      notification.style.transform = 'translateX(100%)';
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 500);
+    }, 3000);
+  };
+
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(""); // Clear previous error
@@ -26,15 +81,41 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        router.push("/admin");
+        createNotification('Successfully logged in!', 'success');
+        setTimeout(() => {
+          router.push("/admin");
+        }, 1500);
       } else {
         const data = await response.json();
         setError(data.error);
+        createNotification(data.error || 'Login failed', 'error');
       }
     } catch (error) {
       console.error("Login error:", error);
       setError("An unexpected error occurred. Please try again.");
+      createNotification("An unexpected error occurred. Please try again.", 'error');
     }
+  };
+
+  const handleRegisterClick = () => {
+    createNotification('Redirecting to registration...', 'info');
+    setTimeout(() => {
+      router.push("/register");
+    }, 1000);
+  };
+
+  const handleBackClick = () => {
+    createNotification('Going back...', 'info');
+    setTimeout(() => {
+      router.push("/register");
+    }, 1000);
+  };
+
+  const handleBypassClick = () => {
+    createNotification('Bypassing authentication...', 'success');
+    setTimeout(() => {
+      router.push("/admin");
+    }, 1000);
   };
 
   return (
@@ -90,7 +171,6 @@ const LoginPage = () => {
               <button
                 type="submit"
                 className="w-full rounded-md bg-[#0442B1] py-3 font-semibold text-white transition-colors duration-200 hover:bg-[#033b9b]"
-                onClick={() => router.push("/usershome")}
               >
                 Login
               </button>
@@ -100,19 +180,22 @@ const LoginPage = () => {
               <p className="text-gray-600">Don&apos;t have an account?</p>
               <button
                 className="secondary mt-2 font-medium text-[#0442B1]"
-                onClick={() => router.push("/register")}
+                onClick={handleRegisterClick}
+                type="button"
               >
                 Register
               </button>
               <button
                 className="tritiary"
-                onClick={() => router.push("/register")}
+                onClick={handleBackClick}
+                type="button"
               >
                 Back
               </button>
               <button
                 className="fourtiary"
-                onClick={() => router.push("/admin")}
+                onClick={handleBypassClick}
+                type="button"
               >
                 Bypass Authentication
               </button>

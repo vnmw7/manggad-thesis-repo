@@ -7,22 +7,88 @@ export default function StartPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const createNotification = (message: string, type: string) => {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 4px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.5s ease-in-out;
+    `;
+
+    if (type === 'success') {
+      notification.style.backgroundColor = '#4CAF50';
+    } else if (type === 'error') {
+      notification.style.backgroundColor = '#f44336';
+    } else {
+      notification.style.backgroundColor = '#2196F3';
+    }
+
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.5s ease-in-out';
+      notification.style.transform = 'translateX(100%)';
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 500);
+    }, 3000);
+  };
+
   const handleSearch = () => {
-    router.push(`/book/search?query=${searchQuery}`);
+    if (!searchQuery.trim()) {
+      createNotification('Please enter a search query', 'error');
+      return;
+    }
+    createNotification('Searching...', 'info');
+    setTimeout(() => {
+      router.push(`/book/search?query=${searchQuery}`);
+    }, 1000);
+  };
+
+  const handleHomePage = () => {
+    createNotification('Redirecting to homepage...', 'success');
+    setTimeout(() => {
+      router.push("/home");
+    }, 1000);
   };
 
   return (
     <div className="flex h-[100vh]">
       {/* Left Side Background Image */}
       <div
-        className="h-full w-[50vw] bg-cover bg-no-repeat hidden lg:block" // Use vw (viewport width) for responsiveness
+        className="h-full w-[50vw] bg-cover bg-no-repeat hidden lg:block"
         style={{ backgroundImage: "url('/sample.jpg')" }}
       />
 
       {/* Right Side Logos and Text */}
       <div className="flex h-full w-full lg:w-[50vw] flex-col items-center bg-[#ffffff] px-4 sm:px-8 lg:px-16 overflow-y-auto justify-between">
-        {/* Responsive padding with px-4 for smaller screens */}
-
         {/* Logo Section */}
         <div className="mb-1 flex items-center">
           <div className="mt-8 h-24 aspect-square">
@@ -69,7 +135,7 @@ export default function StartPage() {
               </button>
               <button
                 className="w-64 rounded-lg bg-[#0442B1] px-4 py-2 text-white transition hover:bg-blue-600 lg:ml-2"
-                onClick={() => router.push("/home")}
+                onClick={handleHomePage}
               >
                 Go to Homepage
               </button>
