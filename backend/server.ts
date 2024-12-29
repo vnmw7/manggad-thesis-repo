@@ -4,7 +4,9 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import dotenv from "dotenv";
-import multer from "multer";
+import cloudinary from "./utils/cloudinary";
+import upload from "./middleware/multer";
+import { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 
 
 // const variables
@@ -53,27 +55,52 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
 
-const storage = multer.diskStorage({ // function
-  destination: function (req, file, cb) {
-    cb(null, `${__dirname}/uploads`)
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
+app.post("/upload", upload.single("pdf"), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "No file uploaded"
+    });
   }
+
+  cloudinary.uploader.upload(req.file.path, { folder: "manggad/pdf", resource_type: "raw" }, (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Error"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Uploaded!",
+      data: result
+    });
+  });
 })
-const upload = multer({ storage }); // destination sang uploaded file
+
+// const storage = multer.diskStorage({ // function
+//   destination: function (req, file, cb) {
+//     cb(null, `${__dirname}/uploads`)
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname)
+//   }
+// })
+// const upload = multer({ storage }); // destination sang uploaded file
 
 // with mutlter middleware --> upload.any()
 // 💬[vincent]: api endpoint para mag test sang upload
-app.post("/test/upload", upload.any(), (req, res) => { 
-  console.log(req.files); // Log the file information
+// app.post("/test/upload", upload.any(), (req, res) => { 
+//   console.log(req.files); // Log the file information
 
-  if (!req.files) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
+//   if (!req.files) {
+//     return res.status(400).json({ error: "No file uploaded" });
+//   }
   
-  res.json({ file: req.files });
-})
+//   res.json({ file: req.files });
+// })
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {
