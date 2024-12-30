@@ -146,15 +146,15 @@ const AddEditBookForm = (props: any) => {
     }
 
     // upload pdf file sa backend kng may ara
-    if(pdfFile) {
+    if (pdfFile) {
       const formData = new FormData();
-      formData.append("file", pdfFile);
-  
-      const res = await fetch("http://localhost:3001/test/upload", {
+      formData.append("pdf", pdfFile);
+
+      const res = await fetch("http://localhost:3001/upload/pdf", {
         method: "POST",
         body: formData,
       });
-  
+
       const responseFromServer = await res.json();
       console.log(responseFromServer);
     }
