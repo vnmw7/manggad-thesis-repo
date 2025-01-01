@@ -217,7 +217,31 @@ export const searchBooks = async (req: Request, res: Response) => {
           {
             keywords: {
               contains: word,
-              mode: "insensitive", // case insensitive
+              mode: "insensitive",
+            },
+          },
+          {
+            abstract: {
+              contains: word,
+              mode: "insensitive",
+            },
+          },
+          {
+            yearOfSubmission: {
+              contains: word,
+              mode: "insensitive",
+            },
+          },
+          {
+            departmentId: {
+              contains: word,
+              mode: "insensitive",
+            },
+          },
+          {
+            programId: {
+              contains: word,
+              mode: "insensitive",
             },
           },
         ]),
