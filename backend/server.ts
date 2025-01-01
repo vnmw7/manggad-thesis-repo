@@ -4,9 +4,7 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import bookRoutes from "./routes/bookRoutes";
 import dotenv from "dotenv";
-import cloudinary from "./utils/cloudinary";
-import upload from "./middleware/multer";
-import { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
+import uploadRouter from "./routes/uploadRoutes";
 
 
 // const variables
@@ -54,32 +52,7 @@ app.use(cors());
 // Routes
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
-
-// guide: https://www.youtube.com/watch?v=3Gj_mL9JJ6k
-app.post("/upload", upload.single("pdf"), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({
-      success: false,
-      message: "No file uploaded"
-    });
-  }
-
-  cloudinary.uploader.upload(req.file.path, { folder: "manggad/pdf", resource_type: "raw" }, (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
-    if (error) {
-      console.log(error);
-      return res.status(500).json({
-        success: false,
-        message: "Error"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Uploaded!",
-      data: result
-    });
-  });
-})
+app.use("/upload", uploadRouter);
 
 
 // basta pabalo nga gagana ah

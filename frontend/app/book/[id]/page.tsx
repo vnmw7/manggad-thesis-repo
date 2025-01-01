@@ -5,7 +5,6 @@ import { useRouter, useParams } from "next/navigation";
 import Header from "@/app/_components/Header";
 import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 
 interface Author {
   firstName: string;
@@ -73,11 +72,7 @@ export default function ViewBookPage() {
                 )}
 
                 {/* PDF viewer */}
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
-                  <div className="overflow-hidden">
-                    <Viewer fileUrl="/sample.pdf"/>
-                  </div>
-                </Worker>
+                <iframe src="https://res.cloudinary.com/ddmy7qqy1/raw/upload/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf" width="800" height="600" title="PDF Viewer"></iframe>
               </div>
 
               <div>
@@ -122,7 +117,7 @@ export default function ViewBookPage() {
                   <button
                     className="rounded-lg bg-[#0442B1] px-4 py-2 text-white hover:bg-[#033391]"
                     onClick={() => {
-                      window.open("http://localhost:3000/api/download/dummy", "_blank");
+                      window.open("https://res.cloudinary.com/ddmy7qqy1/raw/upload/fl_attachment/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf", "_blank");
                     }}
                   > 
                     Download PDF 
