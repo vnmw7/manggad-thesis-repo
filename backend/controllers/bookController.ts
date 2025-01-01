@@ -193,7 +193,10 @@ export const searchBooks = async (req: Request, res: Response) => {
   const { searchQuery } = req.body; // 💬[vincent]: nag sala ko kay dapat req.body, inde req.query
 
   if (!searchQuery) {
-    return res.status(400).json({ error: "searchQuery parameter is required" });
+    return res.status(400).json({
+      success: false,
+      error: "searchQuery parameter is required" 
+    });
   }
 
   try {
@@ -206,9 +209,16 @@ export const searchBooks = async (req: Request, res: Response) => {
         },
       },
     });
-    res.json(searchResults);
+    res.status(200).json({
+      success: true,
+      message: "Search successful",
+      data: searchResults
+    });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ 
+      success: false,
+      error
+    });
   }
 };
 

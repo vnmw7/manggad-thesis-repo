@@ -89,24 +89,25 @@ const AddEditBookForm = (props: any) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 💬[VINCENT]: gn remove ko anay ang validation para hapos mag add books pang test
     // Validation checks
-    if (authors.length === 0) {
-      setModalState({
-        isOpen: true,
-        message: "Please add at least one author",
-        type: "error",
-      });
-      return;
-    }
+    // if (authors.length === 0) {
+    //   setModalState({
+    //     isOpen: true,
+    //     message: "Please add at least one author",
+    //     type: "error",
+    //   });
+    //   return;
+    // }
 
-    if (advisors.length === 0) {
-      setModalState({
-        isOpen: true,
-        message: "Please add at least one advisor",
-        type: "error",
-      });
-      return;
-    }
+    // if (advisors.length === 0) {
+    //   setModalState({
+    //     isOpen: true,
+    //     message: "Please add at least one advisor",
+    //     type: "error",
+    //   });
+    //   return;
+    // }
 
     const newBook = {
       id: props.Book?.id,
