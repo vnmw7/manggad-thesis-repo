@@ -399,39 +399,29 @@ const AddEditBookForm = (props: any) => {
               onChange={(e) => setProgram(e.target.value)}
             >
               <option value="">--- Select Program ---</option>
-              <option value="Bachelor of Science in Architecture">
-                Bachelor of Science in Architecture
+              <option value="BS in Architecture">BS in Architecture</option>
+              <option value="BS in Fine Arts">BS in Fine Arts</option>
+              <option value="BS in Interior Design">
+                BS in Interior Design
               </option>
-              <option value="Bachelor of Science in Fine Arts">
-                Bachelor of Science in Fine Arts
+              <option value="BS in Business Administration">
+                BS in Business Administration
               </option>
-              <option value="Bachelor of Science in Interior Design">
-                Bachelor of Science in Interior Design
+              <option value="BS in Information Technology">
+                BS in Information Technology
               </option>
-              <option value="Bachelor of Science in Business Administration">
-                Bachelor of Science in Business Administration
+              <option value="BS in Hospitality Management">
+                BS in Hospitality Management
               </option>
-              <option value="Bachelor of Science in Information Technology">
-                Bachelor of Science in Information Technology
+              <option value="BS in Tourism Management">
+                BS in Tourism Management
               </option>
-              <option value="Bachelor of Science in Hospitality Management">
-                Bachelor of Science in Hospitality Management
+              <option value="BS in English">BS in English</option>
+              <option value="BS in Filipino">BS in Filipino</option>
+              <option value="BS in Basic Education">
+                BS in Basic Education
               </option>
-              <option value="Bachelor of Science in Tourism Management">
-                Bachelor of Science in Tourism Management
-              </option>
-              <option value="Bachelor of Science in English">
-                Bachelor of Science in English
-              </option>
-              <option value="Bachelor of Science in Filipino">
-                Bachelor of Science in Filipino
-              </option>
-              <option value="Bachelor of Science in Basic Education">
-                Bachelor of Science in Basic Education
-              </option>
-              <option value="Bachelor of Science in Psychology">
-                Bachelor of Science in Psychology
-              </option>
+              <option value="BS in Psychology">BS in Psychology</option>
             </select>
           </div>
 

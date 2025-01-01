@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -193,7 +193,7 @@ export const editBookById = async (req: Request, res: Response) => {
 };
 
 export const searchBooks = async (req: Request, res: Response) => {
-  const { searchQuery } = req.body; // 💬[vincent]: nag sala ko kay dapat req.body, inde req.query
+  const { searchQuery } = req.body;
 
   if (!searchQuery) {
     return res.status(400).json({
@@ -203,63 +203,69 @@ export const searchBooks = async (req: Request, res: Response) => {
   }
 
   try {
-    // 💬[vincent]: gn pa slplit ko na lang ang search query into words para kada words na lang ang ma search
     const searchWords = searchQuery
-      .replace(/[,.]/g, "") // 💬[vincent]: para madula ang commas, colons, kag period
+      .replace(/[,.]/g, "")
       .split(" ")
       .filter((word: string) => word.length > 0);
 
+    const conditions: Prisma.BookWhereInput[] = []; // Array to collect all search conditions
+
+    for (const word of searchWords) {
+      const year = parseInt(word);
+      if (!isNaN(year)) {
+        conditions.push({
+          yearOfSubmission: year,
+        });
+      } else {
+        conditions.push({
+          title: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput); // Cast the object to BookWhereInput
+        conditions.push({
+          keywords: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          abstract: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          department: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          program: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+      }
+    }
+
     const searchResults = await prisma.book.findMany({
       where: {
-        OR: searchWords.flatMap((word: string) => [
-          {
-            title: {
-              contains: word,
-              mode: "insensitive", // case insensitive
-            },
-          },
-          {
-            keywords: {
-              contains: word,
-              mode: "insensitive",
-            },
-          },
-          {
-            abstract: {
-              contains: word,
-              mode: "insensitive",
-            },
-          },
-          {
-            yearOfSubmission: {
-              contains: word,
-              mode: "insensitive",
-            },
-          },
-          {
-            department: {
-              contains: word,
-              mode: "insensitive",
-            },
-          },
-          {
-            program: {
-              contains: word,
-              mode: "insensitive",
-            },
-          },
-        ]),
+        OR: conditions, // Combine all conditions using OR
       },
     });
+
     res.status(200).json({
       success: true,
       message: "Search successful",
       data: searchResults,
     });
   } catch (error) {
+    console.error(error); // It is helpful to log the error for debugging
     res.status(500).json({
       success: false,
-      error,
+      error: "An error occurred during the search.", // Provide a generic error message to the client
     });
   }
 };
