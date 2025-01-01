@@ -201,18 +201,26 @@ export const searchBooks = async (req: Request, res: Response) => {
   try {
     // 💬[vincent]: gn pa slplit ko na lang ang search query into words para kada words na lang ang ma search
     const searchWords = searchQuery
-      .replace(/,/g, "") // 💬[vincent]: para madula ang commas
+      .replace(/[,.]/g, "") // 💬[vincent]: para madula ang commas kag period
       .split(" ")
       .filter((word: string) => word.length > 0);
 
     const searchResults = await prisma.book.findMany({
       where: {
-        OR: searchWords.map((word: string) => ({
-          title: {
-            contains: word,
-            mode: "insensitive", // case insensitive
+        OR: searchWords.flatMap((word: string) => [
+          {
+            title: {
+              contains: word,
+              mode: "insensitive", // case insensitive
+            },
           },
-        })),
+          {
+            keywords: {
+              contains: word,
+              mode: "insensitive", // case insensitive
+            },
+          },
+        ]),
       },
     });
     res.status(200).json({
