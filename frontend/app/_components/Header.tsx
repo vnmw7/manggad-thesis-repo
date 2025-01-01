@@ -39,9 +39,9 @@ const Header = () => {
           <img
             src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="mr-2 h-32 w-32 hidden lg:block" // Adjust height and width as needed
+            className="mr-2 hidden h-32 w-32 lg:block" // Adjust height and width as needed
           />
-          <div className="text-lg lg:text-2xl font-extrabold">
+          <div className="text-lg font-extrabold lg:text-2xl">
             Manggad Research Repository
           </div>
         </div>
@@ -71,11 +71,11 @@ const Header = () => {
           </div>
 
           {/* Divider Line */}
-          <div className="mx-4 h-10 border-l border-white hidden lg:block"></div>
+          <div className="mx-4 hidden h-10 border-l border-white lg:block"></div>
 
           {/* Real-time Date, Time and Admin Button */}
           <div className="flex items-center space-x-4">
-            <div className="text-right font-mono text-lg hidden lg:block">
+            <div className="hidden text-right font-mono text-lg lg:block">
               <div>{formattedDate}</div>
               <div>{formattedTime}</div>
             </div>
@@ -110,7 +110,7 @@ const Header = () => {
         <img
           src="/Librarysample.jpg"
           alt="Banner"
-          className="h-20 lg:h-[200px] w-full object-cover" // Adjust height as needed
+          className="h-20 w-full object-cover lg:h-[200px]" // Adjust height as needed
         />
       </div>
     </div>

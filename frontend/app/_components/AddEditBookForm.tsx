@@ -394,13 +394,18 @@ const AddEditBookForm = (props: any) => {
             Choose Cover Image
           </button>
           <div className="mt-2">
-            <label htmlFor="pdf-upload" className="block mb-1 font-medium text-gray-700">Upload PDF:</label>
-            <input 
-              type="file" 
+            <label
+              htmlFor="pdf-upload"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Upload PDF:
+            </label>
+            <input
+              type="file"
               name="pdf"
-              accept=".pdf" 
+              accept=".pdf"
               onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
-              className="w-full rounded border border-gray-300 p-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#0442B1] file:text-white hover:file:bg-blue-600" // Tailwind styles
+              className="w-full rounded border border-gray-300 p-2 file:mr-4 file:rounded file:border-0 file:bg-[#0442B1] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-600" // Tailwind styles
             />
           </div>
         </div>

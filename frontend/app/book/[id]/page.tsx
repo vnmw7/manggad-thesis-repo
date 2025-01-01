@@ -72,7 +72,12 @@ export default function ViewBookPage() {
                 )}
 
                 {/* PDF viewer */}
-                <iframe src="https://res.cloudinary.com/ddmy7qqy1/raw/upload/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf" width="800" height="600" title="PDF Viewer"></iframe>
+                <iframe
+                  src="https://res.cloudinary.com/ddmy7qqy1/raw/upload/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf"
+                  width="800"
+                  height="600"
+                  title="PDF Viewer"
+                ></iframe>
               </div>
 
               <div>
@@ -117,10 +122,13 @@ export default function ViewBookPage() {
                   <button
                     className="rounded-lg bg-[#0442B1] px-4 py-2 text-white hover:bg-[#033391]"
                     onClick={() => {
-                      window.open("https://res.cloudinary.com/ddmy7qqy1/raw/upload/fl_attachment/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf", "_blank");
+                      window.open(
+                        "https://res.cloudinary.com/ddmy7qqy1/raw/upload/fl_attachment/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf",
+                        "_blank",
+                      );
                     }}
-                  > 
-                    Download PDF 
+                  >
+                    Download PDF
                   </button>
                 </div>
               </div>

@@ -6,7 +6,6 @@ import bookRoutes from "./routes/bookRoutes";
 import dotenv from "dotenv";
 import uploadRouter from "./routes/uploadRoutes";
 
-
 // const variables
 const app = express();
 
@@ -40,7 +39,6 @@ main()
     process.exit(1);
   });
 
-
 // +--------------------+
 // +     Express        +
 // +--------------------
@@ -53,7 +51,6 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/books", bookRoutes);
 app.use("/upload", uploadRouter);
-
 
 // basta pabalo nga gagana ah
 app.listen(port, () => {

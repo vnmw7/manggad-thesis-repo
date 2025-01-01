@@ -36,7 +36,6 @@ const findOrCreateAdvisor = async (firstName: string, lastName: string) => {
   return advisor.id;
 };
 
-
 // +--------------------------------+
 // |        Main Controllers        |
 // +--------------------------------+
@@ -195,7 +194,7 @@ export const searchBooks = async (req: Request, res: Response) => {
   if (!searchQuery) {
     return res.status(400).json({
       success: false,
-      error: "searchQuery parameter is required" 
+      error: "searchQuery parameter is required",
     });
   }
 
@@ -212,12 +211,12 @@ export const searchBooks = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Search successful",
-      data: searchResults
+      data: searchResults,
     });
   } catch (error) {
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error
+      error,
     });
   }
 };
@@ -248,11 +247,9 @@ export const addRecommendationCounter = async (req: Request, res: Response) => {
     });
     res.json(updatedBook);
   } catch {
-    res
-      .status(500)
-      .json({
-        error: "An error occurred while updating the recommendation counter.",
-      });
+    res.status(500).json({
+      error: "An error occurred while updating the recommendation counter.",
+    });
   }
 };
 
