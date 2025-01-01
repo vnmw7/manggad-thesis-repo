@@ -122,6 +122,8 @@ const AddEditBookForm = (props: any) => {
       authors,
       advisors,
       coverImage: selectedImage,
+      department,
+      program,
     };
 
     try {

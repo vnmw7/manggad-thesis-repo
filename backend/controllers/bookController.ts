@@ -49,6 +49,8 @@ export const addBook = async (req: Request, res: Response) => {
     authors,
     advisors,
     coverImage,
+    department,
+    program,
   } = req.body;
 
   // gamit promise para mahultanay matapus anay ang mga execution sa promises
@@ -75,6 +77,8 @@ export const addBook = async (req: Request, res: Response) => {
       authorIds,
       advisorIds,
       coverImage,
+      department,
+      program,
     },
   });
   res.json(test);
@@ -147,6 +151,8 @@ export const editBookById = async (req: Request, res: Response) => {
     authors,
     advisors,
     coverImage,
+    department,
+    program,
   } = req.body;
 
   try {
@@ -174,6 +180,8 @@ export const editBookById = async (req: Request, res: Response) => {
         authorIds,
         advisorIds,
         coverImage,
+        department,
+        program,
       },
     });
     res.json(updatedBook);
@@ -229,13 +237,13 @@ export const searchBooks = async (req: Request, res: Response) => {
             },
           },
           {
-            departmentId: {
+            department: {
               contains: word,
               mode: "insensitive",
             },
           },
           {
-            programId: {
+            program: {
               contains: word,
               mode: "insensitive",
             },
