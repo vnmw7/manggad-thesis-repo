@@ -38,7 +38,7 @@ const SearchBookPage = () => {
     });
     const searchResults = await response.json();
     console.log(`Received search results: ${searchResults}`);
-    getBooks(searchResults);
+    getBooks(searchResults.data);
   };
 
   useEffect(() => {

@@ -3,7 +3,6 @@ import { Router } from "express";
 import { uploadController } from "../controllers/uploadController";
 import upload from "../middleware/multer";
 
-
 const uploadRouter = Router();
 
 uploadRouter.post("/pdf", upload.single("pdf"), uploadController.uploadPdf);

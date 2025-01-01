@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import MobileHeader from "@/app/_components/MobileHeader"
+import MobileHeader from "@/app/_components/MobileHeader";
 
 const MobileHeaderTestPage = () => {
   return (
     <div>
-        <MobileHeader />
+      <MobileHeader />
     </div>
-  )
-}
+  );
+};
 
-export default MobileHeaderTestPage
+export default MobileHeaderTestPage;

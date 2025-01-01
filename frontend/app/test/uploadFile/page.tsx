@@ -1,7 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-
+import { useState } from "react";
 
 export default function UploadForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +24,11 @@ export default function UploadForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={(e) => setFile(e.target.files?.[0] || null)}
+      />
       <button type="submit">Upload</button>
     </form>
   );

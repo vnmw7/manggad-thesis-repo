@@ -43,6 +43,9 @@ const AddEditBookForm = (props: any) => {
   const [abstract, setAbstract] = useState(props.Book?.abstract || "");
   const [keywords, setKeywords] = useState(props.Book?.keywords || "");
   const [language, setLanguage] = useState(props.Book?.language || "");
+  const [department, setDepartment] = useState(props.Book?.department || "");
+  const [program, setProgram] = useState(props.Book?.program || "");
+
   const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(
     props.Book?.yearOfSubmission || null,
   );
@@ -89,24 +92,25 @@ const AddEditBookForm = (props: any) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 💬[VINCENT]: gn remove ko anay ang validation para hapos mag add books pang test
     // Validation checks
-    if (authors.length === 0) {
-      setModalState({
-        isOpen: true,
-        message: "Please add at least one author",
-        type: "error",
-      });
-      return;
-    }
+    // if (authors.length === 0) {
+    //   setModalState({
+    //     isOpen: true,
+    //     message: "Please add at least one author",
+    //     type: "error",
+    //   });
+    //   return;
+    // }
 
-    if (advisors.length === 0) {
-      setModalState({
-        isOpen: true,
-        message: "Please add at least one advisor",
-        type: "error",
-      });
-      return;
-    }
+    // if (advisors.length === 0) {
+    //   setModalState({
+    //     isOpen: true,
+    //     message: "Please add at least one advisor",
+    //     type: "error",
+    //   });
+    //   return;
+    // }
 
     const newBook = {
       id: props.Book?.id,
@@ -118,6 +122,8 @@ const AddEditBookForm = (props: any) => {
       authors,
       advisors,
       coverImage: selectedImage,
+      department,
+      program,
     };
 
     try {
@@ -361,6 +367,63 @@ const AddEditBookForm = (props: any) => {
               onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}
             />
           </div>
+          <div>
+            <label className="block font-medium text-gray-700">
+              Department
+            </label>
+            <select
+              className="mt-1 w-full rounded border border-gray-300 p-2"
+              name="department"
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="">--- Select Department ---</option>
+              <option value="School of Architecture, Fine Arts, and Interior Design (SARFAID)">
+                School of Architecture, Fine Arts, and Interior Design (SARFAID)
+              </option>
+              <option value="School of Business and Information Technology (SBIT)">
+                School of Business and Information Technology (SBIT)
+              </option>
+              <option value="School of Hospitality and Tourism Management (SHTM)">
+                School of Hospitality and Tourism Management (SHTM)
+              </option>
+              <option value="School of Sciences, Liberal Arts, and Teacher Education (SSLATE)">
+                School of Sciences, Liberal Arts, and Teacher Education (SSLATE)
+              </option>
+            </select>
+          </div>
+          <div>
+            <label className="block font-medium text-gray-700"> Program </label>
+            <select
+              className="mt-1 w-full rounded border border-gray-300 p-2"
+              name="program"
+              onChange={(e) => setProgram(e.target.value)}
+            >
+              <option value="">--- Select Program ---</option>
+              <option value="BS in Architecture">BS in Architecture</option>
+              <option value="BS in Fine Arts">BS in Fine Arts</option>
+              <option value="BS in Interior Design">
+                BS in Interior Design
+              </option>
+              <option value="BS in Business Administration">
+                BS in Business Administration
+              </option>
+              <option value="BS in Information Technology">
+                BS in Information Technology
+              </option>
+              <option value="BS in Hospitality Management">
+                BS in Hospitality Management
+              </option>
+              <option value="BS in Tourism Management">
+                BS in Tourism Management
+              </option>
+              <option value="BS in English">BS in English</option>
+              <option value="BS in Filipino">BS in Filipino</option>
+              <option value="BS in Basic Education">
+                BS in Basic Education
+              </option>
+              <option value="BS in Psychology">BS in Psychology</option>
+            </select>
+          </div>
 
           <button
             type="submit"
@@ -393,13 +456,18 @@ const AddEditBookForm = (props: any) => {
             Choose Cover Image
           </button>
           <div className="mt-2">
-            <label htmlFor="pdf-upload" className="block mb-1 font-medium text-gray-700">Upload PDF:</label>
-            <input 
-              type="file" 
+            <label
+              htmlFor="pdf-upload"
+              className="mb-1 block font-medium text-gray-700"
+            >
+              Upload PDF:
+            </label>
+            <input
+              type="file"
               name="pdf"
-              accept=".pdf" 
+              accept=".pdf"
               onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
-              className="w-full rounded border border-gray-300 p-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#0442B1] file:text-white hover:file:bg-blue-600" // Tailwind styles
+              className="w-full rounded border border-gray-300 p-2 file:mr-4 file:rounded file:border-0 file:bg-[#0442B1] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-600" // Tailwind styles
             />
           </div>
         </div>

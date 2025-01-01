@@ -11,7 +11,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         {/* <SessionProviderWrapper> */}
-          <ThemedElement> {children} </ThemedElement>
+        <ThemedElement> {children} </ThemedElement>
         {/* </SessionProviderWrapper> */}
       </body>
     </html>
