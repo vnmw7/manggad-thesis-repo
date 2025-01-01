@@ -43,6 +43,9 @@ const AddEditBookForm = (props: any) => {
   const [abstract, setAbstract] = useState(props.Book?.abstract || "");
   const [keywords, setKeywords] = useState(props.Book?.keywords || "");
   const [language, setLanguage] = useState(props.Book?.language || "");
+  const [department, setDepartment] = useState(props.Book?.department || "");
+  const [program, setProgram] = useState(props.Book?.program || "");
+
   const [yearOfSubmission, setYearOfSubmission] = useState<number | null>(
     props.Book?.yearOfSubmission || null,
   );
@@ -361,6 +364,73 @@ const AddEditBookForm = (props: any) => {
               value={yearOfSubmission ?? ""}
               onChange={(e) => setYearOfSubmission(parseInt(e.target.value))}
             />
+          </div>
+          <div>
+            <label className="block font-medium text-gray-700">
+              Department
+            </label>
+            <select
+              className="mt-1 w-full rounded border border-gray-300 p-2"
+              name="department"
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="">--- Select Department ---</option>
+              <option value="School of Architecture, Fine Arts, and Interior Design (SARFAID)">
+                School of Architecture, Fine Arts, and Interior Design (SARFAID)
+              </option>
+              <option value="School of Business and Information Technology (SBIT)">
+                School of Business and Information Technology (SBIT)
+              </option>
+              <option value="School of Hospitality and Tourism Management (SHTM)">
+                School of Hospitality and Tourism Management (SHTM)
+              </option>
+              <option value="School of Sciences, Liberal Arts, and Teacher Education (SSLATE)">
+                School of Sciences, Liberal Arts, and Teacher Education (SSLATE)
+              </option>
+            </select>
+          </div>
+          <div>
+            <label className="block font-medium text-gray-700"> Program </label>
+            <select
+              className="mt-1 w-full rounded border border-gray-300 p-2"
+              name="program"
+              onChange={(e) => setProgram(e.target.value)}
+            >
+              <option value="">--- Select Program ---</option>
+              <option value="Bachelor of Science in Architecture">
+                Bachelor of Science in Architecture
+              </option>
+              <option value="Bachelor of Science in Fine Arts">
+                Bachelor of Science in Fine Arts
+              </option>
+              <option value="Bachelor of Science in Interior Design">
+                Bachelor of Science in Interior Design
+              </option>
+              <option value="Bachelor of Science in Business Administration">
+                Bachelor of Science in Business Administration
+              </option>
+              <option value="Bachelor of Science in Information Technology">
+                Bachelor of Science in Information Technology
+              </option>
+              <option value="Bachelor of Science in Hospitality Management">
+                Bachelor of Science in Hospitality Management
+              </option>
+              <option value="Bachelor of Science in Tourism Management">
+                Bachelor of Science in Tourism Management
+              </option>
+              <option value="Bachelor of Science in English">
+                Bachelor of Science in English
+              </option>
+              <option value="Bachelor of Science in Filipino">
+                Bachelor of Science in Filipino
+              </option>
+              <option value="Bachelor of Science in Basic Education">
+                Bachelor of Science in Basic Education
+              </option>
+              <option value="Bachelor of Science in Psychology">
+                Bachelor of Science in Psychology
+              </option>
+            </select>
           </div>
 
           <button

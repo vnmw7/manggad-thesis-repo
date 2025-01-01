@@ -86,8 +86,6 @@ export const getAllBooks = async (req: Request, res: Response) => {
       include: {
         authors: true,
         advisors: true,
-        department: true,
-        program: true,
         school: true,
         uploadedBy: true,
       },
@@ -107,8 +105,6 @@ export const getBookById = async (req: Request, res: Response) => {
       include: {
         authors: true,
         advisors: true,
-        department: true,
-        program: true,
         school: true,
         uploadedBy: true,
       },
@@ -201,7 +197,7 @@ export const searchBooks = async (req: Request, res: Response) => {
   try {
     // 💬[vincent]: gn pa slplit ko na lang ang search query into words para kada words na lang ang ma search
     const searchWords = searchQuery
-      .replace(/[,.]/g, "") // 💬[vincent]: para madula ang commas kag period
+      .replace(/[,.]/g, "") // 💬[vincent]: para madula ang commas, colons, kag period
       .split(" ")
       .filter((word: string) => word.length > 0);
 

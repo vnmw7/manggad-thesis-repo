@@ -30,9 +30,7 @@ model User {
 
   uploadIds Book[]
 
-  program     Program?    @relation(fields: [programId], references: [id])
-  role        Role?       @relation(fields: [roleId], references: [id])
-  departnment Department? @relation(fields: [departmentId], references: [id])
+  role Role? @relation(fields: [roleId], references: [id])
 }
 
 model Role {
@@ -48,24 +46,22 @@ model Book {
   keywords         String?
   language         String?
   yearOfSubmission Int?
+  department       String?
+  program          String?
   coverImage       String?
   pdfUrl           String?
   pdfDownloadLink  String?
   recommendations  Int     @default(0)
 
-  departmentId String?  @db.ObjectId
-  programId    String?  @db.ObjectId
   schoolId     String?  @db.ObjectId
   uploadedById String?  @db.ObjectId
   authorIds    String[] @db.ObjectId
   advisorIds   String[] @db.ObjectId
 
-  department Department? @relation(fields: [departmentId], references: [id])
-  program    Program?    @relation(fields: [programId], references: [id])
-  school     School?     @relation(fields: [schoolId], references: [id])
-  uploadedBy User?       @relation(fields: [uploadedById], references: [id])
-  authors    Author[]    @relation(fields: [authorIds], references: [id])
-  advisors   Advisor[]   @relation(fields: [advisorIds], references: [id])
+  school     School?   @relation(fields: [schoolId], references: [id])
+  uploadedBy User?     @relation(fields: [uploadedById], references: [id])
+  authors    Author[]  @relation(fields: [authorIds], references: [id])
+  advisors   Advisor[] @relation(fields: [advisorIds], references: [id])
 }
 
 model Author {
@@ -82,20 +78,6 @@ model Advisor {
   lastName  String
   bookIds   String[] @db.ObjectId // many advisors to many researches
   books     Book[]   @relation(fields: [bookIds], references: [id])
-}
-
-model Department {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  bookIds Book[] // one department to many researches
-  userIds User[] // one department to many users
-}
-
-model Program {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  bookIds Book[] // one department to many researches
-  userIds User[] // one department to many users
 }
 
 model School {
