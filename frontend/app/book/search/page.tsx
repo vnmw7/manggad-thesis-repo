@@ -1,12 +1,26 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/_components/Header";
 import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
 
+interface FilterCheckboxStatus {
+  [key: string]: boolean;
+}
+
 const SearchBookPage = () => {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("query") || "";
+  const router = useRouter();
+
   const [books, getBooks] = useState<
     {
       id: number;
@@ -18,26 +32,72 @@ const SearchBookPage = () => {
       keywords: string;
     }[]
   >([]);
-  const searchParams = useSearchParams();
-  const initialQuery = searchParams.get("query") || "";
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    year: "",
-  });
+  const [filterYear, setFilterYear] = useState("");
 
-  const router = useRouter();
+  const [filterCheckboxStatus, setfilterCheckboxStatus] =
+    useState<FilterCheckboxStatus>({
+      "School of Architecture, Fine Arts, and Interior Design (SARFAID)": false,
+      "School of Business and Information Technology (SBIT)": false,
+      "School of Hospitality and Tourism Management (SHTM)": false,
+      "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)": false,
+      "BS in Architecture": false,
+      "BS in Fine Arts": false,
+      "BS in Interior Design": false,
+      "BS in Business Administration": false,
+      "BS in Information Technology": false,
+      "BS in Hospitality Management": false,
+      "BS in Tourism Management": false,
+      "BS in English": false,
+      "BS in Filipino": false,
+      "BS in Basic Education": false,
+      "BS in Psychology": false,
+    });
+  const [filterSentence, setFilterSentence] = useState("");
+  const [filterAndSearchQuery, setFilterAndSearchQuery] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setfilterCheckboxStatus((prevStatus) => ({
+      ...prevStatus,
+      [value]: checked,
+    }));
   };
+
+  const updateFilterSentence = useCallback(() => {
+    let sentence = "";
+
+    if (filterYear) {
+      sentence += `${filterYear}, `;
+    }
+
+    const selectedDepartments = Object.keys(filterCheckboxStatus).filter(
+      (key) => filterCheckboxStatus[key],
+    );
+
+    if (selectedDepartments.length > 0) {
+      sentence += selectedDepartments.join(", ");
+    }
+
+    setFilterSentence(sentence.trim());
+    setFilterAndSearchQuery(searchQuery + " " + filterSentence);
+    console.log(filterAndSearchQuery);
+  }, [
+    filterYear,
+    filterCheckboxStatus,
+    searchQuery,
+    filterSentence,
+    filterAndSearchQuery,
+  ]);
+
+  useEffect(() => {
+    updateFilterSentence();
+  }, [filterYear, filterCheckboxStatus, updateFilterSentence]);
 
   // =================================================================
   // ====================| fetching if the books |====================
@@ -49,7 +109,8 @@ const SearchBookPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!searchQuery.trim()) {
+    updateFilterSentence();
+    if (!filterAndSearchQuery.trim()) {
       getAllBooks();
     } else {
       const response = await fetch("http://localhost:3001/books/search", {
@@ -57,7 +118,7 @@ const SearchBookPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ searchQuery }),
+        body: JSON.stringify({ filterAndSearchQuery }),
       });
       const searchResults = await response.json();
       console.log(`Received search results: ${searchResults}`);
@@ -130,8 +191,10 @@ const SearchBookPage = () => {
                         <input
                           type="number"
                           name="year"
-                          value={filters.year}
-                          onChange={handleFilterChange}
+                          value={filterYear}
+                          onChange={(e) => {
+                            setFilterYear(e.target.value);
+                          }}
                           className="w-full rounded border border-gray-300 px-3 py-2"
                           placeholder="Year"
                           min="2020"
@@ -148,6 +211,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Architecture, Fine Arts, and Interior Design (SARFAID)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="School of Architecture, Fine Arts, and Interior Design (SARFAID)"
                             className="mr-2"
                           />
@@ -158,6 +227,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Business and Information Technology (SBIT)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="School of Business and Information Technology (SBIT)"
                             className="mr-2"
                           />
@@ -167,6 +242,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Hospitality and Tourism Management (SHTM)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="School of Hospitality and Tourism Management (SHTM)"
                             className="mr-2"
                           />
@@ -176,6 +257,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="School of Sciences, Liberal Arts, and Teacher Education (SSLATE)"
                             className="mr-2"
                           />
@@ -194,6 +281,8 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={filterCheckboxStatus["BS in Architecture"]}
+                            onChange={handleCheckboxChange}
                             value="BS in Architecture"
                             className="mr-2"
                           />
@@ -203,6 +292,8 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={filterCheckboxStatus["BS in Fine Arts"]}
+                            onChange={handleCheckboxChange}
                             value="BS in Fine Arts"
                             className="mr-2"
                           />
@@ -212,6 +303,10 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Interior Design"]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Interior Design"
                             className="mr-2"
                           />
@@ -221,6 +316,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Business Administration"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Business Administration"
                             className="mr-2"
                           />
@@ -230,6 +331,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Information Technology"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Information Technology"
                             className="mr-2"
                           />
@@ -239,6 +346,12 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Hospitality Management"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Hospitality Management"
                             className="mr-2"
                           />
@@ -248,6 +361,10 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Tourism Management"]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Tourism Management"
                             className="mr-2"
                           />
@@ -257,6 +374,8 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={filterCheckboxStatus["BS in English"]}
+                            onChange={handleCheckboxChange}
                             value="BS in English"
                             className="mr-2"
                           />
@@ -266,6 +385,8 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={filterCheckboxStatus["BS in Filipino"]}
+                            onChange={handleCheckboxChange}
                             value="BS in Filipino"
                             className="mr-2"
                           />
@@ -275,6 +396,10 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Basic Education"]
+                            }
+                            onChange={handleCheckboxChange}
                             value="BS in Basic Education"
                             className="mr-2"
                           />
@@ -284,6 +409,8 @@ const SearchBookPage = () => {
                           <input
                             type="checkbox"
                             name="program"
+                            checked={filterCheckboxStatus["BS in Psychology"]}
+                            onChange={handleCheckboxChange}
                             value="BS in Psychology"
                             className="mr-2"
                           />

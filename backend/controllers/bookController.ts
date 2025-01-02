@@ -193,9 +193,9 @@ export const editBookById = async (req: Request, res: Response) => {
 };
 
 export const searchBooks = async (req: Request, res: Response) => {
-  const { searchQuery } = req.body;
+  const { filterAndSearchQuery } = req.body;
 
-  if (!searchQuery) {
+  if (!filterAndSearchQuery) {
     return res.status(400).json({
       success: false,
       error: "searchQuery parameter is required",
@@ -203,7 +203,7 @@ export const searchBooks = async (req: Request, res: Response) => {
   }
 
   try {
-    const searchWords = searchQuery
+    const searchWords = filterAndSearchQuery
       .replace(/[,.]/g, "")
       .split(" ")
       .filter((word: string) => word.length > 0);
