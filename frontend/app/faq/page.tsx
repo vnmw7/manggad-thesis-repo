@@ -146,22 +146,6 @@ export default function FaqPage() {
                     Search Repository
                   </a>
                 </li>
-                <li>
-                  <a
-                    className="cursor-pointer text-lg hover:underline"
-                    onClick={() => router.push("/collection")}
-                  >
-                    Collections
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="cursor-pointer text-lg hover:underline"
-                    onClick={() => router.push("/author")}
-                  >
-                    Authors
-                  </a>
-                </li>
               </ul>
             )}
           </div>
@@ -186,7 +170,7 @@ export default function FaqPage() {
                   d="M19.5 15.5l2.5-2.5-2.5-2.5m-11 7l-2.5-2.5 2.5-2.5M5 9h14m-7 10l-5-5h10l-5 5z"
                 />
               </svg>
-              Author Corner
+              Manggad Corner
             </button>
             {openDropdown === "author" && (
               <ul className="space-y-1">
@@ -195,7 +179,7 @@ export default function FaqPage() {
                     className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/faq")}
                   >
-                    Author FAQ
+                    Manggad FAQ
                   </a>
                 </li>
               </ul>
