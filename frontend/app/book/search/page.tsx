@@ -1,12 +1,26 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/_components/Header";
 import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
 
+interface FilterCheckboxStatus {
+  [key: string]: boolean;
+}
+
 const SearchBookPage = () => {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("query") || "";
+  const router = useRouter();
+
   const [books, getBooks] = useState<
     {
       id: number;
@@ -18,40 +32,85 @@ const SearchBookPage = () => {
       keywords: string;
     }[]
   >([]);
-  const searchParams = useSearchParams();
-  const initialQuery = searchParams.get("query") || "";
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    startDate: "",
-    endDate: "",
-    author: "",
-    advisor: "",
-    publisher: "",
-  });
+  const [filterYear, setFilterYear] = useState("");
 
-  const router = useRouter();
+  const [filterCheckboxStatus, setfilterCheckboxStatus] =
+    useState<FilterCheckboxStatus>({
+      "School of Architecture, Fine Arts, and Interior Design (SARFAID)": false,
+      "School of Business and Information Technology (SBIT)": false,
+      "School of Hospitality and Tourism Management (SHTM)": false,
+      "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)": false,
+      "BS in Architecture": false,
+      "BS in Fine Arts": false,
+      "BS in Interior Design": false,
+      "BS in Business Administration": false,
+      "BS in Information Technology": false,
+      "BS in Hospitality Management": false,
+      "BS in Tourism Management": false,
+      "BS in English": false,
+      "BS in Filipino": false,
+      "BS in Basic Education": false,
+      "BS in Psychology": false,
+    });
+  const [filterSentence, setFilterSentence] = useState("");
+  const [filterAndSearchQuery, setFilterAndSearchQuery] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setfilterCheckboxStatus((prevStatus) => ({
+      ...prevStatus,
+      [value]: checked,
+    }));
+  };
+
+  const updateFilterSentence = useCallback(() => {
+    let sentence = "";
+
+    if (filterYear) {
+      sentence += `${filterYear}, `;
+    }
+
+    const selectedDepartments = Object.keys(filterCheckboxStatus).filter(
+      (key) => filterCheckboxStatus[key],
+    );
+
+    if (selectedDepartments.length > 0) {
+      sentence += selectedDepartments.join(", ");
+    }
+
+    setFilterSentence(sentence.trim());
+    setFilterAndSearchQuery(searchQuery + " " + filterSentence);
+    console.log(filterAndSearchQuery);
+  }, [
+    filterYear,
+    filterCheckboxStatus,
+    searchQuery,
+    filterSentence,
+    filterAndSearchQuery,
+  ]);
+
+  useEffect(() => {
+    updateFilterSentence();
+  }, [filterYear, filterCheckboxStatus, updateFilterSentence]);
+
+  // =================================================================
+  // ====================| fetching if the books |====================
   const getAllBooks = () => {
     fetch("http://localhost:3001/books/")
       .then((response) => response.json())
       .then((data) => getBooks(data));
   };
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!searchQuery.trim()) {
+    updateFilterSentence();
+    if (!filterAndSearchQuery.trim()) {
       getAllBooks();
     } else {
       const response = await fetch("http://localhost:3001/books/search", {
@@ -59,7 +118,7 @@ const SearchBookPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ searchQuery }),
+        body: JSON.stringify({ filterAndSearchQuery }),
       });
       const searchResults = await response.json();
       console.log(`Received search results: ${searchResults}`);
@@ -78,6 +137,8 @@ const SearchBookPage = () => {
       getAllBooks();
     }
   }, [initialQuery]);
+  // ====================| fetching of the books |====================
+  // =================================================================
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -95,115 +156,267 @@ const SearchBookPage = () => {
               className="flex w-full max-w-7xl flex-col items-center gap-4"
               onSubmit={handleSubmit}
             >
-              <input
-                type="text"
-                className="grow border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
-                placeholder="Search for documents, research, and more..."
-                value={searchQuery}
-                onChange={handleChange}
-              />
-              <button
-                className="tritiary ml-4 h-full max-w-60 !border !border-gray-300 px-12"
-                type="submit"
-              >
-                Filters
-              </button>
-              <button
-                className="ml-2 h-full max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
-                type="submit"
-              >
-                Search
-              </button>
-              <div className="flex w-full items-center">
+              <div className="flex w-full max-w-7xl items-center gap-4">
                 <input
                   type="text"
-                  className="w-full border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
+                  className="grow border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
                   placeholder="Search for documents, research, and more..."
                   value={searchQuery}
                   onChange={handleChange}
                 />
                 <button
-                  className="ml-2 max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
+                  className="tritiary ml-4 h-full max-w-60 !border !border-gray-300 px-12"
+                  type="submit"
+                  onClick={() => setShowFilters(!showFilters)}
+                >
+                  Filters
+                </button>
+                <button
+                  className="ml-2 h-full max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
                   type="submit"
                 >
                   Search
-                </button>
-                <button
-                  type="button"
-                  className="ml-2 border border-gray-300 px-4 py-2 text-lg transition hover:bg-gray-100"
-                  onClick={() => setShowFilters(!showFilters)}
-                >
-                  {showFilters ? "Hide Filters" : "Show Filters"}
                 </button>
               </div>
 
               {/* Filter Section */}
               {showFilters && (
                 <div className="w-full max-w-7xl rounded-lg border border-gray-300 p-4">
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                       <label className="text-sm font-medium text-gray-700">
-                        Date Range
+                        Year Published
                       </label>
                       <div className="flex gap-2">
                         <input
-                          type="date"
-                          name="startDate"
-                          value={filters.startDate}
-                          onChange={handleFilterChange}
+                          type="number"
+                          name="year"
+                          value={filterYear}
+                          onChange={(e) => {
+                            setFilterYear(e.target.value);
+                          }}
                           className="w-full rounded border border-gray-300 px-3 py-2"
-                        />
-                        <span className="self-center">to</span>
-                        <input
-                          type="date"
-                          name="endDate"
-                          value={filters.endDate}
-                          onChange={handleFilterChange}
-                          className="w-full rounded border border-gray-300 px-3 py-2"
+                          placeholder="Year"
+                          min="2020"
                         />
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
                       <label className="text-sm font-medium text-gray-700">
-                        Author
+                        Department
                       </label>
-                      <input
-                        type="text"
-                        name="author"
-                        value={filters.author}
-                        onChange={handleFilterChange}
-                        className="rounded border border-gray-300 px-3 py-2"
-                        placeholder="Enter author name"
-                      />
+                      <div className="flex flex-col gap-2">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Architecture, Fine Arts, and Interior Design (SARFAID)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="School of Architecture, Fine Arts, and Interior Design (SARFAID)"
+                            className="mr-2"
+                          />
+                          School of Architecture, Fine Arts, and Interior Design
+                          (SARFAID)
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Business and Information Technology (SBIT)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="School of Business and Information Technology (SBIT)"
+                            className="mr-2"
+                          />
+                          School of Business and Information Technology (SBIT)
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Hospitality and Tourism Management (SHTM)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="School of Hospitality and Tourism Management (SHTM)"
+                            className="mr-2"
+                          />
+                          School of Hospitality and Tourism Management (SHTM)
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="department"
+                            checked={
+                              filterCheckboxStatus[
+                                "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="School of Sciences, Liberal Arts, and Teacher Education (SSLATE)"
+                            className="mr-2"
+                          />
+                          School of Sciences, Liberal Arts, and Teacher
+                          Education (SSLATE)
+                        </label>
+                      </div>
                     </div>
 
                     <div className="flex flex-col gap-2">
                       <label className="text-sm font-medium text-gray-700">
-                        Advisor
+                        Programs
                       </label>
-                      <input
-                        type="text"
-                        name="advisor"
-                        value={filters.advisor}
-                        onChange={handleFilterChange}
-                        className="rounded border border-gray-300 px-3 py-2"
-                        placeholder="Enter advisor name"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-medium text-gray-700">
-                        Publisher
-                      </label>
-                      <input
-                        type="text"
-                        name="publisher"
-                        value={filters.publisher}
-                        onChange={handleFilterChange}
-                        className="rounded border border-gray-300 px-3 py-2"
-                        placeholder="Enter publisher name"
-                      />
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={filterCheckboxStatus["BS in Architecture"]}
+                            onChange={handleCheckboxChange}
+                            value="BS in Architecture"
+                            className="mr-2"
+                          />
+                          BS in Architecture
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={filterCheckboxStatus["BS in Fine Arts"]}
+                            onChange={handleCheckboxChange}
+                            value="BS in Fine Arts"
+                            className="mr-2"
+                          />
+                          BS in Fine Arts
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Interior Design"]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Interior Design"
+                            className="mr-2"
+                          />
+                          BS in Interior Design
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Business Administration"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Business Administration"
+                            className="mr-2"
+                          />
+                          BS in Business Administration
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Information Technology"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Information Technology"
+                            className="mr-2"
+                          />
+                          BS in Information Technology
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus[
+                                "BS in Hospitality Management"
+                              ]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Hospitality Management"
+                            className="mr-2"
+                          />
+                          BS in Hospitality Management
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Tourism Management"]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Tourism Management"
+                            className="mr-2"
+                          />
+                          BS in Tourism Management
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={filterCheckboxStatus["BS in English"]}
+                            onChange={handleCheckboxChange}
+                            value="BS in English"
+                            className="mr-2"
+                          />
+                          BS in English
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={filterCheckboxStatus["BS in Filipino"]}
+                            onChange={handleCheckboxChange}
+                            value="BS in Filipino"
+                            className="mr-2"
+                          />
+                          BS in Filipino
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={
+                              filterCheckboxStatus["BS in Basic Education"]
+                            }
+                            onChange={handleCheckboxChange}
+                            value="BS in Basic Education"
+                            className="mr-2"
+                          />
+                          BS in Basic Education
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            name="program"
+                            checked={filterCheckboxStatus["BS in Psychology"]}
+                            onChange={handleCheckboxChange}
+                            value="BS in Psychology"
+                            className="mr-2"
+                          />
+                          BS in Psychology
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
