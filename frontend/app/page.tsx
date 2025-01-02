@@ -2,27 +2,37 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 export default function StartPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleSearch = () => {
-    router.push(`/book/search?query=${searchQuery}`);
+    if (searchQuery.trim() === "") {
+      toast.error("Please enter a search query.");
+    } else {
+      toast.success("Searching for: " + searchQuery);
+      router.push(`/book/search?query=${searchQuery}`);
+    }
+  };
+
+  const goToHomepage = () => {
+    toast.info("Navigating to Homepage...");
+    router.push("/home");
   };
 
   return (
     <div className="flex h-[100vh]">
       {/* Left Side Background Image */}
       <div
-        className="hidden h-full w-[50vw] bg-cover bg-no-repeat lg:block" // Use vw (viewport width) for responsiveness
+        className="hidden h-full w-[50vw] bg-cover bg-no-repeat lg:block"
         style={{ backgroundImage: "url('/sample.jpg')" }}
       />
 
       {/* Right Side Logos and Text */}
       <div className="flex h-full w-full flex-col items-center justify-between overflow-y-auto bg-[#ffffff] px-4 sm:px-8 lg:w-[50vw] lg:px-16">
-        {/* Responsive padding with px-4 for smaller screens */}
-
         {/* Logo Section */}
         <div className="mb-1 flex items-center">
           <div className="mt-8 aspect-square h-24">
@@ -69,7 +79,7 @@ export default function StartPage() {
               </button>
               <button
                 className="w-64 rounded-lg bg-[#0442B1] px-4 py-2 text-white transition hover:bg-blue-600 lg:ml-2"
-                onClick={() => router.push("/home")}
+                onClick={goToHomepage}
               >
                 Go to Homepage
               </button>
@@ -96,6 +106,9 @@ export default function StartPage() {
           </p>
         </div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 }
