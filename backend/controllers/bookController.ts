@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -36,7 +36,6 @@ const findOrCreateAdvisor = async (firstName: string, lastName: string) => {
   return advisor.id;
 };
 
-
 // +--------------------------------+
 // |        Main Controllers        |
 // +--------------------------------+
@@ -50,6 +49,8 @@ export const addBook = async (req: Request, res: Response) => {
     authors,
     advisors,
     coverImage,
+    department,
+    program,
   } = req.body;
 
   // gamit promise para mahultanay matapus anay ang mga execution sa promises
@@ -76,6 +77,8 @@ export const addBook = async (req: Request, res: Response) => {
       authorIds,
       advisorIds,
       coverImage,
+      department,
+      program,
     },
   });
   res.json(test);
@@ -87,8 +90,6 @@ export const getAllBooks = async (req: Request, res: Response) => {
       include: {
         authors: true,
         advisors: true,
-        department: true,
-        program: true,
         school: true,
         uploadedBy: true,
       },
@@ -108,8 +109,6 @@ export const getBookById = async (req: Request, res: Response) => {
       include: {
         authors: true,
         advisors: true,
-        department: true,
-        program: true,
         school: true,
         uploadedBy: true,
       },
@@ -152,6 +151,8 @@ export const editBookById = async (req: Request, res: Response) => {
     authors,
     advisors,
     coverImage,
+    department,
+    program,
   } = req.body;
 
   try {
@@ -179,6 +180,8 @@ export const editBookById = async (req: Request, res: Response) => {
         authorIds,
         advisorIds,
         coverImage,
+        department,
+        program,
       },
     });
     res.json(updatedBook);
@@ -190,25 +193,80 @@ export const editBookById = async (req: Request, res: Response) => {
 };
 
 export const searchBooks = async (req: Request, res: Response) => {
-  const { searchQuery } = req.body; // 💬[vincent]: nag sala ko kay dapat req.body, inde req.query
+  const { searchQuery } = req.body;
 
   if (!searchQuery) {
-    return res.status(400).json({ error: "searchQuery parameter is required" });
+    return res.status(400).json({
+      success: false,
+      error: "searchQuery parameter is required",
+    });
   }
 
   try {
-    console.log(`Searching for books with query: ${searchQuery}`);
+    const searchWords = searchQuery
+      .replace(/[,.]/g, "")
+      .split(" ")
+      .filter((word: string) => word.length > 0);
+
+    const conditions: Prisma.BookWhereInput[] = []; // Array to collect all search conditions
+
+    for (const word of searchWords) {
+      const year = parseInt(word);
+      if (!isNaN(year)) {
+        conditions.push({
+          yearOfSubmission: year,
+        });
+      } else {
+        conditions.push({
+          title: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput); // Cast the object to BookWhereInput
+        conditions.push({
+          keywords: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          abstract: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          department: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+        conditions.push({
+          program: {
+            contains: word,
+            mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode
+          },
+        } as Prisma.BookWhereInput);
+      }
+    }
+
     const searchResults = await prisma.book.findMany({
       where: {
-        title: {
-          contains: searchQuery,
-          mode: "insensitive", // case insensitive
-        },
+        OR: conditions, // Combine all conditions using OR
       },
     });
-    res.json(searchResults);
+
+    res.status(200).json({
+      success: true,
+      message: "Search successful",
+      data: searchResults,
+    });
   } catch (error) {
-    res.status(500).json({ error });
+    console.error(error); // It is helpful to log the error for debugging
+    res.status(500).json({
+      success: false,
+      error: "An error occurred during the search.", // Provide a generic error message to the client
+    });
   }
 };
 
@@ -238,11 +296,9 @@ export const addRecommendationCounter = async (req: Request, res: Response) => {
     });
     res.json(updatedBook);
   } catch {
-    res
-      .status(500)
-      .json({
-        error: "An error occurred while updating the recommendation counter.",
-      });
+    res.status(500).json({
+      error: "An error occurred while updating the recommendation counter.",
+    });
   }
 };
 

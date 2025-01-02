@@ -5,7 +5,7 @@ const nextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-    config.resolve.alias.canvas = false
+    config.resolve.alias.canvas = false;
 
     return config;
   },
