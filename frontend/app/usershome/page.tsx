@@ -132,50 +132,6 @@ export default function HomePage() {
       <div className="ml-4 flex flex-1">
         {/* Sidebar - Under Banner and on Full Left */}
         <div className="bg-white] mt-5 h-[428px] w-[250px] rounded-lg border p-4">
-          {/* BROWSE Section */}
-          <div className="mb-4">
-            <button
-              onClick={() => toggleDropdown("browse")}
-              className="mb-2 flex w-full items-center rounded-lg bg-[#0442B1] p-4 text-left text-xl font-thin text-white"
-            >
-              <svg
-                className="mr-2 h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 7h18M3 12h18m-7 5h7"
-                />
-              </svg>
-              Browse
-            </button>
-            {openDropdown === "browse" && (
-              <ul className="space-y-1">
-                <li>
-                  <a
-                    className="cursor-pointer text-lg hover:underline"
-                    onClick={() => router.push("/userscollection")}
-                  >
-                    Collections
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="cursor-pointer text-lg hover:underline"
-                    onClick={() => router.push("/usersauthor")}
-                  >
-                    Authors
-                  </a>
-                </li>
-              </ul>
-            )}
-          </div>
-
           {/* Author Corner Section */}
           <div className="mb-4">
             <button
@@ -213,7 +169,7 @@ export default function HomePage() {
                     className="cursor-pointer text-lg hover:underline"
                     onClick={() => router.push("/usersfaq")}
                   >
-                    Author FAQ
+                    Manggad FAQ
                   </a>
                 </li>
               </ul>
