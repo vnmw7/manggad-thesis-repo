@@ -12,7 +12,7 @@ const SideNav = () => {
   };
 
   return (
-    <div className="bg-white mt-5 h-[428px] w-full lg:w-[250px] rounded-lg border p-4">
+    <div className="mt-5 h-[428px] w-full rounded-lg border bg-white p-4 lg:w-[250px]">
       {/* BROWSE Section */}
       <div className="mb-4">
         <button
