@@ -44,23 +44,7 @@ const SideNav = () => {
               >
                 Search Repository
               </a>
-            </li>
-            <li>
-              <a
-                className="cursor-pointer text-lg hover:underline"
-                onClick={() => router.push("/collection")}
-              >
-                Collections
-              </a>
-            </li>
-            <li>
-              <a
-                className="cursor-pointer text-lg hover:underline"
-                onClick={() => router.push("/author")}
-              >
-                Authors
-              </a>
-            </li>
+            </li>   
           </ul>
         )}
       </div>
