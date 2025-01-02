@@ -96,7 +96,7 @@ const LoginPage = () => {
               </button>
             </div>
 
-            <div className="mt-4 text-center flex flex-col w-full items-center">
+            <div className="mt-4 flex w-full flex-col items-center text-center">
               <p className="text-gray-600">Don&apos;t have an account?</p>
               <button
                 className="secondary mt-2 font-medium text-[#0442B1]"
