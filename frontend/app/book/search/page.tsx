@@ -21,6 +21,14 @@ const SearchBookPage = () => {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("query") || "";
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    startDate: "",
+    endDate: "",
+    author: "",
+    advisor: "",
+    publisher: "",
+  });
 
   const router = useRouter();
 
@@ -32,6 +40,13 @@ const SearchBookPage = () => {
     fetch("http://localhost:3001/books/")
       .then((response) => response.json())
       .then((data) => getBooks(data));
+  };
+
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -75,9 +90,9 @@ const SearchBookPage = () => {
         {/* Main Content Area */}
         <div className="flex-1 px-4">
           {/* search input */}
-          <div className="mt-5 flex w-full justify-center">
+          <div className="mt-5 flex w-full flex-col items-center">
             <form
-              className="flex w-full max-w-7xl items-center"
+              className="flex w-full max-w-7xl flex-col items-center gap-4"
               onSubmit={handleSubmit}
             >
               <input
@@ -99,12 +114,105 @@ const SearchBookPage = () => {
               >
                 Search
               </button>
+              <div className="flex w-full items-center">
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
+                  placeholder="Search for documents, research, and more..."
+                  value={searchQuery}
+                  onChange={handleChange}
+                />
+                <button
+                  className="ml-2 max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
+                  type="submit"
+                >
+                  Search
+                </button>
+                <button
+                  type="button"
+                  className="ml-2 border border-gray-300 px-4 py-2 text-lg transition hover:bg-gray-100"
+                  onClick={() => setShowFilters(!showFilters)}
+                >
+                  {showFilters ? "Hide Filters" : "Show Filters"}
+                </button>
+              </div>
+
+              {/* Filter Section */}
+              {showFilters && (
+                <div className="w-full max-w-7xl rounded-lg border border-gray-300 p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Date Range
+                      </label>
+                      <div className="flex gap-2">
+                        <input
+                          type="date"
+                          name="startDate"
+                          value={filters.startDate}
+                          onChange={handleFilterChange}
+                          className="w-full rounded border border-gray-300 px-3 py-2"
+                        />
+                        <span className="self-center">to</span>
+                        <input
+                          type="date"
+                          name="endDate"
+                          value={filters.endDate}
+                          onChange={handleFilterChange}
+                          className="w-full rounded border border-gray-300 px-3 py-2"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Author
+                      </label>
+                      <input
+                        type="text"
+                        name="author"
+                        value={filters.author}
+                        onChange={handleFilterChange}
+                        className="rounded border border-gray-300 px-3 py-2"
+                        placeholder="Enter author name"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Advisor
+                      </label>
+                      <input
+                        type="text"
+                        name="advisor"
+                        value={filters.advisor}
+                        onChange={handleFilterChange}
+                        className="rounded border border-gray-300 px-3 py-2"
+                        placeholder="Enter advisor name"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-medium text-gray-700">
+                        Publisher
+                      </label>
+                      <input
+                        type="text"
+                        name="publisher"
+                        value={filters.publisher}
+                        onChange={handleFilterChange}
+                        className="rounded border border-gray-300 px-3 py-2"
+                        placeholder="Enter publisher name"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </form>
           </div>
 
           <div className="mx-auto mt-5 h-[930px] max-w-7xl rounded-lg border px-4 py-2">
             <div className="mx-auto mt-1 max-w-7xl">
-              {/* book grid nga ga contain sng mga search results / books */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {books.map((Book) => (
                   <div
@@ -115,15 +223,13 @@ const SearchBookPage = () => {
                     <div className="grid grid-cols-2 grid-rows-2 px-4 py-2">
                       <p className="col-span-2"> {Book.title} </p>
                       <p className="row-start-2 text-neutral-600">
-                        {" "}
-                        {Book.yearOfSubmission}{" "}
+                        {Book.yearOfSubmission}
                       </p>
                       <div className="column-start-2 row-span-3 row-start-2 flex h-full w-full items-center justify-end">
                         <p
                           className={`pr-2 ${Book.recommendations > 0 ? "text-blue-700" : "text-neutral-200"}`}
                         >
-                          {" "}
-                          {Book.recommendations}{" "}
+                          {Book.recommendations}
                         </p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -143,8 +249,6 @@ const SearchBookPage = () => {
                       </div>
                     </div>
                     <div className="group relative flex h-60 w-full items-end justify-center bg-neutral-200">
-                      {" "}
-                      {/* 💬[vincent]: nag gamit ko "group"(for the parent) kag "group-hover"(for its child) para mag ipa disappear ang text kng mag hover. */}
                       <div
                         className="aspect-[1/1.3] w-40 bg-cover bg-center group-hover:opacity-0"
                         style={{
