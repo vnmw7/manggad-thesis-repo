@@ -14,6 +14,8 @@ const SearchBookPage = () => {
       yearOfSubmission: number;
       coverImage: string;
       recommendations: number;
+      abstract: string;
+      keywords: string;
     }[]
   >([]);
   const searchParams = useSearchParams();
@@ -26,19 +28,28 @@ const SearchBookPage = () => {
     setSearchQuery(e.target.value);
   };
 
+  const getAllBooks = () => {
+    fetch("http://localhost:3001/books/")
+      .then((response) => response.json())
+      .then((data) => getBooks(data));
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`Sending search request for: ${searchQuery}`);
-    const response = await fetch("http://localhost:3001/books/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ searchQuery }),
-    });
-    const searchResults = await response.json();
-    console.log(`Received search results: ${searchResults}`);
-    getBooks(searchResults.data);
+    if (!searchQuery.trim()) {
+      getAllBooks();
+    } else {
+      const response = await fetch("http://localhost:3001/books/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ searchQuery }),
+      });
+      const searchResults = await response.json();
+      console.log(`Received search results: ${searchResults}`);
+      getBooks(searchResults.data);
+    }
   };
 
   useEffect(() => {
@@ -49,9 +60,7 @@ const SearchBookPage = () => {
       }) as unknown as FormEvent<HTMLFormElement>;
       handleSubmit(formEvent);
     } else {
-      fetch("http://localhost:3001/books/")
-        .then((response) => response.json())
-        .then((data) => getBooks(data));
+      getAllBooks();
     }
   }, [initialQuery]);
 
@@ -73,17 +82,22 @@ const SearchBookPage = () => {
             >
               <input
                 type="text"
-                className="w-full border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
+                className="grow border border-gray-300 px-4 py-2 text-lg placeholder:text-[#262832]"
                 placeholder="Search for documents, research, and more..."
                 value={searchQuery}
                 onChange={handleChange}
               />
               <button
-                className="ml-2 max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
+                className="tritiary ml-4 h-full max-w-60 !border !border-gray-300 px-12"
                 type="submit"
               >
-                {" "}
-                Search{" "}
+                Filters
+              </button>
+              <button
+                className="ml-2 h-full max-w-96 bg-[#0442B1] px-6 py-2 text-lg text-white transition hover:bg-blue-600"
+                type="submit"
+              >
+                Search
               </button>
             </form>
           </div>
@@ -138,9 +152,9 @@ const SearchBookPage = () => {
                         }}
                       ></div>
                       <p className="absolute top-0 h-full w-full overflow-y-hidden p-2 text-justify text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
+                        {Book.abstract}
+                        <br /> <br /> Keywords: <br />
+                        {Book.keywords}
                       </p>
                     </div>
                   </div>
