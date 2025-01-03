@@ -63,17 +63,15 @@ export default function ViewBookPage() {
 
             <div className="grid grid-cols-2 gap-8">
               <div>
-                {book.coverImage && (
                   <img
-                    src={book.coverImage}
+                    src={book.coverImage || "/defaults/defaultBookCover.png"}
                     alt={book.title}
                     className="mb-4 w-full rounded-lg shadow-md"
                   />
-                )}
 
                 {/* PDF viewer */}
                 <iframe
-                  src="https://res.cloudinary.com/ddmy7qqy1/raw/upload/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf"
+                  src="https://res.cloudinary.com/ddmy7qqy1/image/upload/v1735875035/cake2mize-compressed_xgazp1.pdf"
                   width="800"
                   height="600"
                   title="PDF Viewer"
@@ -123,7 +121,7 @@ export default function ViewBookPage() {
                     className="rounded-lg bg-[#0442B1] px-4 py-2 text-white hover:bg-[#033391]"
                     onClick={() => {
                       window.open(
-                        "https://res.cloudinary.com/ddmy7qqy1/raw/upload/fl_attachment/v1735550432/manggad/pdf/kobquhk5wdlaeew3puwg.pdf",
+                        "https://res.cloudinary.com/ddmy7qqy1/image/upload/fl_attachment/v1735875035/cake2mize-compressed_xgazp1.pdf",
                         "_blank",
                       );
                     }}
