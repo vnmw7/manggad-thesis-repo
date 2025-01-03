@@ -68,14 +68,6 @@ export default function ViewBookPage() {
                     alt={book.title}
                     className="mb-4 w-full rounded-lg shadow-md"
                   />
-
-                {/* PDF viewer */}
-                <iframe
-                  src="https://res.cloudinary.com/ddmy7qqy1/image/upload/v1735875035/cake2mize-compressed_xgazp1.pdf"
-                  width="800"
-                  height="600"
-                  title="PDF Viewer"
-                ></iframe>
               </div>
 
               <div>
@@ -130,6 +122,15 @@ export default function ViewBookPage() {
                   </button>
                 </div>
               </div>
+
+              {/* PDF viewer */}
+              <iframe
+                src="https://res.cloudinary.com/ddmy7qqy1/image/upload/v1735875035/cake2mize-compressed_xgazp1.pdf"
+                width="800"
+                height="600"
+                title="PDF Viewer"
+              >
+              </iframe>
             </div>
           </div>
         </div>

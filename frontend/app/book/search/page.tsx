@@ -424,7 +424,7 @@ const SearchBookPage = () => {
             </form>
           </div>
 
-          <div className="mx-auto mt-5 h-[930px] max-w-7xl rounded-lg border px-4 py-2">
+          <div className="mx-auto mt-5 h-[930px] max-w-7xl overflow-y-auto rounded-lg border px-4 py-2">
             <div className="mx-auto mt-1 max-w-7xl">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {books.map((Book) => (
@@ -434,7 +434,7 @@ const SearchBookPage = () => {
                     onClick={() => router.push(`/book/${Book.id}`)}
                   >
                     <div className="grid grid-cols-2 grid-rows-2 px-4 py-2">
-                      <p className="col-span-2"> {Book.title} </p>
+                      <p className="col-span-2 overflow-y-auto">{Book.title}</p>
                       <p className="row-start-2 text-neutral-600">
                         {Book.yearOfSubmission}
                       </p>
@@ -468,7 +468,7 @@ const SearchBookPage = () => {
                           backgroundImage: `url(${Book.coverImage || "/defaults/defaultBookCover.png"})`,
                         }}
                       ></div>
-                      <p className="absolute top-0 h-full w-full overflow-y-hidden p-2 text-justify text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <p className="absolute top-0 h-full w-full overflow-y-auto overflow-y-hidden p-2 text-justify text-gray-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         {Book.abstract}
                         <br /> <br /> Keywords: <br />
                         {Book.keywords}
