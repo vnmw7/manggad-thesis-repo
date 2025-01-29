@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carous
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 import SideNav from "../_components/SideNav";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -31,37 +32,47 @@ export default function HomePage() {
                 dynamicHeight={false}
               >
                 <div>
-                  <img
-                    src="Galo.jpg"
+                  <Image
+                    src="/Galo.jpg"
                     alt="Carousel Image 1"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="RizalEntrance.jpg"
+                  <Image
+                    src="/RizalEntrance.jpg"
                     alt="Carousel Image 2"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="CollegeAtrium.jpg"
+                  <Image
+                    src="/CollegeAtrium.jpg"
                     alt="Carousel Image 3"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="SwimCenter.jpg"
+                  <Image
+                    src="/SwimCenter.jpg"
                     alt="Carousel Image 4"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="Amistad.jpg"
+                  <Image
+                    src="/Amistad.jpg"
                     alt="Carousel Image 5"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>

@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import Image from "next/image";
 
 export default function StartPage() {
   const router = useRouter();
@@ -36,16 +37,20 @@ export default function StartPage() {
         {/* Logo Section */}
         <div className="mb-1 flex items-center">
           <div className="mt-8 aspect-square h-24">
-            <img
-              src="MANGGAD LOGO.png"
+            <Image
+              src="/MANGGAD LOGO.png"
               alt="Manggad Logo"
+              width={96}
+              height={96}
               className="h-full w-full object-contain"
             />
           </div>
           <div className="ml-4 mt-8 aspect-square h-[90px]">
-            <img
-              src="lccb.png"
+            <Image
+              src="/lccb.png"
               alt="lccb"
+              width={90}
+              height={90}
               className="h-full w-full object-contain"
             />
           </div>

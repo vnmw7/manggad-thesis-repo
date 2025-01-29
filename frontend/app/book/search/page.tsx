@@ -107,24 +107,27 @@ const SearchBookPage = () => {
       .then((data) => getBooks(data));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    updateFilterSentence();
-    if (!filterAndSearchQuery.trim()) {
-      getAllBooks();
-    } else {
-      const response = await fetch("http://localhost:3001/books/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ filterAndSearchQuery }),
-      });
-      const searchResults = await response.json();
-      console.log(`Received search results: ${searchResults}`);
-      getBooks(searchResults.data);
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      updateFilterSentence();
+      if (!filterAndSearchQuery.trim()) {
+        getAllBooks();
+      } else {
+        const response = await fetch("http://localhost:3001/books/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ filterAndSearchQuery }),
+        });
+        const searchResults = await response.json();
+        console.log(`Received search results: ${searchResults}`);
+        getBooks(searchResults.data);
+      }
+    },
+    [filterAndSearchQuery, updateFilterSentence],
+  );
 
   useEffect(() => {
     if (initialQuery) {
@@ -136,7 +139,7 @@ const SearchBookPage = () => {
     } else {
       getAllBooks();
     }
-  }, [initialQuery]);
+  }, [initialQuery, handleSubmit]);
   // ====================| fetching of the books |====================
   // =================================================================
 

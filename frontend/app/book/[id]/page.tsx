@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import Header from "@/app/_components/Header";
 import SideNav from "@/app/_components/SideNav";
 import Footer from "@/app/_components/Footer";
+import Image from "next/image";
 
 interface Author {
   firstName: string;
@@ -63,11 +64,13 @@ export default function ViewBookPage() {
 
             <div className="grid grid-cols-2 gap-8">
               <div>
-                  <img
-                    src={book.coverImage || "/defaults/defaultBookCover.png"}
-                    alt={book.title}
-                    className="mb-4 w-full rounded-lg shadow-md"
-                  />
+                <Image
+                  src={book.coverImage || "/defaults/defaultBookCover.png"}
+                  alt={book.title}
+                  className="mb-4 w-full rounded-lg shadow-md"
+                  width={500}
+                  height={750}
+                />
               </div>
 
               <div>
@@ -129,8 +132,7 @@ export default function ViewBookPage() {
                 width="800"
                 height="600"
                 title="PDF Viewer"
-              >
-              </iframe>
+              ></iframe>
             </div>
           </div>
         </div>

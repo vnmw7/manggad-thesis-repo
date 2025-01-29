@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function HomePage() {
   const router = useRouter();
@@ -50,10 +51,12 @@ export default function HomePage() {
       <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
-          <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
+          <Image
+            src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="mr-2 h-32 w-32" // Adjust height and width as needed
+            width={128} // Adjust width as needed
+            height={128} // Adjust height as needed
+            className="mr-2 h-32 w-32"
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -121,10 +124,12 @@ export default function HomePage() {
 
       {/* Image Banner */}
       <div className="w-full">
-        <img
-          src="Librarysample.jpg"
+        <Image
+          src="/Librarysample.jpg"
           alt="Banner"
-          className="h-[200px] w-full object-cover" // Adjust height as needed
+          width={1920}
+          height={200}
+          className="h-[200px] w-full object-cover"
         />
       </div>
 
@@ -253,37 +258,47 @@ export default function HomePage() {
                 dynamicHeight={false}
               >
                 <div>
-                  <img
-                    src="Galo.jpg"
+                  <Image
+                    src="/Galo.jpg"
                     alt="Carousel Image 1"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="RizalEntrance.jpg"
+                  <Image
+                    src="/RizalEntrance.jpg"
                     alt="Carousel Image 2"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="CollegeAtrium.jpg"
+                  <Image
+                    src="/CollegeAtrium.jpg"
                     alt="Carousel Image 3"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="SwimCenter.jpg"
+                  <Image
+                    src="/SwimCenter.jpg"
                     alt="Carousel Image 4"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>
                 <div>
-                  <img
-                    src="Amistad.jpg"
+                  <Image
+                    src="/Amistad.jpg"
                     alt="Carousel Image 5"
+                    width={1920}
+                    height={300}
                     className="h-[300px] w-full rounded-lg object-fill"
                   />
                 </div>

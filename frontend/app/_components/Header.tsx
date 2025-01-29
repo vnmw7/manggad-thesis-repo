@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image"; // Import Image from next/image
 
 const Header = () => {
   const router = useRouter();
@@ -36,10 +37,12 @@ const Header = () => {
       <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
-          <img
+          <Image
             src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="mr-2 hidden h-32 w-32 lg:block" // Adjust height and width as needed
+            width={128} // Adjust width as needed
+            height={128} // Adjust height as needed
+            className="mr-2 hidden lg:block" // Adjust height and width as needed
           />
           <div className="text-lg font-extrabold lg:text-2xl">
             Manggad Research Repository
@@ -107,10 +110,12 @@ const Header = () => {
 
       {/* Image Banner */}
       <div className="w-full">
-        <img
+        <Image
           src="/Librarysample.jpg"
           alt="Banner"
-          className="h-20 w-full object-cover lg:h-[200px]" // Adjust height as needed
+          width={1920} // Adjust width as needed
+          height={200} // Adjust height as needed
+          className="object-cover lg:h-[200px]" // Adjust height as needed
         />
       </div>
     </div>

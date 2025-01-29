@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AuthorsPage() {
   const router = useRouter();
@@ -55,10 +56,12 @@ export default function AuthorsPage() {
       <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
-          <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
+          <Image
+            src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
-            className="mr-2 h-32 w-32" // Adjust height and width as needed
+            width={128} // Adjust width as needed
+            height={128} // Adjust height as needed
+            className="mr-2"
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -126,10 +129,12 @@ export default function AuthorsPage() {
 
       {/* Image Banner */}
       <div className="w-full">
-        <img
-          src="Librarysample.jpg"
+        <Image
+          src="/Librarysample.jpg"
           alt="Banner"
-          className="h-[200px] w-full object-cover" // Adjust height as needed
+          width={1920} // Adjust width as needed
+          height={200} // Adjust height as needed
+          className="object-cover"
         />
       </div>
 

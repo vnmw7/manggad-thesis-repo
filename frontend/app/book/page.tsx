@@ -1,7 +1,15 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, FormEvent, Suspense } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  Suspense,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 const SearchBookPage = () => {
   const [books, getBooks] = useState<
@@ -19,20 +27,23 @@ const SearchBookPage = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(`Sending search request for: ${searchQuery}`);
-    const response = await fetch("http://localhost:3001/books/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ searchQuery }),
-    });
-    const searchResults = await response.json();
-    console.log(`Received search results: ${searchResults}`);
-    getBooks(searchResults);
-  };
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      console.log(`Sending search request for: ${searchQuery}`);
+      const response = await fetch("http://localhost:3001/books/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ searchQuery }),
+      });
+      const searchResults = await response.json();
+      console.log(`Received search results: ${searchResults}`);
+      getBooks(searchResults);
+    },
+    [searchQuery],
+  );
 
   const toggleDropdown = (dropdownName: string) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
@@ -54,7 +65,7 @@ const SearchBookPage = () => {
       }) as unknown as FormEvent<HTMLFormElement>;
       handleSubmit(formEvent);
     }
-  }, [initialQuery]);
+  }, [initialQuery, handleSubmit]);
 
   const formattedTime = currentTime.toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -75,10 +86,12 @@ const SearchBookPage = () => {
       {/* Navbar */}
       <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
-          <img
+          <Image
             src="/MANGGAD LOGO.png"
             alt="Manggad Logo"
             className="mr-2 h-32 w-32"
+            width={128}
+            height={128}
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -140,10 +153,12 @@ const SearchBookPage = () => {
 
       {/* Image Banner */}
       <div className="w-full">
-        <img
+        <Image
           src="/Librarysample.jpg"
           alt="Banner"
           className="h-[200px] w-full object-cover"
+          width={1920}
+          height={200}
         />
       </div>
 

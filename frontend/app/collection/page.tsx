@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Collections() {
   const router = useRouter();
@@ -91,10 +92,12 @@ export default function Collections() {
       <nav className="flex w-full items-center justify-between bg-[#0442B1] px-4 py-2 text-white">
         <div className="flex items-center">
           {/* Logo Image */}
-          <img
-            src="MANGGAD LOGO.png" // Replace with the path to your logo image
+          <Image
+            src="/MANGGAD LOGO.png" // Replace with the path to your logo image
             alt="Logo"
             className="mr-2 h-32 w-32" // Adjust height and width as needed
+            width={128}
+            height={128}
           />
           <div className="text-2xl font-extrabold">
             Manggad Research Repository
@@ -162,10 +165,12 @@ export default function Collections() {
 
       {/* Banner Image */}
       <div className="w-full">
-        <img
-          src="Librarysample.jpg"
+        <Image
+          src="/Librarysample.jpg"
           alt="Banner"
           className="h-[200px] w-full object-cover"
+          width={1920}
+          height={200}
         />
       </div>
 

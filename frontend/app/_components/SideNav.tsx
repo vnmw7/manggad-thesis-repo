@@ -44,7 +44,7 @@ const SideNav = () => {
               >
                 Search Repository
               </a>
-            </li>   
+            </li>
           </ul>
         )}
       </div>
