@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { FaUser, FaHome, FaInfoCircle, FaEnvelope } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaUser, FaHome, FaSearch, FaBook } from "react-icons/fa";
 import { useTheme } from "next-themes";
 import ThemeSwitch from "./theme/ThemeSwitch";
 
@@ -11,6 +11,7 @@ const Header = () => {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Use useEffect to update the clock and date every second
   useEffect(() => {
@@ -24,21 +25,32 @@ const Header = () => {
   // Handle theme mounting for SSR
   useEffect(() => setMounted(true), []);
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   // Format time as HH:MM:SS AM/PM
-  const formattedTime = mounted ? currentTime.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: true,
-  }) : '';
+  const formattedTime = mounted
+    ? currentTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      })
+    : "";
 
   // Format date as Month Day, Year (e.g., October 26, 2024)
-  const formattedDate = mounted ? currentTime.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }) : '';
+  const formattedDate = mounted
+    ? currentTime.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
 
   // Animation variants
   const navItemVariants = {
@@ -46,113 +58,211 @@ const Header = () => {
     hover: { scale: 1.05, y: -2, transition: { duration: 0.2 } },
   };
 
+  const stickyHeaderVariants = {
+    initial: { y: -100, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { duration: 0.3 } },
+    exit: { y: -100, opacity: 0, transition: { duration: 0.2 } },
+  };
+
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
+  // Handle sticky header on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 150) {
+        setIsHeaderSticky(true);
+      } else {
+        setIsHeaderSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div>
-      {/* Navbar with glassmorphism effect */}
-      <nav className="relative z-10 flex w-full items-center justify-between bg-gradient-to-r from-[#053fa8]/95 to-[#053fa8]/90 px-4 py-2 text-white backdrop-blur-sm">
-        <div className="flex items-center">
-          {/* Logo with subtle animation */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center"
+      {/* Sticky Header */}
+      <AnimatePresence>
+        {isHeaderSticky ? (
+          <motion.nav
+            variants={stickyHeaderVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="fixed top-0 right-0 left-0 z-50 flex w-full items-center justify-between bg-gradient-to-r from-[#053fa8]/90 to-[#053fa8]/80 px-4 py-2 text-white shadow-lg dark:bg-gradient-to-r dark:from-[#1a202c]/90 dark:to-[#1a202c]/80"
           >
-            <Image
-              src="/MANGGAD LOGO.png"
-              alt="Logo"
-              width={128}
-              height={128}
-              className="mr-2 hidden lg:block"
-            />
-            <div className="text-lg font-extrabold lg:text-2xl">
-              Manggad Research Repository
+            <div className="flex items-center">
+              <motion.div
+                className="flex items-center"
+                onClick={() => router.push("/home")}
+                style={{ cursor: "pointer" }}
+              >
+                <Image
+                  src="/MANGGAD LOGO.png"
+                  alt="Logo"
+                  width={40}
+                  height={40}
+                  className="mr-2"
+                />
+                <div className="text-lg font-extrabold">Manggad Repository</div>
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
 
-        {/* Centered Navigation Links and Real-time/ Admin section */}
-        <div className="flex items-center space-x-8">
-          {/* Navigation Links with hover animations */}
-          <div className="flex space-x-5">
-            <motion.a
-              initial="rest"
-              whileHover="hover"
-              variants={navItemVariants}
-              className="flex cursor-pointer items-center text-lg hover:text-blue-200"
-              onClick={() => router.push("/home")}
-            >
-              <FaHome className="mr-1 h-4 w-4" />
-              Home
-            </motion.a>
-            <motion.a
-              initial="rest"
-              whileHover="hover"
-              variants={navItemVariants}
-              className="flex cursor-pointer items-center text-lg hover:text-blue-200"
-              onClick={() => router.push("/about")}
-            >
-              <FaInfoCircle className="mr-1 h-4 w-4" />
-              About
-            </motion.a>
-            <motion.a
-              initial="rest"
-              whileHover="hover"
-              variants={navItemVariants}
-              className="flex cursor-pointer items-center text-lg hover:text-blue-200"
-              onClick={() => router.push("/contact")}
-            >
-              <FaEnvelope className="mr-1 h-4 w-4" />
-              Contact
-            </motion.a>
-          </div>
+            <div className="mx-4 hidden flex-1 items-center md:flex">
+              <form onSubmit={handleSearch} className="w-full max-w-lg">
+                <div className="relative flex rounded-lg bg-white/20 backdrop-blur-sm">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search books, authors..."
+                    className="w-full rounded-l-lg bg-transparent px-4 py-2 text-white placeholder-white/70 focus:outline-none"
+                    aria-label="Search books"
+                  />
+                  <button
+                    type="submit"
+                    className="flex items-center justify-center rounded-r-lg bg-white/30 px-4 font-medium text-white transition-colors hover:bg-white/40 focus:outline-none"
+                    aria-label="Submit search"
+                  >
+                    <FaSearch className="h-4 w-4" />
+                  </button>
+                </div>
+              </form>
+            </div>
 
-          {/* Divider Line with subtle animation */}
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "40px" }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="mx-4 hidden border-l border-white/40 lg:block"
-          ></motion.div>
+            <div className="flex items-center space-x-4">
+              <div className="hidden md:flex md:space-x-3">
+                <motion.a
+                  initial="rest"
+                  whileHover="hover"
+                  variants={navItemVariants}
+                  className="flex cursor-pointer items-center text-sm hover:text-blue-200"
+                  onClick={() => router.push("/home")}
+                >
+                  <FaHome className="mr-1 h-3 w-3" />
+                  Home
+                </motion.a>
+                <motion.a
+                  initial="rest"
+                  whileHover="hover"
+                  variants={navItemVariants}
+                  className="flex cursor-pointer items-center text-sm hover:text-blue-200"
+                  onClick={() => router.push("/book")}
+                >
+                  <FaBook className="mr-1 h-3 w-3" />
+                  Books
+                </motion.a>
+              </div>
 
-          {/* Real-time Date, Time and Admin Button */}
-          <div className="flex items-center space-x-4">
-            {/* Clock with fade-in animation */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="hidden text-right font-mono text-lg lg:block"
-            >
-              {mounted && (
-                <>
-                  <div className="text-blue-100">{formattedDate}</div>
-                  <div className="text-blue-100">{formattedTime}</div>
-                </>
-              )}
-            </motion.div>
-
-            {/* Theme Switch */}
-            <div className="mr-2">
               <ThemeSwitch />
+
+              <motion.button
+                initial="rest"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                }}
+                transition={{ duration: 0.2 }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
+                onClick={() => router.push("/login")}
+                aria-label="Login"
+              >
+                <FaUser className="h-4 w-4 text-white" />
+              </motion.button>
+            </div>
+          </motion.nav>
+        ) : (
+          <motion.nav
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="flex w-full items-center justify-between bg-gradient-to-r from-[#053fa8]/95 to-[#053fa8]/90 px-4 py-2 text-white shadow-lg backdrop-blur-md dark:bg-gradient-to-r dark:from-[#1a202c]/90 dark:to-[#1a202c]/80"
+          >
+            <div className="flex items-center">
+              <motion.div
+                className="flex items-center"
+                onClick={() => router.push("/home")}
+                style={{ cursor: "pointer" }}
+              >
+                <Image
+                  src="/MANGGAD LOGO.png"
+                  alt="Logo"
+                  width={40}
+                  height={40}
+                  className="mr-2"
+                />
+                <div className="text-lg font-extrabold">Manggad Repository</div>
+              </motion.div>
             </div>
 
-            {/* Profile Icon Button for Admin Login with hover effect */}
-            <motion.button
-              initial="rest"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
-              }}
-              transition={{ duration: 0.2 }}
-              className="ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
-              onClick={() => router.push("/login")}
-            >
-              <FaUser className="h-5 w-5 text-white" />
-            </motion.button>
-          </div>
-        </div>
-      </nav>
+            <div className="mx-4 hidden flex-1 items-center md:flex">
+              <form onSubmit={handleSearch} className="w-full max-w-lg">
+                <div className="relative flex rounded-lg bg-white/20 backdrop-blur-sm">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search books, authors..."
+                    className="w-full rounded-l-lg bg-transparent px-4 py-2 text-white placeholder-white/70 focus:outline-none"
+                    aria-label="Search books"
+                  />
+                  <button
+                    type="submit"
+                    className="flex items-center justify-center rounded-r-lg bg-white/30 px-4 font-medium text-white transition-colors hover:bg-white/40 focus:outline-none"
+                    aria-label="Submit search"
+                  >
+                    <FaSearch className="h-4 w-4" />
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="hidden md:flex md:space-x-3">
+                <motion.a
+                  initial="rest"
+                  whileHover="hover"
+                  variants={navItemVariants}
+                  className="flex cursor-pointer items-center text-sm hover:text-blue-200"
+                  onClick={() => router.push("/home")}
+                >
+                  <FaHome className="mr-1 h-3 w-3" />
+                  Home
+                </motion.a>
+                <motion.a
+                  initial="rest"
+                  whileHover="hover"
+                  variants={navItemVariants}
+                  className="flex cursor-pointer items-center text-sm hover:text-blue-200"
+                  onClick={() => router.push("/book")}
+                >
+                  <FaBook className="mr-1 h-3 w-3" />
+                  Books
+                </motion.a>
+              </div>
+
+              <ThemeSwitch />
+
+              <motion.button
+                initial="rest"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                }}
+                transition={{ duration: 0.2 }}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
+                onClick={() => router.push("/login")}
+                aria-label="Login"
+              >
+                <FaUser className="h-4 w-4 text-white" />
+              </motion.button>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
       {/* Image Banner with overlay and animation */}
       <motion.div

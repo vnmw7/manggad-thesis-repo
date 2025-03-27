@@ -1,16 +1,95 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaGraduationCap, FaChevronDown, FaInfoCircle } from "react-icons/fa";
+import Image from "next/image";
+import {
+  FaGraduationCap,
+  FaChevronDown,
+  FaInfoCircle,
+  FaUser,
+  FaHome,
+  FaEnvelope,
+  FaBook,
+  FaSearch,
+  FaNewspaper,
+  FaBookOpen,
+  FaStar,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa";
+import { useTheme } from "next-themes";
+import ThemeSwitch from "./theme/ThemeSwitch";
 
 const SideNav = () => {
   const router = useRouter();
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
 
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
+  };
+
+  // Use useEffect to update the clock and date every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // Updates every second
+
+    return () => clearInterval(interval); // Clear interval when component unmounts
+  }, []);
+
+  // Handle sticky header on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setIsHeaderSticky(true);
+      } else {
+        setIsHeaderSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Handle theme mounting for SSR
+  useEffect(() => setMounted(true), []);
+
+  // Format time as HH:MM:SS AM/PM
+  const formattedTime = mounted
+    ? currentTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      })
+    : "";
+
+  // Format date as Month Day, Year (e.g., October 26, 2024)
+  const formattedDate = mounted
+    ? currentTime.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
+
+  // Handle search submission
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   // Animation variants
@@ -47,143 +126,351 @@ const SideNav = () => {
     },
   };
 
+  const navItemVariants = {
+    rest: { scale: 1 },
+    hover: { scale: 1.05, y: -2, transition: { duration: 0.2 } },
+  };
+
+  const stickyHeaderVariants = {
+    initial: { y: -100, opacity: 0 },
+    animate: { y: 0, opacity: 1, transition: { duration: 0.3 } },
+    exit: { y: -100, opacity: 0, transition: { duration: 0.2 } },
+  };
+
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className="mt-5 h-auto w-full rounded-xl border border-white/20 bg-white/20 p-5 backdrop-blur-lg lg:w-[280px] dark:bg-gray-900/30 dark:text-white"
-    >
-      {/* Manggad Corner Section */}
-      <div className="mb-4">
-        <motion.button
-          initial="rest"
-          whileHover="hover"
-          variants={buttonHoverVariants}
-          onClick={() => toggleDropdown("author")}
-          className="mb-3 flex w-full items-center justify-between rounded-lg bg-[#053fa8] p-4 text-left text-xl font-medium text-white shadow-md transition-all"
+    <div className="flex flex-col">
+      {/* Main Content Area */}
+      <div className="flex flex-col lg:flex-row">
+        {/* Sidebar Content */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="mt-5 h-auto w-full bg-white/60 p-5 backdrop-blur-lg lg:ml-5 lg:w-[280px] dark:bg-gray-900/80 dark:text-white"
         >
-          <div className="flex items-center">
-            <FaGraduationCap className="mr-3 h-5 w-5" />
-            <span>Manggad Corner</span>
-          </div>
-          <FaChevronDown
-            className={`h-5 w-5 transition-transform duration-300 ${openDropdown === "author" ? "rotate-180" : ""}`}
-          />
-        </motion.button>
-
-        <AnimatePresence>
-          {openDropdown === "author" && (
+          {/* Logo and Navigation Links Section */}
+          <div className="mb-4">
             <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={dropdownVariants}
-              className="overflow-hidden"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-4 flex items-center"
+              onClick={() => router.push("/home")}
+              style={{ cursor: "pointer" }}
             >
-              <ul className="space-y-2 rounded-lg bg-white/50 p-3 backdrop-blur-sm dark:bg-gray-800/50">
-                <motion.li
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <a
-                    className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                    onClick={() => router.push("/faq")}
-                  >
-                    <FaInfoCircle className="mr-2 h-4 w-4" />
-                    Manggad FAQ
-                  </a>
-                </motion.li>
-              </ul>
+              <Image
+                src="/MANGGAD LOGO.png"
+                alt="Logo"
+                width={50}
+                height={50}
+                className="mr-2"
+              />
+              <div className="text-lg font-extrabold text-blue-900 dark:text-blue-100">
+                Manggad Repository
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
 
-      {/* About Manggad Section */}
-      <div className="mb-4">
-        <motion.button
-          initial="rest"
-          whileHover="hover"
-          variants={buttonHoverVariants}
-          onClick={() => toggleDropdown("connect")}
-          className="mb-3 flex w-full items-center justify-between rounded-lg bg-[#053fa8] p-4 text-left text-xl font-medium text-white shadow-md transition-all"
-        >
-          <div className="flex items-center">
-            <FaInfoCircle className="mr-3 h-5 w-5" />
-            <span>About Manggad</span>
+            <div className="mb-5 space-y-2">
+              <motion.a
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                onClick={() => router.push("/home")}
+              >
+                <FaHome className="mr-2 h-5 w-5" />
+                Home
+              </motion.a>
+
+              <motion.div
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="relative"
+              >
+                <motion.button
+                  className="flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                  onClick={() => toggleDropdown("books")}
+                  aria-expanded={openDropdown === "books"}
+                  aria-controls="books-dropdown"
+                >
+                  <div className="flex items-center">
+                    <FaBook className="mr-2 h-5 w-5" />
+                    Books
+                  </div>
+                  <FaChevronDown
+                    className={`h-4 w-4 transition-transform duration-300 ${openDropdown === "books" ? "rotate-180" : ""}`}
+                  />
+                </motion.button>
+
+                <AnimatePresence>
+                  {openDropdown === "books" && (
+                    <motion.div
+                      id="books-dropdown"
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={dropdownVariants}
+                      className="overflow-hidden"
+                    >
+                      <ul className="mt-1 space-y-2 rounded-lg bg-white/50 p-3 backdrop-blur-sm dark:bg-gray-800/50">
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/book")}
+                          >
+                            <FaBookOpen className="mr-2 h-4 w-4" />
+                            All Thesis
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() =>
+                              router.push("/book?category=Graduate")
+                            }
+                          >
+                            <FaGraduationCap className="mr-2 h-4 w-4" />
+                            Graduate Collection
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() =>
+                              router.push("/book?category=SARFAID")
+                            }
+                          >
+                            <FaBookOpen className="mr-2 h-4 w-4" />
+                            SARFAID Collection
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/book?category=SBIT")}
+                          >
+                            <FaBookOpen className="mr-2 h-4 w-4" />
+                            SBIT Collection
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/book?category=SHTM")}
+                          >
+                            <FaBookOpen className="mr-2 h-4 w-4" />
+                            SHTM Collection
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/book?category=SSLATE")}
+                          >
+                            <FaBookOpen className="mr-2 h-4 w-4" />
+                            SSLATE Collection
+                          </a>
+                        </motion.li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="relative"
+              >
+                <motion.button
+                  className="flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                  onClick={() => toggleDropdown("about")}
+                  aria-expanded={openDropdown === "about"}
+                  aria-controls="about-dropdown"
+                >
+                  <div className="flex items-center">
+                    <FaInfoCircle className="mr-2 h-5 w-5" />
+                    About
+                  </div>
+                  <FaChevronDown
+                    className={`h-4 w-4 transition-transform duration-300 ${openDropdown === "about" ? "rotate-180" : ""}`}
+                  />
+                </motion.button>
+
+                <AnimatePresence>
+                  {openDropdown === "about" && (
+                    <motion.div
+                      id="about-dropdown"
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={dropdownVariants}
+                      className="overflow-hidden"
+                    >
+                      <ul className="mt-1 space-y-2 rounded-lg bg-white/50 p-3 backdrop-blur-sm dark:bg-gray-800/50">
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/about")}
+                          >
+                            <FaInfoCircle className="mr-2 h-4 w-4" />
+                            About Manggad
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() => router.push("/faq")}
+                          >
+                            <FaInfoCircle className="mr-2 h-4 w-4" />
+                            Manggad FAQ
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            onClick={() =>
+                              router.push("/book?category=Featured")
+                            }
+                          >
+                            <FaStar className="mr-2 h-4 w-4" />
+                            Featured Works
+                          </a>
+                        </motion.li>
+                        <motion.li
+                          whileHover={{ x: 5 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <a
+                            href="https://lcc.edu.ph/"
+                            className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <svg
+                              className="mr-2 h-4 w-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9-3-9m-9 9a9 9 0 019-9"
+                              />
+                            </svg>
+                            LCCB Website
+                          </a>
+                        </motion.li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <motion.a
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                onClick={() => router.push("/contact")}
+              >
+                <FaEnvelope className="mr-2 h-5 w-5" />
+                Contact
+              </motion.a>
+            </div>
+
+            {/* Clock and Date Display */}
+            {mounted && (
+              <div className="mb-4 rounded-lg bg-blue-50/70 p-3 text-center font-mono text-sm dark:bg-blue-900/30">
+                <div className="text-blue-800 dark:text-blue-200">
+                  {formattedDate}
+                </div>
+                <div className="text-blue-800 dark:text-blue-200">
+                  {formattedTime}
+                </div>
+              </div>
+            )}
           </div>
-          <FaChevronDown
-            className={`h-5 w-5 transition-transform duration-300 ${openDropdown === "connect" ? "rotate-180" : ""}`}
-          />
-        </motion.button>
 
-        <AnimatePresence>
-          {openDropdown === "connect" && (
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={dropdownVariants}
-              className="overflow-hidden"
-            >
-              <ul className="space-y-2 rounded-lg bg-white/50 p-3 backdrop-blur-sm dark:bg-gray-800/50">
-                <motion.li
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <a
-                    className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                    onClick={() => router.push("/contact")}
-                  >
-                    <svg
-                      className="mr-2 h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Contact
-                  </a>
-                </motion.li>
-                <motion.li
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <a
-                    href="https://lcc.edu.ph/"
-                    className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                  >
-                    <svg
-                      className="mr-2 h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9-3-9m-9 9a9 9 0 019-9"
-                      />
-                    </svg>
-                    LCCB Website
-                  </a>
-                </motion.li>
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          {/* Social Media Links */}
+          <div className="mt-6 rounded-lg bg-white/50 p-4 dark:bg-gray-800/50">
+            <h3 className="mb-3 text-lg font-semibold text-gray-800 dark:text-white">
+              Connect with Us
+            </h3>
+            <div className="flex justify-around">
+              <motion.a
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="text-blue-600 dark:text-blue-400"
+                href="https://facebook.com/lccbacolod"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <FaFacebook className="h-6 w-6" />
+              </motion.a>
+              <motion.a
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="text-blue-400 dark:text-blue-300"
+                href="https://twitter.com/lccbacolod"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <FaTwitter className="h-6 w-6" />
+              </motion.a>
+              <motion.a
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="text-pink-600 dark:text-pink-400"
+                href="https://instagram.com/lccbacolod"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <FaInstagram className="h-6 w-6" />
+              </motion.a>
+              <motion.a
+                whileHover={{ y: -3, scale: 1.1 }}
+                className="text-red-600 dark:text-red-400"
+                href="https://youtube.com/lccbacolod"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+              >
+                <FaYoutube className="h-6 w-6" />
+              </motion.a>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
