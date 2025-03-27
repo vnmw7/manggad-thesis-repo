@@ -7,6 +7,7 @@ const RegistrationPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
 
   const newUser = {
@@ -16,7 +17,7 @@ const RegistrationPage = () => {
 
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== password) {
+    if (password !== confirmPassword) {
       setPasswordMatch(false);
       return;
     }
@@ -76,11 +77,12 @@ const RegistrationPage = () => {
                 placeholder="Retype Password"
                 className="w-full rounded-md border border-gray-300 p-3 focus:border-[#0442B1] focus:outline-none"
                 onChange={(e) => {
-                  e.target.value !== password
-                    ? setPasswordMatch(false)
-                    : setPasswordMatch(
-                        true,
-                      ); /* shortcut sng if else statement */
+                  setConfirmPassword(e.target.value);
+                  if (e.target.value !== password) {
+                    setPasswordMatch(false);
+                  } else {
+                    setPasswordMatch(true);
+                  }
                 }}
               />
               <p
@@ -91,7 +93,6 @@ const RegistrationPage = () => {
               </p>
               <button
                 type="submit"
-                onClick={() => router.push("/admin")}
                 className="w-full rounded-md bg-[#0442B1] py-3 font-semibold text-white transition-colors duration-200 hover:bg-[#033b9b]"
               >
                 Register
@@ -101,15 +102,17 @@ const RegistrationPage = () => {
             <div className="mt-4 flex w-full flex-col items-center text-center">
               <p className="text-gray-600"> Already have an account? </p>
               <button
+                type="button"
                 className="secondary mt-2 font-medium text-[#0442B1]"
                 onClick={() => router.push("/login")}
               >
                 Login
               </button>
-              <button className="tritiary" onClick={() => router.back()}>
+              <button type="button" className="tritiary" onClick={() => router.back()}>
                 Back
               </button>
               <button
+                type="button"
                 className="fourtiary"
                 onClick={() => router.push("/admin")}
               >
