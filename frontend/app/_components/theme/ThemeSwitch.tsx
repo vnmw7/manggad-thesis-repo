@@ -1,54 +1,54 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import Image from "next/image";
+import { Sun, Moon } from "lucide-react";
 
 export default function ThemeSwitch() {
-  const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []); // to prevent rendering issues related to server-side rendering (SSR) in Next.js
+  // Only show the theme toggle client-side to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (!mounted)
-    return (
-      // loading indicator lang na ang image mag switch theme
-      <Image
-        src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9IiNGRkZGRkYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBoZWlnaHQ9IjIwMHB4IiB3aWR0aD0iMjAwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB4PSIyIiB5PSIyIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiIHJ4PSIyIj48L3JlY3Q+PC9zdmc+Cg=="
-        width={36}
-        height={36}
-        sizes="36x36"
-        alt="Loading Light/Dark Toggle"
-        priority={false}
-        title="Loading Light/Dark Toggle"
-      />
-    );
-
-  if (resolvedTheme === "dark") {
-    // para mag switch ang theme pati ang button
+  if (!mounted) {
     return (
       <button
-        className="w-full rounded bg-[#262832]"
-        onClick={() => setTheme("light")}
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-800 transition-all hover:bg-gray-200 hover:text-gray-900"
+        aria-label="Theme Switch"
+        title="Theme Switch"
       >
-        {" "}
-        Switch to Light Mode{" "}
+        <div className="h-6 w-6" />
       </button>
     );
   }
 
-  if (resolvedTheme === "light") {
-    // para mag switch ang theme pati ang button
-    return (
-      <button
-        className="w-full rounded bg-[#262832]"
-        onClick={() => setTheme("dark")}
-      >
-        {" "}
-        Switch to Dark Mode{" "}
-      </button>
-    );
-  }
+  return (
+    <button
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-800 transition-all hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700 dark:hover:text-yellow-200"
+      onClick={() => {
+        const newTheme = resolvedTheme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
 
-  // source: https://www.davegray.codes/posts/light-dark-mode-nextjs-app-router-tailwind
+        // Force the class on the HTML element directly
+        if (newTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+
+        // Log for debugging
+        console.log("Setting theme to:", newTheme);
+      }}
+      aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+      title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+    >
+      {resolvedTheme === "dark" ? (
+        <Sun className="h-6 w-6" />
+      ) : (
+        <Moon className="h-6 w-6" />
+      )}
+    </button>
+  );
 }

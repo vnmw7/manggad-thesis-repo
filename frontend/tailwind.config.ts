@@ -12,10 +12,21 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        card: "var(--card)",
+        "card-foreground": "var(--card-foreground)",
         primary: {
-          DEFAULT: "#132246",
-          dark: "#fff",
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
         },
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
+        },
+        border: "var(--border)",
       },
       // Ensure spacing utilities are explicitly included
       spacing: {
@@ -27,6 +38,5 @@ const config: Config = {
     },
   },
   plugins: [],
-  darkMode: "class",
 };
 export default config;

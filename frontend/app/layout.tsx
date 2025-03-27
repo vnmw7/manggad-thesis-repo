@@ -1,18 +1,19 @@
+"use client";
+
 import "./globals.css";
-import ThemedElement from "./_components/theme/ThemedElement";
-// import SessionProviderWrapper from "./SessionProviderWrapper";
+import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        {/* <SessionProviderWrapper> */}
-        <ThemedElement> {children} </ThemedElement>
-        {/* </SessionProviderWrapper> */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
