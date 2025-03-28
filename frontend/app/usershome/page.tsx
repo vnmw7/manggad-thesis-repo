@@ -307,7 +307,7 @@ export default function HomePage() {
           </div>
 
           {/* First New Div Below the Carousel */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
+          <div className="mt-8 -ml-48 flex w-full justify-center">
             <div className="max-w-4xl text-center">
               <h2 className="mb-2 text-left text-5xl font-bold text-[#0A379C]">
                 The First Higher Education Institution in Negros Occidental
@@ -322,7 +322,7 @@ export default function HomePage() {
           </div>
 
           {/* Second New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
+          <div className="mt-8 -ml-48 flex w-full justify-center">
             <div className="max-w-4xl text-center">
               <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
                 Founded by the Augustinian Sisters of our Lady of Consolation
@@ -339,7 +339,7 @@ export default function HomePage() {
           </div>
 
           {/* Third New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
+          <div className="mt-8 -ml-48 flex w-full justify-center">
             <div className="max-w-4xl text-center">
               <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
                 Pioneer in Education
@@ -353,7 +353,7 @@ export default function HomePage() {
           </div>
 
           {/* Fourth New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
+          <div className="mt-8 -ml-48 flex w-full justify-center">
             <div className="max-w-4xl text-center">
               <h2 className="mb-2 text-left text-3xl font-bold text-[#0A379C]">
                 School of Girls
@@ -370,7 +370,7 @@ export default function HomePage() {
           </div>
 
           {/* Fifth New Div */}
-          <div className="-ml-48 mt-8 flex w-full justify-center">
+          <div className="mt-8 -ml-48 flex w-full justify-center">
             <div className="max-w-4xl text-center">
               <h2 className="mb-2 text-justify text-3xl font-bold text-[#0A379C]">
                 Physical and Academic Advancement

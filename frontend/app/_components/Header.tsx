@@ -3,27 +3,11 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaUser, FaHome, FaSearch, FaBook } from "react-icons/fa";
-import { useTheme } from "next-themes";
 import ThemeSwitch from "./theme/ThemeSwitch";
 
 const Header = () => {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme } = useTheme();
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Use useEffect to update the clock and date every second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000); // Updates every second
-
-    return () => clearInterval(interval); // Clear interval when component unmounts
-  }, []);
-
-  // Handle theme mounting for SSR
-  useEffect(() => setMounted(true), []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,26 +15,6 @@ const Header = () => {
       router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
     }
   };
-
-  // Format time as HH:MM:SS AM/PM
-  const formattedTime = mounted
-    ? currentTime.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true,
-      })
-    : "";
-
-  // Format date as Month Day, Year (e.g., October 26, 2024)
-  const formattedDate = mounted
-    ? currentTime.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
 
   // Animation variants
   const navItemVariants = {

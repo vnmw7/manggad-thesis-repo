@@ -95,7 +95,7 @@ const Dashboard = () => {
                       <Button
                         size="small"
                         onClick={() => router.push(`/book/${book.id}`)}
-                        className="w-24 cursor-pointer whitespace-nowrap rounded-lg px-4 py-2"
+                        className="w-24 cursor-pointer rounded-lg px-4 py-2 whitespace-nowrap"
                         style={{
                           backgroundColor: "#2563eb",
                           color: "#ffffff",

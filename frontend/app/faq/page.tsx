@@ -342,7 +342,7 @@ export default function FaqPage() {
                       {question}
                     </a>
                     {openQuestion === question && (
-                      <div className="ml-4 mt-2 text-gray-700">{answer}</div> // Align answer with question
+                      <div className="mt-2 ml-4 text-gray-700">{answer}</div> // Align answer with question
                     )}
                   </li>
                 ))}

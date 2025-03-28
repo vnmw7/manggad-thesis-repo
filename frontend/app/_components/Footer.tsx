@@ -61,7 +61,7 @@ const Footer = () => {
             <h3 className="text-xl font-bold">About Manggad</h3>
             <p className="text-blue-100">
               Manggad is the digital repository of La Consolacion College
-              Bacolod's research works, providing a platform for academic
+              Bacolod&apos;s research works, providing a platform for academic
               excellence and knowledge sharing.
             </p>
           </motion.div>

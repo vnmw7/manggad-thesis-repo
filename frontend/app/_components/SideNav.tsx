@@ -6,12 +6,9 @@ import {
   FaGraduationCap,
   FaChevronDown,
   FaInfoCircle,
-  FaUser,
   FaHome,
   FaEnvelope,
   FaBook,
-  FaSearch,
-  FaNewspaper,
   FaBookOpen,
   FaStar,
   FaFacebook,
@@ -19,8 +16,6 @@ import {
   FaInstagram,
   FaYoutube,
 } from "react-icons/fa";
-import { useTheme } from "next-themes";
-import ThemeSwitch from "./theme/ThemeSwitch";
 
 const SideNav = () => {
   const router = useRouter();
@@ -28,8 +23,6 @@ const SideNav = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
 
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
@@ -43,22 +36,6 @@ const SideNav = () => {
     }, 1000); // Updates every second
 
     return () => clearInterval(interval); // Clear interval when component unmounts
-  }, []);
-
-  // Handle sticky header on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setIsHeaderSticky(true);
-      } else {
-        setIsHeaderSticky(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   // Handle theme mounting for SSR
@@ -84,14 +61,6 @@ const SideNav = () => {
       })
     : "";
 
-  // Handle search submission
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
-    }
-  };
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0, y: 10 },
@@ -115,26 +84,6 @@ const SideNav = () => {
         ease: "easeInOut",
       },
     },
-  };
-
-  const buttonHoverVariants = {
-    rest: { scale: 1 },
-    hover: {
-      scale: 1.02,
-      boxShadow: "0 4px 20px rgba(5, 63, 168, 0.15)",
-      transition: { duration: 0.2 },
-    },
-  };
-
-  const navItemVariants = {
-    rest: { scale: 1 },
-    hover: { scale: 1.05, y: -2, transition: { duration: 0.2 } },
-  };
-
-  const stickyHeaderVariants = {
-    initial: { y: -100, opacity: 0 },
-    animate: { y: 0, opacity: 1, transition: { duration: 0.3 } },
-    exit: { y: -100, opacity: 0, transition: { duration: 0.2 } },
   };
 
   return (
