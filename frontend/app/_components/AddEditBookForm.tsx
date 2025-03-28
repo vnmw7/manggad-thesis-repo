@@ -19,7 +19,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, message, type }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
       <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
         <div
           className={`mb-4 text-lg font-semibold ${type === "error" ? "text-red-600" : "text-green-600"}`}

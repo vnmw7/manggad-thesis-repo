@@ -108,7 +108,11 @@ const RegistrationPage = () => {
               >
                 Login
               </button>
-              <button type="button" className="tritiary" onClick={() => router.back()}>
+              <button
+                type="button"
+                className="tritiary"
+                onClick={() => router.back()}
+              >
                 Back
               </button>
               <button

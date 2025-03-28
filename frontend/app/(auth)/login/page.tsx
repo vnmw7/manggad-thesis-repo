@@ -16,14 +16,14 @@ const AuthPage = () => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   // Login state
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
   });
   const [loginError, setLoginError] = useState("");
-  
+
   // Register state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -174,7 +174,7 @@ const AuthPage = () => {
             variants={staggerChildren}
           >
             {/* Header with logo */}
-            <div className="w-full py-6 px-8">
+            <div className="w-full px-8 py-6">
               <motion.div
                 className="flex items-center justify-center space-x-4"
                 variants={fadeIn}
@@ -198,8 +198,8 @@ const AuthPage = () => {
                   />
                 </div>
               </motion.div>
-              
-              <motion.h1 
+
+              <motion.h1
                 className="mt-4 text-center text-2xl font-bold text-gray-900 dark:text-white"
                 variants={fadeIn}
               >
@@ -208,13 +208,10 @@ const AuthPage = () => {
             </div>
 
             {/* Tabs */}
-            <motion.div 
-              className="flex justify-center px-8" 
-              variants={fadeIn}
-            >
+            <motion.div className="flex justify-center px-8" variants={fadeIn}>
               <div className="grid w-full grid-cols-2 gap-2">
                 <motion.button
-                  className={`flex items-center justify-center space-x-2 border-b-2 py-3 text-center font-medium transition-colors ${activeTab === 'login' ? 'border-blue-500 text-blue-700 dark:text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                  className={`flex items-center justify-center space-x-2 border-b-2 py-3 text-center font-medium transition-colors ${activeTab === "login" ? "border-blue-500 text-blue-700 dark:text-blue-400" : "border-transparent text-gray-500 hover:text-gray-700"}`}
                   onClick={() => setActiveTab("login")}
                   animate={activeTab === "login" ? "active" : "inactive"}
                   variants={tabVariants}
@@ -222,9 +219,9 @@ const AuthPage = () => {
                   <User size={18} />
                   <span>Login</span>
                 </motion.button>
-                
+
                 <motion.button
-                  className={`flex items-center justify-center space-x-2 border-b-2 py-3 text-center font-medium transition-colors ${activeTab === 'register' ? 'border-blue-500 text-blue-700 dark:text-blue-400' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                  className={`flex items-center justify-center space-x-2 border-b-2 py-3 text-center font-medium transition-colors ${activeTab === "register" ? "border-blue-500 text-blue-700 dark:text-blue-400" : "border-transparent text-gray-500 hover:text-gray-700"}`}
                   onClick={() => setActiveTab("register")}
                   animate={activeTab === "register" ? "active" : "inactive"}
                   variants={tabVariants}
@@ -258,12 +255,15 @@ const AuthPage = () => {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Mail size={16} className="text-gray-500 dark:text-gray-400" />
+                        <Mail
+                          size={16}
+                          className="text-gray-500 dark:text-gray-400"
+                        />
                       </div>
                       <input
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pl-10 pr-4 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
+                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pr-4 pl-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
                         onChange={(e) =>
                           setUserCredentials({
                             ...userCredentials,
@@ -281,12 +281,15 @@ const AuthPage = () => {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Lock size={16} className="text-gray-500 dark:text-gray-400" />
+                        <Lock
+                          size={16}
+                          className="text-gray-500 dark:text-gray-400"
+                        />
                       </div>
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pl-10 pr-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
+                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pr-10 pl-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
                         onChange={(e) =>
                           setUserCredentials({
                             ...userCredentials,
@@ -311,7 +314,7 @@ const AuthPage = () => {
 
                   <button
                     type="submit"
-                    className="group mt-2 w-full flex items-center justify-center space-x-2 rounded-lg bg-blue-600/90 px-5 py-3 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-blue-700 hover:shadow-md focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:outline-none dark:bg-blue-700/90 dark:hover:bg-blue-800"
+                    className="group mt-2 flex w-full items-center justify-center space-x-2 rounded-lg bg-blue-600/90 px-5 py-3 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-blue-700 hover:shadow-md focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:outline-none dark:bg-blue-700/90 dark:hover:bg-blue-800"
                   >
                     <span>Login</span>
                     <ArrowRight className="h-4 w-4 transform transition-transform group-hover:translate-x-1" />
@@ -351,12 +354,15 @@ const AuthPage = () => {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Mail size={16} className="text-gray-500 dark:text-gray-400" />
+                        <Mail
+                          size={16}
+                          className="text-gray-500 dark:text-gray-400"
+                        />
                       </div>
                       <input
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pl-10 pr-4 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
+                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pr-4 pl-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
                         onChange={(e) => setEmail(e.target.value)}
                         required
                       />
@@ -369,12 +375,15 @@ const AuthPage = () => {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Lock size={16} className="text-gray-500 dark:text-gray-400" />
+                        <Lock
+                          size={16}
+                          className="text-gray-500 dark:text-gray-400"
+                        />
                       </div>
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Choose a password"
-                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pl-10 pr-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
+                        className="w-full rounded-lg border border-gray-300 bg-white/80 py-3 pr-10 pl-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500"
                         onChange={(e) => setPassword(e.target.value)}
                         required
                       />
@@ -398,12 +407,15 @@ const AuthPage = () => {
                     </label>
                     <div className="relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <Lock size={16} className="text-gray-500 dark:text-gray-400" />
+                        <Lock
+                          size={16}
+                          className="text-gray-500 dark:text-gray-400"
+                        />
                       </div>
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
-                        className={`w-full rounded-lg border ${!passwordMatch ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white/80 py-3 pl-10 pr-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500`}
+                        className={`w-full rounded-lg border ${!passwordMatch ? "border-red-500 dark:border-red-500" : "border-gray-300 dark:border-gray-600"} bg-white/80 py-3 pr-10 pl-10 text-gray-700 shadow-sm backdrop-blur-sm focus:border-blue-600 focus:ring-1 focus:ring-blue-600 focus:outline-none dark:bg-gray-800/70 dark:text-gray-100 dark:focus:border-blue-500`}
                         onChange={(e) => {
                           setConfirmPassword(e.target.value);
                           setPasswordMatch(e.target.value === password);
@@ -413,7 +425,9 @@ const AuthPage = () => {
                       <button
                         type="button"
                         className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                       >
                         {showConfirmPassword ? (
                           <EyeOff size={16} />
@@ -431,7 +445,7 @@ const AuthPage = () => {
 
                   <button
                     type="submit"
-                    className="group mt-2 w-full flex items-center justify-center space-x-2 rounded-lg bg-blue-600/90 px-5 py-3 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-blue-700 hover:shadow-md focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:outline-none dark:bg-blue-700/90 dark:hover:bg-blue-800"
+                    className="group mt-2 flex w-full items-center justify-center space-x-2 rounded-lg bg-blue-600/90 px-5 py-3 text-base font-medium text-white backdrop-blur-sm transition-all hover:bg-blue-700 hover:shadow-md focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:outline-none dark:bg-blue-700/90 dark:hover:bg-blue-800"
                   >
                     <span>Register</span>
                     <ArrowRight className="h-4 w-4 transform transition-transform group-hover:translate-x-1" />

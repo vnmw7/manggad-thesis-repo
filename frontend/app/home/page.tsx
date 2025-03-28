@@ -9,13 +9,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import {
-  FaBook,
-  FaBookmark,
-  FaSchool,
-  FaGraduationCap,
-  FaSearch,
-} from "react-icons/fa";
+import { FaSchool, FaSearch } from "react-icons/fa";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
@@ -58,7 +52,6 @@ const GlassmorphicCard = ({
 
 export default function HomePage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -99,9 +92,6 @@ export default function HomePage() {
       router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
     }
   };
-
-  // Handle theme mounting for SSR
-  useEffect(() => setMounted(true), []);
 
   return (
     <div className="flex min-h-screen w-full flex-col overflow-hidden bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-gray-900 dark:to-gray-950">
@@ -313,25 +303,10 @@ export default function HomePage() {
                       leadership of Mo. Rita Barcelo, OSA and Mo. Consuelo, OSA
                       upon the invitation of a Catholic Bishop to put up a
                       school in Bacolod City, now the capital of Negros
-                      Occidental, Philippines – one of the world's top suppliers
-                      of sugar at that time.
+                      Occidental, Philippines – one of the world&apos;s top
+                      suppliers of sugar at that time.
                     </p>
-                  </div>
-                </div>
-              </GlassmorphicCard>
-            </motion.div>
 
-            {/* Third Section */}
-            <motion.div variants={fadeIn} className="mb-14">
-              <GlassmorphicCard
-                className="overflow-hidden rounded-xl p-6 shadow-md sm:p-8"
-                hoverEffect
-              >
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-purple-600/10 p-3 text-purple-600 sm:h-20 sm:w-20 dark:bg-purple-500/20 dark:text-purple-400">
-                    <FaGraduationCap className="h-8 w-8 sm:h-10 sm:w-10" />
-                  </div>
-                  <div className="flex-1">
                     <h2 className="mb-3 text-2xl font-bold text-purple-800 sm:text-3xl dark:text-purple-300">
                       Pioneer in Education
                     </h2>
@@ -339,63 +314,6 @@ export default function HomePage() {
                       With a campus located at the center of Bacolod City, the
                       first educational offerings of La Consolacion College
                       Bacolod were primary and intermediate school certificates.
-                    </p>
-                  </div>
-                </div>
-              </GlassmorphicCard>
-            </motion.div>
-
-            {/* Fourth Section */}
-            <motion.div variants={fadeIn} className="mb-14">
-              <GlassmorphicCard
-                className="overflow-hidden rounded-xl p-6 shadow-md sm:p-8"
-                hoverEffect
-              >
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-cyan-600/10 p-3 text-cyan-600 sm:h-20 sm:w-20 dark:bg-cyan-500/20 dark:text-cyan-400">
-                    <FaBook className="h-8 w-8 sm:h-10 sm:w-10" />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="mb-3 text-2xl font-bold text-cyan-800 sm:text-3xl dark:text-cyan-300">
-                      School of Girls
-                    </h2>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      The first students of La Consolacion College Bacolod were
-                      girls from wealthy families of Negros Occidental until the
-                      1960's when the provincial economy was hit by a global
-                      crisis in the sugar industry, LCCB became co-educational
-                      and opened its doors to provide greater access to
-                      education for the poor – reinforcing its mission for
-                      evangelization through education.
-                    </p>
-                  </div>
-                </div>
-              </GlassmorphicCard>
-            </motion.div>
-
-            {/* Fifth Section */}
-            <motion.div variants={fadeIn} className="mb-14">
-              <GlassmorphicCard
-                className="overflow-hidden rounded-xl p-6 shadow-md sm:p-8"
-                hoverEffect
-              >
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-emerald-600/10 p-3 text-emerald-600 sm:h-20 sm:w-20 dark:bg-emerald-500/20 dark:text-emerald-400">
-                    <FaBookmark className="h-8 w-8 sm:h-10 sm:w-10" />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="mb-3 text-2xl font-bold text-emerald-800 sm:text-3xl dark:text-emerald-300">
-                      Physical and Academic Advancement
-                    </h2>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      There was a rapid growth of student population as
-                      educational offerings and scholarship opportunities were
-                      increasingly offered. The college pioneered the offering
-                      of architecture, fine arts and interior design degree
-                      programs in addition to its teacher education and commerce
-                      degrees. It was followed by the offering of culinary,
-                      hospitality and tourism degree programs which were also
-                      the first of their kind in the province.
                     </p>
                   </div>
                 </div>
