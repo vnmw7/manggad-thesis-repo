@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -19,14 +19,16 @@ export function MagicCard({
   children,
   className,
   gradientSize = 200,
-  gradientColor = "#000000",
-  gradientOpacity = 0.3,
-  gradientFrom = "#9E7AFF",
-  gradientTo = "#FE8BBB",
+  gradientColor = "skyblue",
+  gradientOpacity = 0.4,
+  gradientFrom = "skyblue",
+  gradientTo = "skyblue",
 }: MagicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(-gradientSize);
   const mouseY = useMotionValue(-gradientSize);
+  // Add state to control client-side rendering of motion elements
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -71,6 +73,8 @@ export function MagicCard({
   }, [handleMouseEnter, handleMouseMove, handleMouseOut]);
 
   useEffect(() => {
+    // Set mounted state to true once component is mounted on the client
+    setIsMounted(true);
     mouseX.set(-gradientSize);
     mouseY.set(-gradientSize);
   }, [gradientSize, mouseX, mouseY]);
@@ -83,20 +87,29 @@ export function MagicCard({
       ref={cardRef}
       className={cn("group relative rounded-[inherit]", className)}
     >
-      <motion.div
-        className="pointer-events-none absolute inset-0 rounded-[inherit] duration-300 group-hover:opacity-100"
-        style={{
-          backgroundImage: gradientBgImage,
-        }}
-      />
-      <div className="bg-background absolute inset-px rounded-[inherit]" />
-      <motion.div
-        className="pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          backgroundImage: hoverBgImage,
-          opacity: gradientOpacity,
-        }}
-      />
+      {isMounted ? (
+        <>
+          <motion.div
+            className="pointer-events-none absolute inset-0 rounded-[inherit] duration-300 group-hover:opacity-100"
+            style={{
+              backgroundImage: gradientBgImage,
+            }}
+          />
+          <div className="bg-background absolute inset-px rounded-[inherit]" />
+          <motion.div
+            className="pointer-events-none absolute inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              backgroundImage: hoverBgImage,
+              opacity: gradientOpacity,
+            }}
+          />
+        </>
+      ) : (
+        // Simple placeholder during server rendering
+        <div className="absolute inset-0 rounded-[inherit]">
+          <div className="bg-background absolute inset-px rounded-[inherit]" />
+        </div>
+      )}
       <div className="relative">{children}</div>
     </div>
   );

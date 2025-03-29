@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, User, Lock, Mail, Eye, EyeOff } from "lucide-react";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { MagicCard } from "@/components/magicui/magic-card";
-import ThemeSwitch from "../../_components/theme/ThemeSwitch";
+import ThemeSwitch from "../_components/theme/ThemeSwitch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -327,13 +327,6 @@ const AuthPage = () => {
                       onClick={() => router.push("/")}
                     >
                       Back to Home
-                    </button>
-                    <button
-                      type="button"
-                      className="text-sm text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
-                      onClick={() => router.push("/admin")}
-                    >
-                      Bypass Login
                     </button>
                   </div>
                 </motion.form>

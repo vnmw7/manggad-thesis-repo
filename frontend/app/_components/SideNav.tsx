@@ -11,10 +11,6 @@ import {
   FaBook,
   FaBookOpen,
   FaStar,
-  FaFacebook,
-  FaTwitter,
-  FaInstagram,
-  FaYoutube,
 } from "react-icons/fa";
 
 const SideNav = () => {

@@ -131,7 +131,7 @@ const Header = () => {
                 }}
                 transition={{ duration: 0.2 }}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/auth")}
                 aria-label="Login"
               >
                 <FaUser className="h-4 w-4 text-white" />
