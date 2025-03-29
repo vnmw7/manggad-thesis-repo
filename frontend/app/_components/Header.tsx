@@ -1,18 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaUser, FaHome, FaSearch, FaBook } from "react-icons/fa";
+import {
+  FaUser,
+  FaHome,
+  FaSearch,
+  FaBook,
+  FaCog,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import ThemeSwitch from "./theme/ThemeSwitch";
+import { logout } from "@/lib/appwrite";
 
 const Header = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close the user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  // Handle user logout
+  const handleLogout = async () => {
+    try {
+      const response = await logout();
+      if (response.success) {
+        // Close the menu
+        setIsUserMenuOpen(false);
+        // Redirect to home or login page
+        router.push('/');
+      } else {
+        console.error("Logout failed:", response.error);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
     }
   };
 
@@ -123,19 +167,45 @@ const Header = () => {
 
               <ThemeSwitch />
 
-              <motion.button
-                initial="rest"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
-                }}
-                transition={{ duration: 0.2 }}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
-                onClick={() => router.push("/auth")}
-                aria-label="Login"
-              >
-                <FaUser className="h-4 w-4 text-white" />
-              </motion.button>
+              <div className="relative">
+                <motion.button
+                  initial="rest"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  aria-label="Login"
+                >
+                  <FaUser className="h-4 w-4 text-white" />
+                </motion.button>
+
+                {isUserMenuOpen && (
+                  <div
+                    ref={userMenuRef}
+                    className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white shadow-lg"
+                  >
+                    <div className="py-1">
+                      <a
+                        href="/account-settings"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <FaCog className="mr-2 h-5 w-5" />
+                        Account settings
+                      </a>
+                      <a
+                        onClick={handleLogout}
+                        className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <FaSignOutAlt className="mr-2 h-5 w-5" />
+                        Logout
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.nav>
         ) : (
@@ -143,7 +213,7 @@ const Header = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="flex w-full items-center justify-between bg-gradient-to-r from-[#053fa8]/95 to-[#053fa8]/90 px-4 py-2 text-white shadow-lg backdrop-blur-md dark:bg-gradient-to-r dark:from-[#1a202c]/90 dark:to-[#1a202c]/80"
+            className="relative z-50 flex w-full items-center justify-between bg-gradient-to-r from-[#053fa8]/95 to-[#053fa8]/90 px-4 py-2 text-white shadow-lg backdrop-blur-md dark:bg-gradient-to-r dark:from-[#1a202c]/90 dark:to-[#1a202c]/80"
           >
             <div className="flex items-center">
               <motion.div
@@ -210,19 +280,45 @@ const Header = () => {
 
               <ThemeSwitch />
 
-              <motion.button
-                initial="rest"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
-                }}
-                transition={{ duration: 0.2 }}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
-                onClick={() => router.push("/login")}
-                aria-label="Login"
-              >
-                <FaUser className="h-4 w-4 text-white" />
-              </motion.button>
+              <div className="relative">
+                <motion.button
+                  initial="rest"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  aria-label="Login"
+                >
+                  <FaUser className="h-4 w-4 text-white" />
+                </motion.button>
+
+                {isUserMenuOpen && (
+                  <div
+                    ref={userMenuRef}
+                    className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white shadow-lg"
+                  >
+                    <div className="py-1">
+                      <a
+                        href="/account-settings"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <FaCog className="mr-2 h-5 w-5" />
+                        Account settings
+                      </a>
+                      <a 
+                        onClick={handleLogout}
+                        className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <FaSignOutAlt className="mr-2 h-5 w-5" />
+                        Logout
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.nav>
         )}

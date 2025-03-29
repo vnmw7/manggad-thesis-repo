@@ -11,7 +11,12 @@ import {
   FaBook,
   FaBookOpen,
   FaStar,
+  FaTachometerAlt,
+  FaLayerGroup,
+  FaEye,
+  FaPlus,
 } from "react-icons/fa";
+import { getCurrentUser } from "@/lib/appwrite";
 
 const SideNav = () => {
   const router = useRouter();
@@ -19,6 +24,17 @@ const SideNav = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Function to check user authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { success } = await getCurrentUser();
+      setIsAuthenticated(success);
+    };
+    
+    checkAuth();
+  }, []);
 
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
@@ -125,6 +141,19 @@ const SideNav = () => {
                 <FaHome className="mr-2 h-5 w-5" />
                 Home
               </motion.a>
+
+              {/* Admin Dashboard - Only visible when authenticated */}
+              {isAuthenticated && (
+                <motion.a
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                  className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                  onClick={() => router.push("/admin")}
+                >
+                  <FaTachometerAlt className="mr-2 h-5 w-5" />
+                  Dashboard
+                </motion.a>
+              )}
 
               <motion.div
                 whileHover={{ x: 5 }}
@@ -238,6 +267,70 @@ const SideNav = () => {
                   )}
                 </AnimatePresence>
               </motion.div>
+
+              {/* Manage Collections - Only visible when authenticated */}
+              {isAuthenticated && (
+                <motion.div
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                  className="relative"
+                >
+                  <motion.button
+                    className="flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                    onClick={() => toggleDropdown("collections")}
+                    aria-expanded={openDropdown === "collections"}
+                    aria-controls="collections-dropdown"
+                  >
+                    <div className="flex items-center">
+                      <FaLayerGroup className="mr-2 h-5 w-5" />
+                      Manage Collections
+                    </div>
+                    <FaChevronDown
+                      className={`h-4 w-4 transition-transform duration-300 ${openDropdown === "collections" ? "rotate-180" : ""}`}
+                    />
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {openDropdown === "collections" && (
+                      <motion.div
+                        id="collections-dropdown"
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={dropdownVariants}
+                        className="overflow-hidden"
+                      >
+                        <ul className="mt-1 space-y-2 rounded-lg bg-white/50 p-3 backdrop-blur-sm dark:bg-gray-800/50">
+                          <motion.li
+                            whileHover={{ x: 5 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <a
+                              className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                              onClick={() => router.push("/collection")}
+                            >
+                              <FaEye className="mr-2 h-4 w-4" />
+                              View Collections
+                            </a>
+                          </motion.li>
+                          <motion.li
+                            whileHover={{ x: 5 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <a
+                              className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                              onClick={() => router.push("/book/addBook")}
+                            >
+                              <FaPlus className="mr-2 h-4 w-4" />
+                              Add Collections
+                            </a>
+                          </motion.li>
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              )}
 
               <motion.div
                 whileHover={{ x: 5 }}

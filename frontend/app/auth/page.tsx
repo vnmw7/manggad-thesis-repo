@@ -10,6 +10,7 @@ import { MagicCard } from "@/components/magicui/magic-card";
 import ThemeSwitch from "../_components/theme/ThemeSwitch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { createUser, login } from "@/lib/appwrite";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Animations
   const fadeIn = {
@@ -61,29 +63,27 @@ const AuthPage = () => {
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(""); // Clear previous error
+    setIsLoading(true);
 
     try {
-      console.log("User Credentials:", userCredentials);
-      const response = await fetch("http://localhost:3001/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userCredentials),
-      });
+      const result = await login(
+        userCredentials.email,
+        userCredentials.password,
+      );
 
-      if (response.ok) {
+      if (result.success) {
         toast.success("Login successful!");
         router.push("/admin");
       } else {
-        const data = await response.json();
-        setLoginError(data.error || "Login failed");
-        toast.error(data.error || "Login failed");
+        setLoginError("Invalid email or password");
+        toast.error("Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Login error:", error);
       setLoginError("An unexpected error occurred. Please try again.");
       toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,30 +96,29 @@ const AuthPage = () => {
       return;
     }
 
-    const newUser = {
-      email,
-      password,
-    };
+    setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3001/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
+      const result = await createUser(email, password);
 
-      if (response.ok) {
+      if (result.success) {
         toast.success("Registration successful! Please login.");
         setActiveTab("login");
       } else {
-        const data = await response.json();
-        toast.error(data.error || "Registration failed");
+        // Safe way to access error message that handles unknown type
+        const errorMessage =
+          result.error &&
+          typeof result.error === "object" &&
+          "message" in result.error
+            ? result.error.message
+            : "Registration failed";
+        toast.error(String(errorMessage));
       }
     } catch (error) {
       console.error("Registration error:", error);
       toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
