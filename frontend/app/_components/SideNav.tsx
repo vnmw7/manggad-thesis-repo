@@ -368,55 +368,6 @@ const SideNav = () => {
               </div>
             )}
           </div>
-
-          {/* Social Media Links */}
-          <div className="mt-6 rounded-lg bg-white/50 p-4 dark:bg-gray-800/50">
-            <h3 className="mb-3 text-lg font-semibold text-gray-800 dark:text-white">
-              Connect with Us
-            </h3>
-            <div className="flex justify-around">
-              <motion.a
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="text-blue-600 dark:text-blue-400"
-                href="https://facebook.com/lccbacolod"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-              >
-                <FaFacebook className="h-6 w-6" />
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="text-blue-400 dark:text-blue-300"
-                href="https://twitter.com/lccbacolod"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-              >
-                <FaTwitter className="h-6 w-6" />
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="text-pink-600 dark:text-pink-400"
-                href="https://instagram.com/lccbacolod"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                <FaInstagram className="h-6 w-6" />
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, scale: 1.1 }}
-                className="text-red-600 dark:text-red-400"
-                href="https://youtube.com/lccbacolod"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-              >
-                <FaYoutube className="h-6 w-6" />
-              </motion.a>
-            </div>
-          </div>
         </motion.div>
       </div>
     </div>

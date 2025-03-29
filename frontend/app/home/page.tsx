@@ -107,13 +107,6 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Decorative blurred circles */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 blur-[120px] dark:from-blue-700/20 dark:to-purple-700/20" />
-        <div className="absolute top-1/3 right-1/4 -z-10 h-[350px] w-[350px] rounded-full bg-gradient-to-r from-cyan-400/20 to-emerald-400/20 blur-[100px] dark:from-cyan-700/20 dark:to-emerald-700/20" />
-        <div className="absolute bottom-1/4 left-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-indigo-400/20 to-blue-400/20 blur-[100px] dark:from-indigo-700/20 dark:to-blue-700/20" />
-      </div>
-
       <Header />
 
       {/* Main Content with Sidebar under the banner */}
@@ -123,7 +116,7 @@ export default function HomePage() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1">
+        <div className="mr-4 flex-1">
           {/* Search Bar */}
           <motion.div
             initial="hidden"
@@ -253,7 +246,7 @@ export default function HomePage() {
             initial="hidden"
             animate="visible"
             variants={staggerChildren}
-            className="mx-auto mt-10 max-w-7xl px-6 lg:px-8"
+            className="mx-auto mt-10 max-w-7xl"
           >
             {/* First Section */}
             <motion.div variants={fadeIn} className="mb-14">
@@ -294,19 +287,30 @@ export default function HomePage() {
                   </div>
                   <div className="flex-1">
                     <h2 className="mb-3 text-2xl font-bold text-indigo-800 sm:text-3xl dark:text-indigo-300">
-                      Founded by the Augustinian Sisters of our Lady of
-                      Consolation
+                      Founded by the Augustinian Sisters
                     </h2>
                     <p className="text-gray-700 dark:text-gray-300">
                       La Consolacion College Bacolod was first established in
                       1919 by the Augustinian Sisters from Spain under the
                       leadership of Mo. Rita Barcelo, OSA and Mo. Consuelo, OSA
-                      upon the invitation of a Catholic Bishop to put up a
-                      school in Bacolod City, now the capital of Negros
-                      Occidental, Philippines – one of the world&apos;s top
-                      suppliers of sugar at that time.
+                      upon the invitation of a Catholic Bishop.
                     </p>
+                  </div>
+                </div>
+              </GlassmorphicCard>
+            </motion.div>
 
+            {/* Third Section */}
+            <motion.div variants={fadeIn} className="mb-14">
+              <GlassmorphicCard
+                className="overflow-hidden rounded-xl p-6 shadow-md sm:p-8"
+                hoverEffect
+              >
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+                  <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-purple-600/10 p-3 text-purple-600 sm:h-20 sm:w-20 dark:bg-purple-500/20 dark:text-purple-400">
+                    <FaSchool className="h-8 w-8 sm:h-10 sm:w-10" />
+                  </div>
+                  <div className="flex-1">
                     <h2 className="mb-3 text-2xl font-bold text-purple-800 sm:text-3xl dark:text-purple-300">
                       Pioneer in Education
                     </h2>
