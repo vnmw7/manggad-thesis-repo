@@ -18,7 +18,13 @@ import {
 } from "react-icons/fa";
 import { getCurrentUser } from "@/lib/appwrite";
 
-const SideNav = () => {
+interface SideNavProps {
+  onContentChange?: (
+    content: "home" | "contact" | "book" | "dashboard",
+  ) => void;
+}
+
+const SideNav = ({ onContentChange }: SideNavProps) => {
   const router = useRouter();
   // State for the dropdown
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -39,6 +45,20 @@ const SideNav = () => {
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName: string) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
+  };
+
+  // Handle navigation with content change
+  const handleNavigation = (
+    path: string,
+    content?: "home" | "contact" | "book" | "dashboard",
+  ) => {
+    if (path === "/home" && onContentChange && content) {
+      // If we're on the home page and navigating to home/contact/book/dashboard content
+      onContentChange(content);
+    } else {
+      // Otherwise use normal router navigation
+      router.push(path);
+    }
   };
 
   // Use useEffect to update the clock and date every second
@@ -116,7 +136,7 @@ const SideNav = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="mb-4 flex items-center"
-              onClick={() => router.push("/home")}
+              onClick={() => handleNavigation("/home", "home")}
               style={{ cursor: "pointer" }}
             >
               <Image
@@ -136,7 +156,7 @@ const SideNav = () => {
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 400 }}
                 className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                onClick={() => router.push("/home")}
+                onClick={() => handleNavigation("/home", "home")}
               >
                 <FaHome className="mr-2 h-5 w-5" />
                 Home
@@ -148,12 +168,22 @@ const SideNav = () => {
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                   className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                  onClick={() => router.push("/admin")}
+                  onClick={() => handleNavigation("/home", "dashboard")}
                 >
                   <FaTachometerAlt className="mr-2 h-5 w-5" />
                   Dashboard
                 </motion.a>
               )}
+
+              <motion.a
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
+                onClick={() => handleNavigation("/home", "book")}
+              >
+                <FaBook className="mr-2 h-5 w-5" />
+                Books
+              </motion.a>
 
               <motion.div
                 whileHover={{ x: 5 }}
@@ -167,8 +197,8 @@ const SideNav = () => {
                   aria-controls="books-dropdown"
                 >
                   <div className="flex items-center">
-                    <FaBook className="mr-2 h-5 w-5" />
-                    Books
+                    <FaBookOpen className="mr-2 h-5 w-5" />
+                    Collections
                   </div>
                   <FaChevronDown
                     className={`h-4 w-4 transition-transform duration-300 ${openDropdown === "books" ? "rotate-180" : ""}`}
@@ -336,7 +366,7 @@ const SideNav = () => {
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 400 }}
                 className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg font-medium text-[#053fa8] transition-colors hover:bg-blue-100/60 dark:text-blue-200 dark:hover:bg-blue-800/30"
-                onClick={() => router.push("/contact")}
+                onClick={() => handleNavigation("/home", "contact")}
               >
                 <FaEnvelope className="mr-2 h-5 w-5" />
                 Contact
