@@ -6,11 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   FaBook,
-  FaChartLine,
   FaDownload,
   FaEye,
-  FaGraduationCap,
-  FaSchool,
   FaCalendarAlt,
   FaUserGraduate,
   FaCheckCircle,
@@ -157,6 +154,125 @@ export default function DashboardContent() {
     pendingApprovals: 7,
   });
 
+  // Function to simulate fetching updated stats
+  const fetchUpdatedStats = async () => {
+    // In a real application, this would be an API call
+    // For demonstration, we'll generate some random changes
+    try {
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      // Generate random changes to stats
+      const randomChange = (min: number, max: number) =>
+        Math.floor(Math.random() * (max - min + 1) + min);
+
+      setStats((prevStats) => ({
+        totalBooks: prevStats.totalBooks + randomChange(0, 5),
+        totalDownloads: prevStats.totalDownloads + randomChange(10, 50),
+        totalViews: prevStats.totalViews + randomChange(20, 100),
+        activeUsers: prevStats.activeUsers + randomChange(-3, 7),
+        recentUploads: prevStats.recentUploads + randomChange(0, 3),
+        pendingApprovals: Math.max(
+          0,
+          prevStats.pendingApprovals + randomChange(-2, 3),
+        ),
+      }));
+
+      return true;
+    } catch (error) {
+      console.error("Error updating stats:", error);
+      return false;
+    }
+  };
+
+  // Function to simulate fetching updated activity
+  const fetchUpdatedActivity = async () => {
+    try {
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      // Sample new activities that might appear
+      const newActivities = [
+        {
+          id: Date.now(),
+          action: "New upload:",
+          subject: "Innovations in Renewable Energy Technology",
+          timestamp: "Just now",
+          icon: <FaBook className="h-4 w-4" />,
+          iconColor: "text-purple-500",
+          iconBgColor: "bg-purple-100 dark:bg-purple-900/30",
+        },
+        {
+          id: Date.now(),
+          action: "Most viewed:",
+          subject: "Digital Marketing Strategies for Local Businesses",
+          timestamp: "Just now",
+          icon: <FaEye className="h-4 w-4" />,
+          iconColor: "text-blue-500",
+          iconBgColor: "bg-blue-100 dark:bg-blue-900/30",
+        },
+        {
+          id: Math.random().toString(36).substr(2, 9),
+          action: "New user:",
+          subject: "Juan Dela Cruz joined the platform",
+          timestamp: "Just now",
+          icon: <FaUserGraduate className="h-4 w-4" />,
+          iconColor: "text-indigo-500",
+          iconBgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        },
+        {
+          id: Math.random().toString(36).substr(2, 9),
+          action: "Approved:",
+          subject: "Machine Learning Applications in Agriculture",
+          timestamp: "Just now",
+          icon: <FaCheckCircle className="h-4 w-4" />,
+          iconColor: "text-green-500",
+          iconBgColor: "bg-green-100 dark:bg-green-900/30",
+        },
+      ];
+
+      // Add a random new activity to the top and remove the oldest one
+      const randomIndex = Math.floor(Math.random() * newActivities.length);
+      const newActivity = newActivities[randomIndex];
+
+      setRecentActivity((prevActivities) => {
+        // Create a new array with the new activity at the top
+        const updatedActivities = [
+          { ...newActivity, id: Date.now() },
+          ...prevActivities.slice(0, -1),
+        ];
+        return updatedActivities;
+      });
+
+      return true;
+    } catch (error) {
+      console.error("Error updating activity:", error);
+      return false;
+    }
+  };
+
+  // State for tracking refresh status
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Handler for manual refresh - update both stats and activity
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Run both updates in parallel
+    await Promise.all([fetchUpdatedStats(), fetchUpdatedActivity()]);
+    setIsRefreshing(false);
+  };
+
+  // Set up auto-refresh interval (every 5 minutes)
+  useEffect(() => {
+    const autoRefreshInterval = setInterval(() => {
+      // Silently refresh data without showing loading indicator
+      Promise.all([fetchUpdatedStats(), fetchUpdatedActivity()]);
+    }, 300000); // 5 minutes in milliseconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(autoRefreshInterval);
+  }, []);
+
   // Dummy list of recent activity
   const [recentActivity, setRecentActivity] = useState([
     {
@@ -272,6 +388,12 @@ export default function DashboardContent() {
                 <FaCalendarAlt className="mr-1 inline h-3 w-3" />
                 Last updated: {new Date().toLocaleDateString()}
               </div>
+              <button
+                onClick={handleRefresh}
+                className="ml-4 rounded-md bg-blue-50 p-3 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+              >
+                {isRefreshing ? "Refreshing..." : "Refresh"}
+              </button>
             </div>
           </div>
         </GlassmorphicCard>

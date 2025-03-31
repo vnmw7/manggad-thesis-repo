@@ -2,11 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import {
   FaEnvelope,
-  FaMapMarkerAlt,
   FaPhone,
   FaSchool,
   FaBookReader,
@@ -51,8 +48,6 @@ const GlassmorphicCard = ({
 };
 
 export default function ContactContent() {
-  const router = useRouter();
-
   // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -71,27 +66,6 @@ export default function ContactContent() {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-      },
-    },
-  };
-
-  // Page transition animation
-  const pageTransition = {
-    hidden: { opacity: 0, x: 20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
-    exit: {
-      opacity: 0,
-      x: -20,
-      transition: {
-        duration: 0.3,
-        ease: "easeIn",
       },
     },
   };

@@ -4,7 +4,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FaSearch, FaFilter, FaBook, FaGraduationCap, FaUniversity, FaCalendarAlt } from "react-icons/fa";
+import { FaSearch, FaFilter, FaBook, FaCalendarAlt } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 // GlassmorphicCard component definition
@@ -48,7 +48,7 @@ interface FilterCheckboxStatus {
 
 export default function BookContent() {
   const router = useRouter();
-  
+
   const [books, setBooks] = useState<
     {
       id: number;
@@ -63,23 +63,24 @@ export default function BookContent() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showFilters, setShowFilters] = useState(false);
   const [filterYear, setFilterYear] = useState("");
-  const [filterCheckboxStatus, setFilterCheckboxStatus] = useState<FilterCheckboxStatus>({
-    "School of Architecture, Fine Arts, and Interior Design (SARFAID)": false,
-    "School of Business and Information Technology (SBIT)": false,
-    "School of Hospitality and Tourism Management (SHTM)": false,
-    "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)": false,
-    "BS in Architecture": false,
-    "BS in Fine Arts": false,
-    "BS in Interior Design": false,
-    "BS in Business Administration": false,
-    "BS in Information Technology": false,
-    "BS in Hospitality Management": false,
-    "BS in Tourism Management": false,
-    "BS in English": false,
-    "BS in Filipino": false,
-    "BS in Basic Education": false,
-    "BS in Psychology": false,
-  });
+  const [filterCheckboxStatus, setFilterCheckboxStatus] =
+    useState<FilterCheckboxStatus>({
+      "School of Architecture, Fine Arts, and Interior Design (SARFAID)": false,
+      "School of Business and Information Technology (SBIT)": false,
+      "School of Hospitality and Tourism Management (SHTM)": false,
+      "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)": false,
+      "BS in Architecture": false,
+      "BS in Fine Arts": false,
+      "BS in Interior Design": false,
+      "BS in Business Administration": false,
+      "BS in Information Technology": false,
+      "BS in Hospitality Management": false,
+      "BS in Tourism Management": false,
+      "BS in English": false,
+      "BS in Filipino": false,
+      "BS in Basic Education": false,
+      "BS in Psychology": false,
+    });
   const [filterSentence, setFilterSentence] = useState("");
   const [filterAndSearchQuery, setFilterAndSearchQuery] = useState<string>("");
 
@@ -185,7 +186,8 @@ export default function BookContent() {
             Book Repository
           </h1>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Explore our collection of theses, research papers, and academic publications
+            Explore our collection of theses, research papers, and academic
+            publications
           </p>
         </GlassmorphicCard>
       </motion.div>
@@ -210,7 +212,7 @@ export default function BookContent() {
                 />
                 <FaSearch className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               </div>
-              
+
               <button
                 type="button"
                 onClick={() => setShowFilters(!showFilters)}
@@ -218,7 +220,7 @@ export default function BookContent() {
               >
                 <FaFilter className="h-5 w-5" />
               </button>
-              
+
               <button
                 type="submit"
                 className="rounded-lg bg-[#053fa8] px-5 py-3 font-medium text-white transition-colors hover:bg-[#053fa8]/90 focus:ring-2 focus:ring-[#053fa8]/50 focus:outline-none dark:bg-[#053fa8] dark:hover:bg-[#053fa8]/80"
@@ -253,10 +255,11 @@ export default function BookContent() {
                       Department
                     </label>
                     <div className="flex flex-col gap-2">
-                      {["School of Architecture, Fine Arts, and Interior Design (SARFAID)", 
-                        "School of Business and Information Technology (SBIT)", 
-                        "School of Hospitality and Tourism Management (SHTM)", 
-                        "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)"
+                      {[
+                        "School of Architecture, Fine Arts, and Interior Design (SARFAID)",
+                        "School of Business and Information Technology (SBIT)",
+                        "School of Hospitality and Tourism Management (SHTM)",
+                        "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)",
                       ].map((dept) => (
                         <label key={dept} className="flex items-center">
                           <input
@@ -267,7 +270,9 @@ export default function BookContent() {
                             value={dept}
                             className="mr-2"
                           />
-                          <span className="text-gray-700 dark:text-gray-300">{dept}</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {dept}
+                          </span>
                         </label>
                       ))}
                     </div>
@@ -278,10 +283,18 @@ export default function BookContent() {
                       Programs
                     </label>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                      {["BS in Architecture", "BS in Fine Arts", "BS in Interior Design", 
-                        "BS in Business Administration", "BS in Information Technology", 
-                        "BS in Hospitality Management", "BS in Tourism Management", 
-                        "BS in English", "BS in Filipino", "BS in Basic Education", "BS in Psychology"
+                      {[
+                        "BS in Architecture",
+                        "BS in Fine Arts",
+                        "BS in Interior Design",
+                        "BS in Business Administration",
+                        "BS in Information Technology",
+                        "BS in Hospitality Management",
+                        "BS in Tourism Management",
+                        "BS in English",
+                        "BS in Filipino",
+                        "BS in Basic Education",
+                        "BS in Psychology",
                       ].map((program) => (
                         <label key={program} className="flex items-center">
                           <input
@@ -292,11 +305,56 @@ export default function BookContent() {
                             value={program}
                             className="mr-2"
                           />
-                          <span className="text-gray-700 dark:text-gray-300">{program}</span>
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {program}
+                          </span>
                         </label>
                       ))}
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Active Filters Display */}
+            {filterSentence && (
+              <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50/70 p-3 dark:border-blue-900 dark:bg-blue-900/20">
+                <div className="flex items-center">
+                  <span className="mr-2 text-sm font-medium text-blue-700 dark:text-blue-300">
+                    Active Filters:
+                  </span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    {filterSentence}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFilterYear("");
+                      setFilterCheckboxStatus(
+                        Object.keys(filterCheckboxStatus).reduce(
+                          (acc, key) => ({ ...acc, [key]: false }),
+                          {},
+                        ),
+                      );
+                    }}
+                    className="ml-auto rounded-full bg-transparent p-1 text-blue-700 hover:bg-blue-100 dark:text-blue-300 dark:hover:bg-blue-800/30"
+                    aria-label="Clear filters"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             )}
@@ -314,25 +372,27 @@ export default function BookContent() {
         <h2 className="mb-6 text-2xl font-bold text-blue-800 dark:text-blue-300">
           Research Collection
         </h2>
-        
+
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {books.length > 0 ? (
             books.map((book) => (
               <motion.div key={book.id} variants={fadeIn}>
-                <GlassmorphicCard 
-                  className="h-full overflow-hidden rounded-xl" 
+                <GlassmorphicCard
+                  className="h-full overflow-hidden rounded-xl"
                   hoverEffect={true}
                 >
-                  <div 
-                    className="cursor-pointer" 
+                  <div
+                    className="cursor-pointer"
                     onClick={() => router.push(`/book/${book.id}`)}
                   >
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-blue-800 line-clamp-2 dark:text-blue-300">
+                      <h3 className="line-clamp-2 text-lg font-semibold text-blue-800 dark:text-blue-300">
                         {book.title}
                       </h3>
                       <div className="flex items-center">
-                        <span className={`mr-1 ${book.recommendations > 0 ? "text-blue-700" : "text-gray-300"}`}>
+                        <span
+                          className={`mr-1 ${book.recommendations > 0 ? "text-blue-700" : "text-gray-300"}`}
+                        >
                           {book.recommendations}
                         </span>
                         <svg
@@ -342,7 +402,9 @@ export default function BookContent() {
                           viewBox="0 0 24 24"
                         >
                           <path
-                            fill={book.recommendations > 0 ? "#0442b1" : "#e5e5e5"}
+                            fill={
+                              book.recommendations > 0 ? "#0442b1" : "#e5e5e5"
+                            }
                             fillRule="evenodd"
                             d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a1 1 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a1 1 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a1 1 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a1 1 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a1 1 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a1 1 0 0 1-.696-.288l-.893-.893A2.98 2.98 0 0 0 12 2m3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253l-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
                             clipRule="evenodd"
@@ -350,28 +412,31 @@ export default function BookContent() {
                         </svg>
                       </div>
                     </div>
-                    
+
                     <div className="mt-2 flex items-center text-sm text-gray-500">
                       <FaCalendarAlt className="mr-1" />
                       <span>{book.yearOfSubmission}</span>
                     </div>
-                    
+
                     <div className="group relative mt-4">
                       <div className="relative h-48 w-full overflow-hidden rounded-lg">
                         <Image
-                          src={book.coverImage || "/defaults/defaultBookCover.png"}
+                          src={
+                            book.coverImage || "/defaults/defaultBookCover.png"
+                          }
                           alt={book.title}
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-20"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-full p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <p className="text-sm text-gray-800 line-clamp-6 dark:text-gray-200">
+                            <p className="line-clamp-6 text-sm text-gray-800 dark:text-gray-200">
                               {book.abstract || "No abstract available."}
                             </p>
                             {book.keywords && (
                               <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-                                <span className="font-semibold">Keywords:</span> {book.keywords}
+                                <span className="font-semibold">Keywords:</span>{" "}
+                                {book.keywords}
                               </p>
                             )}
                           </div>
@@ -383,7 +448,7 @@ export default function BookContent() {
               </motion.div>
             ))
           ) : (
-            <div className="col-span-full text-center py-12">
+            <div className="col-span-full py-12 text-center">
               <FaBook className="mx-auto h-16 w-16 text-gray-300 dark:text-gray-600" />
               <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
                 No books found. Try adjusting your search criteria.

@@ -2,6 +2,7 @@
 
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { PostHogProvider } from "../components/PostHogProvider";
 
 export default function RootLayout({
   children,
@@ -11,9 +12,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );

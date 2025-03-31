@@ -41,3 +41,6 @@ next-env.d.ts
 
 #inficical
 .infisical.json
+
+.env
+.env.local
