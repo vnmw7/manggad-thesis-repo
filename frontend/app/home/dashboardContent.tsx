@@ -323,7 +323,7 @@ export default function DashboardContent() {
   ]);
 
   // Department distribution data
-  const [departmentStats, setDepartmentStats] = useState([
+  const [departmentStats] = useState([
     { name: "SARFAID", count: 84, percentage: "17%" },
     { name: "SBIT", count: 156, percentage: "32%" },
     { name: "SHTM", count: 112, percentage: "23%" },

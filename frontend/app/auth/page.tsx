@@ -455,16 +455,12 @@ const AuthPage = () => {
   // Shared state
   const [isLoading, setIsLoading] = useState(false);
 
-  // Check password match when either password changes
-  const checkPasswordMatch = () => {
+  // Update password match whenever relevant fields change
+  useEffect(() => {
+    // Define checkPasswordMatch inside the useEffect callback
     if (confirmPassword.length > 0) {
       setPasswordMatch(registerPassword === confirmPassword);
     }
-  };
-
-  // Update password match whenever relevant fields change
-  useEffect(() => {
-    checkPasswordMatch();
   }, [registerPassword, confirmPassword]);
 
   // Login function
@@ -558,17 +554,6 @@ const AuthPage = () => {
 
     // Fallback to the default message
     return defaultErrorMessage;
-  };
-
-  // Note: The getMessageFromError helper function is no longer needed with this approach
-  // and can be removed if desired, but leaving it doesn't hurt.
-  // Helper function to safely extract message from error object
-  const getMessageFromError = (error: any): string | undefined => {
-    if (typeof error !== "object" || error === null) {
-      return undefined;
-    }
-
-    return "message" in error ? String(error.message) : undefined;
   };
 
   return (

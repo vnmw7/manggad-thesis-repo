@@ -1,11 +1,9 @@
 import {
   FaGraduationCap,
-  FaInfoCircle,
   FaHome,
   FaEnvelope,
   FaBook,
   FaBookOpen,
-  FaStar,
   FaTachometerAlt,
   FaLayerGroup,
   FaEye,

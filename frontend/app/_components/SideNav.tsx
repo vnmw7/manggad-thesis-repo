@@ -11,13 +11,7 @@ import Logo from "./SideNav/Logo";
 
 // Import types and data
 import { SideNavProps, containerVariants } from "./SideNav/types";
-import {
-  bookCollections,
-  manageCollections,
-  mainNavLinks,
-  adminNavLinks,
-  dropdownMenus,
-} from "./SideNav/navData";
+import { mainNavLinks, adminNavLinks, dropdownMenus } from "./SideNav/navData";
 
 // Import hooks and utilities
 import {

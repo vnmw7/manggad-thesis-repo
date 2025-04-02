@@ -59,7 +59,7 @@ export const useAuthentication = () => {
 };
 
 // Navigation helper hook - handles content switching and routing
-export const useNavigation = (onContentChange?: (content: any) => void) => {
+export const useNavigation = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   // Function to toggle dropdown state

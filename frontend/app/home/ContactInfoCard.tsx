@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaPhone, FaSchool } from "react-icons/fa";
-import { cn } from "@/lib/utils";
 import GlassmorphicCard from "@/app/_components/ui/GlassmorphicCard"; // Updated import path
 
 // Animation variants

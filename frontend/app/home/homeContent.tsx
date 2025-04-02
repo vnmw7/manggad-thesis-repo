@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { FaSearch, FaSchool } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 
 // GlassmorphicCard component definition

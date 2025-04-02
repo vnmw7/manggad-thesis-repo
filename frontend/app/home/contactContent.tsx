@@ -2,32 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  FaEnvelope,
-  FaPhone,
-  FaSchool,
-  FaBookReader,
-  FaLaptop,
-  FaUserGraduate,
-} from "react-icons/fa";
-import { cn } from "@/lib/utils"; // Keep cn import if needed elsewhere, or remove if not
-// No longer need to import GlassmorphicCard here as it's used within the child components
 import ContactInfoCard from "./ContactInfoCard"; // Import the new component
 import DepartmentContacts from "./DepartmentContacts"; // Import the new component
 
 export default function ContactContent() {
-  // Animation variants
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
-
   const staggerChildren = {
     hidden: { opacity: 0 },
     visible: {

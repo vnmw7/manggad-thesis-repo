@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
