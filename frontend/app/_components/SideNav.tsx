@@ -53,51 +53,101 @@ const SideNav = ({ onContentChange }: SideNavProps) => {
             <Logo onClick={() => handleNavigation("/home", "home")} />
 
             <div className="mb-5 space-y-2">
-              {/* Render main navigation links */}
-              {mainNavLinks.map((link, index) => (
+              {/* 1. Home */}
+              {mainNavLinks.find((link) => link.label === "Home") && (
                 <NavLink
-                  key={`nav-${index}`}
-                  icon={link.icon}
-                  label={link.label}
-                  onClick={() => handleNavigation("/home", link.content)}
+                  key="nav-home"
+                  icon={
+                    mainNavLinks.find((link) => link.label === "Home")!.icon
+                  }
+                  label="Home"
+                  onClick={() => handleNavigation("/home", "home")}
                 />
-              ))}
+              )}
 
-              {/* Admin Dashboard - Only visible when authenticated */}
+              {/* 2. Dashboard (Admin Only) */}
               {isAuthenticated &&
-                adminNavLinks.map((link, index) => (
+                adminNavLinks.find((link) => link.label === "Dashboard") && (
                   <NavLink
-                    key={`admin-${index}`}
-                    icon={link.icon}
-                    label={link.label}
-                    onClick={() => handleNavigation("/home", link.content)}
+                    key="admin-dashboard"
+                    icon={
+                      adminNavLinks.find((link) => link.label === "Dashboard")!
+                        .icon
+                    }
+                    label="Dashboard"
+                    onClick={() => handleNavigation("/home", "dashboard")}
                   />
-                ))}
+                )}
 
-              {/* Render dropdown menus */}
-              {dropdownMenus.map((menu) => {
-                // Skip menus that require authentication if user is not authenticated
-                if (menu.requiresAuth && !isAuthenticated) return null;
+              {/* 3. Collections Dropdown */}
+              {dropdownMenus.find((menu) => menu.label === "Collections") &&
+                (() => {
+                  const menu = dropdownMenus.find(
+                    (m) => m.label === "Collections",
+                  )!;
+                  // Check auth if needed (though it's false for Collections)
+                  if (menu.requiresAuth && !isAuthenticated) return null;
+                  return (
+                    <Dropdown
+                      key={menu.id}
+                      icon={menu.icon}
+                      label={menu.label}
+                      isOpen={openDropdown === menu.id}
+                      toggleDropdown={() => toggleDropdown(menu.id)}
+                      id={menu.id}
+                    >
+                      <DropdownList>
+                        {menu.items.map((item, idx) => {
+                          const props = renderCollectionItem(item, idx);
+                          const { key, ...otherProps } = props;
+                          return <CollectionItem key={key} {...otherProps} />;
+                        })}
+                      </DropdownList>
+                    </Dropdown>
+                  );
+                })()}
 
-                return (
-                  <Dropdown
-                    key={menu.id}
-                    icon={menu.icon}
-                    label={menu.label}
-                    isOpen={openDropdown === menu.id}
-                    toggleDropdown={() => toggleDropdown(menu.id)}
-                    id={menu.id}
-                  >
-                    <DropdownList>
-                      {menu.items.map((item, idx) => {
-                        const props = renderCollectionItem(item, idx);
-                        const { key, ...otherProps } = props;
-                        return <CollectionItem key={key} {...otherProps} />;
-                      })}
-                    </DropdownList>
-                  </Dropdown>
-                );
-              })}
+              {/* 4. Manage Collections Dropdown (Admin Only) */}
+              {dropdownMenus.find(
+                (menu) => menu.label === "Manage Collections",
+              ) &&
+                (() => {
+                  const menu = dropdownMenus.find(
+                    (m) => m.label === "Manage Collections",
+                  )!;
+                  // Check auth
+                  if (menu.requiresAuth && !isAuthenticated) return null;
+                  return (
+                    <Dropdown
+                      key={menu.id}
+                      icon={menu.icon}
+                      label={menu.label}
+                      isOpen={openDropdown === menu.id}
+                      toggleDropdown={() => toggleDropdown(menu.id)}
+                      id={menu.id}
+                    >
+                      <DropdownList>
+                        {menu.items.map((item, idx) => {
+                          const props = renderCollectionItem(item, idx);
+                          const { key, ...otherProps } = props;
+                          return <CollectionItem key={key} {...otherProps} />;
+                        })}
+                      </DropdownList>
+                    </Dropdown>
+                  );
+                })()}
+
+              {/* 5. Contact */}
+              {mainNavLinks.find((link) => link.label === "Contact") && (
+                <NavLink
+                  key="nav-contact"
+                  icon={
+                    mainNavLinks.find((link) => link.label === "Contact")!.icon
+                  }
+                  label="Contact"
+                  onClick={() => handleNavigation("/home", "contact")}
+                />
+              )}
             </div>
 
             {/* Clock and Date Display */}

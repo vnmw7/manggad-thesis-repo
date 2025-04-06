@@ -76,11 +76,6 @@ export const mainNavLinks: CollectionItemData[] = [
     content: "home",
   },
   {
-    icon: <FaBook className="mr-2 h-5 w-5" />,
-    label: "Books",
-    content: "book",
-  },
-  {
     icon: <FaEnvelope className="mr-2 h-5 w-5" />,
     label: "Contact",
     content: "contact",
