@@ -11,7 +11,11 @@ import Logo from "./SideNav/Logo";
 
 // Import types and data
 import { SideNavProps, containerVariants } from "./SideNav/types";
-import { mainNavLinks, adminNavLinks, dropdownMenus } from "./SideNav/navData";
+import {
+  mainNavLinks,
+  adminNavLinks,
+  dropdownMenus,
+} from "@/constants/navData";
 
 // Import hooks and utilities
 import {

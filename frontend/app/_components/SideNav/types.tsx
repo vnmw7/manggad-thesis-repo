@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ContentType } from "./navData";
+import { ContentType } from "../../../constants/navData";
 
 // Common props types for SideNav components
 export interface SideNavProps {

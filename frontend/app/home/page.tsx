@@ -10,15 +10,16 @@ import HomeContent from "./homeContent";
 import ContactContent from "./contactContent";
 import BookContent from "./bookContent";
 import DashboardContent from "./dashboardContent";
+import AddThesisSection from "@/components/spaSections/addThesis";
 
 export default function HomePage() {
   const { resolvedTheme } = useTheme();
   const [activeContent, setActiveContent] = useState<
-    "home" | "contact" | "book" | "dashboard"
+    "home" | "contact" | "book" | "dashboard" | "add thesis"
   >("home");
 
   const handleContentChange = (
-    content: "home" | "contact" | "book" | "dashboard",
+    content: "home" | "contact" | "book" | "dashboard" | "add thesis",
   ) => {
     setActiveContent(content);
   };
@@ -58,6 +59,7 @@ export default function HomePage() {
           {activeContent === "contact" && <ContactContent />}
           {activeContent === "book" && <BookContent />}
           {activeContent === "dashboard" && <DashboardContent />}
+          {activeContent === "add thesis" && <AddThesisSection />}
         </div>
       </div>
 

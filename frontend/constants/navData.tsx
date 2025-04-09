@@ -2,7 +2,6 @@ import {
   FaGraduationCap,
   FaHome,
   FaEnvelope,
-  FaBook,
   FaBookOpen,
   FaTachometerAlt,
   FaLayerGroup,
@@ -10,8 +9,13 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
-// Type definitions for navigation
-export type ContentType = "home" | "contact" | "book" | "dashboard";
+// define ang dynamic content para maging single page application
+export type ContentType =
+  | "home"
+  | "contact"
+  | "book"
+  | "dashboard"
+  | "add thesis";
 
 export interface CollectionItemData {
   icon: React.ReactNode;
@@ -64,7 +68,7 @@ export const manageCollections: CollectionItemData[] = [
   {
     icon: <FaPlus className="mr-2 h-4 w-4" />,
     label: "Add Collections",
-    path: "/book/addBook",
+    content: "add thesis",
   },
 ];
 

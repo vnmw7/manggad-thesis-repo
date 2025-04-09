@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { ContentType, CollectionItemData } from "./navData";
+import { ContentType, CollectionItemData } from "../../../constants/navData";
 
 /**
  * Creates a navigation handler that manages content changes and routing
