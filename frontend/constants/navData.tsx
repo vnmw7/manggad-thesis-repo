@@ -7,6 +7,7 @@ import {
   FaLayerGroup,
   FaEye,
   FaPlus,
+  FaEdit,
 } from "react-icons/fa";
 
 // define ang dynamic content para maging single page application
@@ -15,7 +16,8 @@ export type ContentType =
   | "contact"
   | "book"
   | "dashboard"
-  | "add thesis";
+  | "add thesis"
+  | "view thesis";
 
 export interface CollectionItemData {
   icon: React.ReactNode;
@@ -69,6 +71,11 @@ export const manageCollections: CollectionItemData[] = [
     icon: <FaPlus className="mr-2 h-4 w-4" />,
     label: "Add Collections",
     content: "add thesis",
+  },
+  {
+    icon: <FaEdit className="mr-2 h-4 w-4" />,
+    label: "View & Edit Thesis",
+    content: "view thesis",
   },
 ];
 
