@@ -69,11 +69,11 @@ const embargoOptions = [
 
 const AddThesisSection = () => {
   return (
-    <div className="mx-auto w-full max-w-6xl rounded-lg bg-white p-6 shadow-md">
-      <h1 className="mb-6 text-3xl font-bold text-[#0442B1]">
+    <div className="mx-auto w-full max-w-6xl rounded-lg bg-white p-6 shadow-md dark:bg-gray-800">
+      <h1 className="mb-6 text-3xl font-bold text-[#0442B1] dark:text-blue-400">
         Submit Your Thesis
       </h1>
-      <p className="mb-6 text-gray-600">
+      <p className="mb-6 text-gray-600 dark:text-gray-300">
         Please complete the form below to submit your thesis to the MANGGAD
         repository. Fields marked with an asterisk (*) are required.
       </p>
@@ -81,19 +81,19 @@ const AddThesisSection = () => {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {/* Form Section */}
         <div className="space-y-6">
-          <h2 className="border-b pb-2 text-xl font-semibold">
+          {" "}
+          <h2 className="border-b border-gray-200 pb-2 text-xl font-semibold dark:border-gray-700 dark:text-white">
             Thesis Information
           </h2>
-
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="title"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Thesis Title <span className="text-red-500">*</span>
               </label>
-              <p className="mb-1 text-xs text-gray-500">
+              <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 Enter the full title exactly as it appears on your thesis
                 document.
               </p>
@@ -107,9 +107,10 @@ const AddThesisSection = () => {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
+                {" "}
                 <label
                   htmlFor="firstName"
-                  className="block font-medium text-gray-700"
+                  className="block font-medium text-gray-700 dark:text-gray-200"
                 >
                   First Name <span className="text-red-500">*</span>
                 </label>
@@ -124,7 +125,7 @@ const AddThesisSection = () => {
               <div>
                 <label
                   htmlFor="middleName"
-                  className="block font-medium text-gray-700"
+                  className="block font-medium text-gray-700 dark:text-gray-200"
                 >
                   Middle Name/Initial
                 </label>
@@ -139,7 +140,7 @@ const AddThesisSection = () => {
               <div>
                 <label
                   htmlFor="lastName"
-                  className="block font-medium text-gray-700"
+                  className="block font-medium text-gray-700 dark:text-gray-200"
                 >
                   Last Name <span className="text-red-500">*</span>
                 </label>
@@ -153,9 +154,10 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="university"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 University <span className="text-red-500">*</span>
               </label>
@@ -170,9 +172,10 @@ const AddThesisSection = () => {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
+                {" "}
                 <label
                   htmlFor="department"
-                  className="block font-medium text-gray-700"
+                  className="block font-medium text-gray-700 dark:text-gray-200"
                 >
                   Department <span className="text-red-500">*</span>
                 </label>
@@ -188,7 +191,7 @@ const AddThesisSection = () => {
               <div>
                 <label
                   htmlFor="program"
-                  className="block font-medium text-gray-700"
+                  className="block font-medium text-gray-700 dark:text-gray-200"
                 >
                   Program <span className="text-red-500">*</span>
                 </label>
@@ -203,9 +206,10 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="degreeAwarded"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Date of Degree Awarded <span className="text-red-500">*</span>
               </label>
@@ -221,13 +225,14 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="abstract"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Abstract <span className="text-red-500">*</span>
               </label>
-              <p className="mb-1 text-xs text-gray-500">
+              <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 Provide a concise summary of your thesis (recommended word
                 limit: 350 words).
               </p>
@@ -240,13 +245,14 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="keywords"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Keywords <span className="text-red-500">*</span>
               </label>
-              <p className="mb-1 text-xs text-gray-500">
+              <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 Enter relevant keywords separated by commas (lowercase, plural
                 preferred).
               </p>
@@ -259,9 +265,10 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="degreeLevel"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Degree Level <span className="text-red-500">*</span>
               </label>
@@ -273,17 +280,15 @@ const AddThesisSection = () => {
                 required={true}
               />
             </div>
-          </div>
-
-          <h2 className="border-b pt-4 pb-2 text-xl font-semibold">
+          </div>{" "}
+          <h2 className="border-b border-gray-200 pt-4 pb-2 text-xl font-semibold dark:border-gray-700 dark:text-white">
             Rights Management
           </h2>
-
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="copyright"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Copyright Status <span className="text-red-500">*</span>
               </label>
@@ -297,7 +302,8 @@ const AddThesisSection = () => {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700">
+              {" "}
+              <label className="block font-medium text-gray-700 dark:text-gray-200">
                 Third-Party Copyrighted Materials{" "}
                 <span className="text-red-500">*</span>
               </label>
@@ -326,9 +332,10 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="license"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 License
               </label>
@@ -342,13 +349,14 @@ const AddThesisSection = () => {
             </div>
 
             <div>
+              {" "}
               <label
                 htmlFor="embargo"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Embargo Option
               </label>
-              <p className="mb-1 text-xs text-gray-500">
+              <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 Select an embargo period (if desired) for delaying the public
                 release of your thesis.
               </p>
@@ -360,17 +368,15 @@ const AddThesisSection = () => {
                 required={false}
               />
             </div>
-          </div>
-
-          <h2 className="border-b pt-4 pb-2 text-xl font-semibold">
+          </div>{" "}
+          <h2 className="border-b border-gray-200 pt-4 pb-2 text-xl font-semibold dark:border-gray-700 dark:text-white">
             Additional Information
           </h2>
-
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="supervisors"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Thesis Supervisor(s)
               </label>
@@ -382,11 +388,11 @@ const AddThesisSection = () => {
                 required={false}
               />
             </div>
-
             <div>
+              {" "}
               <label
                 htmlFor="committee"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Committee Members
               </label>
@@ -398,15 +404,15 @@ const AddThesisSection = () => {
                 required={false}
               />
             </div>
-
             <div>
+              {" "}
               <label
                 htmlFor="orcid"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 ORCID iD
               </label>
-              <p className="mb-1 text-xs text-gray-500">
+              <p className="mb-1 text-xs text-gray-500 dark:text-gray-400">
                 Enter your ORCID iD (if you have one).
               </p>
               <ThesisFormClient
@@ -417,12 +423,11 @@ const AddThesisSection = () => {
                 placeholder="0000-0000-0000-0000"
                 required={false}
               />
-            </div>
-
+            </div>{" "}
             <div>
               <label
                 htmlFor="notes"
-                className="block font-medium text-gray-700"
+                className="block font-medium text-gray-700 dark:text-gray-200"
               >
                 Additional Notes or Acknowledgements
               </label>
@@ -438,13 +443,15 @@ const AddThesisSection = () => {
 
         {/* Upload Section */}
         <div className="space-y-6">
-          <h2 className="border-b pb-2 text-xl font-semibold">Upload Files</h2>
-
+          {" "}
+          <h2 className="border-b border-gray-200 pb-2 text-xl font-semibold dark:border-gray-700 dark:text-white">
+            Upload Files
+          </h2>
           <div>
-            <label className="mb-2 block font-medium text-gray-700">
+            <label className="mb-2 block font-medium text-gray-700 dark:text-gray-200">
               Thesis Document <span className="text-red-500">*</span>
             </label>
-            <p className="mb-4 text-sm text-gray-500">
+            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
               Upload your thesis document in PDF format. Maximum file size:
               50MB.
             </p>
@@ -455,13 +462,12 @@ const AddThesisSection = () => {
               maxSize={50}
               required={true}
             />
-          </div>
-
+          </div>{" "}
           <div>
-            <label className="mb-2 block font-medium text-gray-700">
+            <label className="mb-2 block font-medium text-gray-700 dark:text-gray-200">
               Supplementary Files
             </label>
-            <p className="mb-4 text-sm text-gray-500">
+            <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
               Upload any supplementary files (e.g., images, videos, datasets)
               that accompany your thesis. Maximum file size: 100MB total.
             </p>
@@ -473,11 +479,12 @@ const AddThesisSection = () => {
               multiple={true}
               required={false}
             />
-          </div>
-
-          <div className="mt-6 rounded-lg bg-gray-50 p-4">
-            <h3 className="mb-2 text-lg font-medium">Submission Agreement</h3>
-            <div className="prose prose-sm max-w-none text-gray-600">
+          </div>{" "}
+          <div className="mt-6 rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
+            <h3 className="mb-2 text-lg font-medium dark:text-white">
+              Submission Agreement
+            </h3>
+            <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
               <p>
                 By submitting this thesis, you agree to the following terms:
               </p>
@@ -507,7 +514,6 @@ const AddThesisSection = () => {
               />
             </div>
           </div>
-
           <div className="mt-8">
             <ThesisFormClient type="submitButton" label="Submit Thesis" />
           </div>
