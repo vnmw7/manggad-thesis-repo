@@ -33,6 +33,11 @@ interface ThesisFormClientProps {
   dependsOn?: string;
   dependsOnValue?: string;
   icon?: React.ReactNode;
+  value?: string | string[] | Date;
+  checked?: boolean;
+  onChange?: (value: any) => void;
+  onClick?: (e: React.MouseEvent) => void;
+  disabled?: boolean;
 }
 
 const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
@@ -48,13 +53,23 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
   dependsOn,
   dependsOnValue,
   icon,
+  value: propValue, // Renamed to avoid conflict with state
+  checked,
+  onChange,
+  onClick,
+  disabled = false,
 }) => {
-  const [value, setValue] = useState<string>("");
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [entries, setEntries] = useState<string[]>([]);
+  // Remove internal state for value, date, entries, keywords
+  // const [inputValue, setInputValue] = useState<string>(
+  //   typeof propValue === "string" ? propValue : "",
+  // );
+  const [date, setDate] = useState<Date | undefined>(
+    propValue instanceof Date ? propValue : undefined,
+  );
+  // Use local state only for the temporary input fields
   const [entryText, setEntryText] = useState<string>("");
-  const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState<string>("");
+
   const [isVisible, setIsVisible] = useState<boolean>(!conditional);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -97,71 +112,59 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
     }
   }, [conditional, dependsOn, dependsOnValue]);
 
+  // Update internal date state if propValue changes (for datePicker)
+  useEffect(() => {
+    if (type === 'datePicker' && propValue instanceof Date) {
+      setDate(propValue);
+    } else if (type === 'datePicker' && propValue === undefined) {
+      setDate(undefined);
+    }
+  }, [propValue, type]);
+
   // For keywords input
   const addKeyword = () => {
+    const currentKeywords = Array.isArray(propValue) ? propValue : [];
     if (
       keywordInput.trim() &&
-      !keywords.includes(keywordInput.trim().toLowerCase())
+      !currentKeywords.includes(keywordInput.trim().toLowerCase())
     ) {
-      setKeywords([...keywords, keywordInput.trim().toLowerCase()]);
+      const newKeywords = [...currentKeywords, keywordInput.trim().toLowerCase()];
+      onChange && onChange(newKeywords); // Call parent onChange with the new array
       setKeywordInput("");
     }
   };
 
   const removeKeyword = (keywordToRemove: string) => {
-    setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
+    const currentKeywords = Array.isArray(propValue) ? propValue : [];
+    const newKeywords = currentKeywords.filter((keyword) => keyword !== keywordToRemove);
+    onChange && onChange(newKeywords); // Call parent onChange with the new array
   };
 
   // For multiple entries
   const addEntry = () => {
-    if (entryText.trim() && !entries.includes(entryText.trim())) {
-      setEntries([...entries, entryText.trim()]);
+    const currentEntries = Array.isArray(propValue) ? propValue : [];
+    if (entryText.trim() && !currentEntries.includes(entryText.trim())) {
+      const newEntries = [...currentEntries, entryText.trim()];
+      onChange && onChange(newEntries); // Call parent onChange with the new array
       setEntryText("");
     }
   };
 
   const removeEntry = (entryToRemove: string) => {
-    setEntries(entries.filter((entry) => entry !== entryToRemove));
+    const currentEntries = Array.isArray(propValue) ? propValue : [];
+    const newEntries = currentEntries.filter((entry) => entry !== entryToRemove);
+    onChange && onChange(newEntries); // Call parent onChange with the new array
   };
 
   // Handle keydown for keywords and entries
-  const handleKeyDown = (e: React.KeyboardEvent, type: "keyword" | "entry") => {
+  const handleKeyDown = (e: React.KeyboardEvent, inputType: "keyword" | "entry") => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (type === "keyword") {
+      if (inputType === "keyword") {
         addKeyword();
       } else {
         addEntry();
       }
-    }
-  };
-
-  // Handle submit
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Get all form elements
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    try {
-      // You would replace this with your actual submission logic
-      const response = await fetch("/api/thesis/submit", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert("Thesis submitted successfully!");
-        form.reset();
-        // You might want to redirect or show a success message
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.message}`);
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("An error occurred during submission. Please try again.");
     }
   };
 
@@ -173,263 +176,242 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
         <input
           id={id}
           name={name}
-          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          value={typeof propValue === "string" ? propValue : ""}
+          onChange={(e) => onChange && onChange(e.target.value)}
           required={required}
           placeholder={placeholder}
           pattern={pattern}
+          disabled={disabled}
         />
       );
-
-    case "titleInput":
-      return (
-        <input
-          id={id}
-          name={name}
-          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          required={required}
-          placeholder="Enter the full thesis title"
-        />
-      );
-
     case "textarea":
       return (
         <textarea
           id={id}
           name={name}
-          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          rows={4}
+          value={typeof propValue === "string" ? propValue : ""}
+          onChange={(e) => onChange && onChange(e.target.value)}
           required={required}
-          rows={5}
           placeholder={placeholder}
+          disabled={disabled}
         />
       );
-
     case "select":
       return (
         <select
           id={id}
           name={name}
-          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          value={typeof propValue === "string" ? propValue : ""}
+          onChange={(e) => onChange && onChange(e.target.value)}
           required={required}
+          disabled={disabled}
         >
-          <option value="">Select an option</option>
+          <option value="" disabled>
+            {placeholder || "Select an option"}
+          </option>
           {options.map((option, index) => {
-            if (typeof option === "string") {
-              return (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              );
-            } else {
-              return (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              );
-            }
+            const value = typeof option === "string" ? option : option.value;
+            const label = typeof option === "string" ? option : option.label;
+            return (
+              <option key={index} value={value}>
+                {label}
+              </option>
+            );
           })}
         </select>
       );
-
     case "radio":
       return (
-        <div className="mt-1 flex space-x-4">
-          {options.map((option, index) => {
-            const optionValue =
-              typeof option === "string" ? option : option.value;
-            const optionLabel =
-              typeof option === "string" ? option : option.label;
-
-            return (
-              <label key={index} className="inline-flex items-center">
-                <input
-                  type="radio"
-                  name={name}
-                  value={optionValue}
-                  className="form-radio h-4 w-4 text-blue-600"
-                  required={required}
-                  onChange={() => setValue(optionValue)}
-                  checked={value === optionValue}
-                />
-                <span className="ml-2">{optionLabel}</span>
-              </label>
-            );
-          })}
+        <div className="mt-2 space-y-2">
+          {(options as { value: string; label: string }[]).map((option) => (
+            <label key={option.value} className="flex items-center space-x-2">
+              <input
+                type="radio"
+                id={`${id}-${option.value}`}
+                name={name}
+                value={option.value}
+                checked={propValue === option.value}
+                onChange={(e) => onChange && onChange(e.target.value)}
+                required={required}
+                className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out dark:border-gray-600 dark:bg-gray-700"
+                disabled={disabled}
+              />
+              <span className="text-gray-700 dark:text-gray-200">
+                {option.label}
+              </span>
+            </label>
+          ))}
         </div>
       );
-
     case "checkbox":
       return (
-        <label className="mt-1 inline-flex items-center">
+        <div className="mt-2 flex items-center">
           <input
             type="checkbox"
             id={id}
             name={name}
-            className="form-checkbox h-4 w-4 text-blue-600"
+            checked={checked}
+            onChange={(e) => onChange && onChange(e.target.checked)}
             required={required}
-            onChange={(e) => setValue(e.target.checked ? "true" : "false")}
+            className="form-checkbox h-4 w-4 rounded text-blue-600 transition duration-150 ease-in-out dark:border-gray-600 dark:bg-gray-700"
+            disabled={disabled}
           />
-          <span className="ml-2">{label}</span>
-        </label>
-      );
-
-    case "datePicker":
-      return (
-        <div className="relative">
-          <Popover>
-            <PopoverTrigger asChild>
-              <button
-                id={id}
-                type="button"
-                className={`flex w-full items-center justify-between rounded-md border border-gray-300 px-3 py-2 text-left focus:ring-1 focus:ring-blue-500 focus:outline-none ${!date ? "text-gray-400" : ""}`}
-              >
-                {date ? format(date, "PPP") : "Select date..."}
-                {icon && <span className="ml-2">{icon}</span>}
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                initialFocus
-                required={required}
-              />
-              <input
-                type="hidden"
-                name={name}
-                value={date ? format(date, "yyyy-MM-dd") : ""}
-                required={required}
-              />
-            </PopoverContent>
-          </Popover>
+          {label && (
+            <label
+              htmlFor={id}
+              className="ml-2 block text-sm text-gray-900 dark:text-gray-200"
+            >
+              {label}
+            </label>
+          )}
         </div>
       );
-
+    case "datePicker":
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className={`mt-1 flex w-full items-center justify-between rounded-md border border-gray-300 px-3 py-2 text-left focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white ${
+                !date ? "text-gray-500 dark:text-gray-400" : ""
+              }`}
+              disabled={disabled}
+            >
+              {/* Use internal date state for display */}
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              {icon || <span className="ml-auto h-4 w-4 opacity-50">📅</span>}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={date} // Use internal date state for calendar
+              onSelect={(selectedDate) => {
+                setDate(selectedDate); // Update internal state
+                onChange && onChange(selectedDate); // Propagate change to parent
+              }}
+              initialFocus
+              disabled={disabled}
+            />
+          </PopoverContent>
+        </Popover>
+      );
     case "multipleEntries":
+      const currentEntries = Array.isArray(propValue) ? propValue : [];
       return (
         <div>
-          <div className="mt-1 flex">
+          <div className="flex space-x-2">
             <input
-              ref={inputRef}
               type="text"
-              className="flex-1 rounded-l-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-              value={entryText}
+              value={entryText} // Controlled by local state
               onChange={(e) => setEntryText(e.target.value)}
-              placeholder={placeholder || "Add an entry"}
               onKeyDown={(e) => handleKeyDown(e, "entry")}
+              placeholder={placeholder || "Add an entry"}
+              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              disabled={disabled}
             />
             <button
               type="button"
               onClick={addEntry}
-              className="rounded-r-md bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 focus:outline-none"
+              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+              disabled={disabled}
             >
               <Plus size={16} />
             </button>
           </div>
-          {entries.length > 0 && (
-            <div className="mt-2 space-y-1">
-              {entries.map((entry, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between rounded bg-gray-100 px-3 py-1"
+          <div className="mt-2 flex flex-wrap gap-2">
+            {/* Display entries from propValue */}
+            {currentEntries.map((entry, index) => (
+              <span
+                key={index}
+                className="flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-600 dark:text-gray-200"
+              >
+                {entry}
+                <button
+                  type="button"
+                  onClick={() => removeEntry(entry)}
+                  className="ml-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  disabled={disabled}
                 >
-                  <span>{entry}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeEntry(entry)}
-                    className="ml-2 text-gray-500 hover:text-red-500 focus:outline-none"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
-              {/* Hidden inputs to store entries data */}
-              {entries.map((entry, index) => (
-                <input
-                  key={index}
-                  type="hidden"
-                  name={`${name}[${index}]`}
-                  value={entry}
-                />
-              ))}
-            </div>
-          )}
+                  <X size={14} />
+                </button>
+              </span>
+            ))}
+          </div>
         </div>
       );
-
     case "keywordsInput":
+      const currentKeywords = Array.isArray(propValue) ? propValue : [];
       return (
         <div>
-          <div className="mt-1 flex">
+          <div className="flex space-x-2">
             <input
-              ref={inputRef}
               type="text"
-              className="flex-1 rounded-l-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-              value={keywordInput}
+              value={keywordInput} // Controlled by local state
               onChange={(e) => setKeywordInput(e.target.value)}
-              placeholder="Add a keyword and press Enter"
               onKeyDown={(e) => handleKeyDown(e, "keyword")}
+              placeholder={placeholder || "Add a keyword"}
+              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              disabled={disabled}
             />
             <button
               type="button"
               onClick={addKeyword}
-              className="rounded-r-md bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 focus:outline-none"
+              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+              disabled={disabled}
             >
               <Plus size={16} />
             </button>
           </div>
-          {keywords.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {keywords.map((keyword, index) => (
-                <div
-                  key={index}
-                  className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800"
+          <div className="mt-2 flex flex-wrap gap-2">
+            {/* Display keywords from propValue */}
+            {currentKeywords.map((keyword, index) => (
+              <span
+                key={index}
+                className="flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-600 dark:text-gray-200"
+              >
+                {keyword}
+                <button
+                  type="button"
+                  onClick={() => removeKeyword(keyword)}
+                  className="ml-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  disabled={disabled}
                 >
-                  <span>{keyword}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeKeyword(keyword)}
-                    className="ml-1 text-blue-500 hover:text-blue-700 focus:outline-none"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
-              {/* Hidden inputs to store keywords data */}
-              {keywords.map((keyword, index) => (
-                <input
-                  key={index}
-                  type="hidden"
-                  name={`${name}[${index}]`}
-                  value={keyword}
-                />
-              ))}
-            </div>
-          )}
-          {required && keywords.length === 0 && (
-            <input type="hidden" name={`${name}-validation`} required />
-          )}
+                  <X size={14} />
+                </button>
+              </span>
+            ))}
+          </div>
         </div>
       );
-
+    case "titleInput":
+      return (
+        <input
+          id={id}
+          name={name}
+          className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-lg font-semibold focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          value={typeof propValue === "string" ? propValue : ""}
+          onChange={(e) => onChange && onChange(e.target.value)}
+          required={required}
+          placeholder={placeholder || "Enter thesis title"}
+          disabled={disabled}
+        />
+      );
     case "submitButton":
       return (
         <button
           type="submit"
-          className="w-full transform rounded-md bg-[#0442B1] px-4 py-3 font-medium text-white transition-transform hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-95"
+          onClick={onClick}
+          disabled={disabled}
+          className="w-full rounded-md bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-700 dark:disabled:bg-blue-800"
         >
           {label || "Submit"}
         </button>
       );
-
     default:
       return null;
   }

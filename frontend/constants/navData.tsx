@@ -69,7 +69,7 @@ export const manageCollections: CollectionItemData[] = [
   },
   {
     icon: <FaPlus className="mr-2 h-4 w-4" />,
-    label: "Add Collections",
+    label: "Add Thesis",
     content: "add thesis",
   },
   {

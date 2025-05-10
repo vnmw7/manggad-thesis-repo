@@ -10,6 +10,7 @@ interface FileUploadClientProps {
   maxSize?: number; // in MB
   multiple?: boolean;
   required?: boolean;
+  onFileChange?: (files: File | File[]) => void;
 }
 
 const FileUploadClient: React.FC<FileUploadClientProps> = ({
@@ -19,6 +20,7 @@ const FileUploadClient: React.FC<FileUploadClientProps> = ({
   maxSize = 10, // Default 10MB
   multiple = false,
   required = false,
+  onFileChange,
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -86,22 +88,29 @@ const FileUploadClient: React.FC<FileUploadClientProps> = ({
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       if (multiple) {
         const validFiles = validateFiles(e.dataTransfer.files);
-        setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+        setFiles((prevFiles) => {
+          const newFiles = [...prevFiles, ...validFiles];
+          if (onFileChange) {
+            onFileChange(multiple ? newFiles : newFiles[0]);
+          }
+          return newFiles;
+        });
       } else {
         // If not multiple, just take the first file
-        const validFiles = validateFiles(new DataTransfer().files);
         if (e.dataTransfer.files[0]) {
           const dt = new DataTransfer();
           dt.items.add(e.dataTransfer.files[0]);
           const validFiles = validateFiles(dt.files);
           if (validFiles.length > 0) {
             setFiles([validFiles[0]]);
+            if (onFileChange) {
+              onFileChange(validFiles[0]);
+            }
           }
         }
       }
     }
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -109,15 +118,32 @@ const FileUploadClient: React.FC<FileUploadClientProps> = ({
       const validFiles = validateFiles(e.target.files);
 
       if (multiple) {
-        setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+        setFiles((prevFiles) => {
+          const newFiles = [...prevFiles, ...validFiles];
+          if (onFileChange) {
+            onFileChange(newFiles);
+          }
+          return newFiles;
+        });
       } else if (validFiles.length > 0) {
         setFiles([validFiles[0]]);
+        if (onFileChange) {
+          onFileChange(validFiles[0]);
+        }
       }
     }
   };
-
   const removeFile = (fileName: string) => {
-    setFiles(files.filter((file) => file.name !== fileName));
+    const updatedFiles = files.filter((file) => file.name !== fileName);
+    setFiles(updatedFiles);
+
+    if (onFileChange) {
+      if (multiple) {
+        onFileChange(updatedFiles);
+      } else {
+        onFileChange(updatedFiles.length > 0 ? updatedFiles[0] : null);
+      }
+    }
   };
 
   const handleButtonClick = () => {

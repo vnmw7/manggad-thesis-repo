@@ -53,7 +53,24 @@ const uploadImg = async (req: Request, res: Response) => {
   }
 };
 
+// Add a generic file upload handler
+const uploadGenericFile = async (req: Request, res: Response) => {
+  if (req.file) {
+    // Determine destination based on file type or keep it generic
+    const destinationFolder = `manggad/${
+      req.file.mimetype.split("/")[0] || "other" // e.g., manggad/image, manggad/application, manggad/other
+    }`;
+    upload(req.file, destinationFolder, res);
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "No file uploaded",
+    });
+  }
+};
+
 export const uploadController = {
   uploadPdf,
   uploadImg,
+  uploadGenericFile, // Export the new handler
 };

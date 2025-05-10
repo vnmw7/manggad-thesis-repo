@@ -109,7 +109,7 @@ export default function StartPage() {
               <div className="hidden lg:block lg:w-1/2">
                 <div className="relative h-full w-full">
                   <Image
-                    src="/Library1.jpg"
+                    src="/CollegeAtrium.jpg"
                     alt="LCCB Library"
                     fill
                     priority

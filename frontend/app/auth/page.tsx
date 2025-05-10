@@ -474,7 +474,7 @@ const AuthPage = () => {
 
       if (result.success) {
         toast.success("Login successful!");
-        router.push("/admin");
+        router.push("/home");
       } else {
         setLoginError("Invalid email or password");
         toast.error("Login failed. Please check your credentials.");

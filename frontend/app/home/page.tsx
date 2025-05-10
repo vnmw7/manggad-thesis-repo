@@ -42,7 +42,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen w-full flex-col overflow-hidden bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-gray-900 dark:to-gray-950">
       {/* Animated Grid Pattern Background - Now covering the entire page with fixed positioning */}
-      <div className="fixed inset-0 h-screen w-screen opacity-30 dark:opacity-40">
+      <div className="pointer-events-none fixed inset-0 h-screen w-screen opacity-30 dark:opacity-40">
         <AnimatedGridPattern
           width={50}
           height={50}
