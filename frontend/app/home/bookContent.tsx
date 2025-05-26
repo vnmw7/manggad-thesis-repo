@@ -1,13 +1,26 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { FaSearch, FaFilter, FaBook, FaCalendarAlt } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+  useCallback, // Added useCallback
+} from "react";
+import { useRouter } from "next/navigation"; // Assuming next/navigation for useRouter
+import { motion } from "framer-motion"; // Assuming framer-motion for animations
+import { cn } from "@/lib/utils"; // Assuming cn utility is in lib/utils
+import {
+  FaSearch,
+  FaFilter,
+  FaTimes,
+  FaBook,
+  FaCalendarAlt,
+} from "react-icons/fa"; // Assuming react-icons
+import Image from "next/image"; // Assuming next/image
+import { supabase } from "@/lib/supabase"; // Import Supabase client
 
-// GlassmorphicCard component definition
+// GlassmorphicCard component definition (ensure this is correctly defined or imported)
 const GlassmorphicCard = ({
   children,
   className,
@@ -51,7 +64,7 @@ export default function BookContent() {
 
   const [books, setBooks] = useState<
     {
-      id: number;
+      id: string; // Changed from number to string to align with typical ObjectId from DB
       title: string;
       yearOfSubmission: number;
       coverImage: string;
@@ -118,7 +131,7 @@ export default function BookContent() {
     }));
   };
 
-  // Function to update filter sentence
+  // Function to update filter sentence and combined query
   useEffect(() => {
     let sentence = "";
 
@@ -134,21 +147,35 @@ export default function BookContent() {
       sentence += selectedDepartments.join(", ");
     }
 
-    setFilterSentence(sentence.trim());
-    setFilterAndSearchQuery(searchQuery + " " + sentence.trim());
+    const trimmedSentence = sentence.trim();
+    setFilterSentence(trimmedSentence);
+    // Combine searchQuery and trimmedSentence, then trim the result
+    setFilterAndSearchQuery((searchQuery + " " + trimmedSentence).trim());
   }, [filterYear, filterCheckboxStatus, searchQuery]);
 
-  // Fetch all books initially
-  useEffect(() => {
-    getAllBooks();
-  }, []);
+  // Get all books function, memoized with useCallback
+  const getAllBooks = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.from("thesis_tbl").select("*");
 
-  // Get all books function
-  const getAllBooks = () => {
-    fetch("http://localhost:3001/books/")
-      .then((response) => response.json())
-      .then((data) => setBooks(data));
-  };
+      if (error) {
+        throw error;
+      }
+
+      setBooks(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching all books:", error);
+      setBooks([]); // Set to empty array on error to prevent crashes
+    }
+  }, [setBooks]); // Added setBooks to dependency array
+
+  // Fetch all books initially or when the search/filter query is cleared
+  useEffect(() => {
+    if (filterAndSearchQuery === "") {
+      getAllBooks();
+    }
+    // When filterAndSearchQuery is not empty, results are fetched by handleSubmit
+  }, [filterAndSearchQuery, getAllBooks]);
 
   // Handle search form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -157,17 +184,23 @@ export default function BookContent() {
       getAllBooks();
     } else {
       try {
-        const response = await fetch("http://localhost:3001/books/search", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ filterAndSearchQuery }),
-        });
-        const searchResults = await response.json();
-        setBooks(searchResults.data || []);
+        // Adjust the search query for Supabase.
+        // This example assumes you want to search in 'title', 'abstract', and 'keywords' fields.
+        // You might need to adjust this based on your Supabase table structure and search requirements.
+        const { data, error } = await supabase
+          .from("thesis_tbl")
+          .select("*")
+          .or(
+            `title.ilike.%${filterAndSearchQuery}%,abstract.ilike.%${filterAndSearchQuery}%,keywords.ilike.%${filterAndSearchQuery}%`,
+          );
+
+        if (error) {
+          throw error;
+        }
+        setBooks(data || []);
       } catch (error) {
         console.error("Search error:", error);
+        setBooks([]);
       }
     }
   };

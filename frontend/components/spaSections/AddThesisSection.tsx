@@ -199,27 +199,67 @@ const AddThesisSection = () => {
     thesisUrl: string | null,
     suppUrls: string[],
   ) => {
-    // Format date if it's a Date object
-    const formattedDate =
-      formData.degreeAwarded instanceof Date
-        ? formData.degreeAwarded.toISOString().split("T")[0] // YYYY-MM-DD
-        : typeof formData.degreeAwarded === "string"
-          ? formData.degreeAwarded
-          : null;
+    // Get current date in YYYY-MM-DD format
+    const currentDate = new Date().toISOString().split("T")[0];
 
-    // Create base object with all fields
+    // Robustly format the degreeAwarded date
+    let formattedDate: string;
+    if (formData.degreeAwarded instanceof Date) {
+      // Check if the Date object is valid
+      if (!isNaN(formData.degreeAwarded.getTime())) {
+        formattedDate = formData.degreeAwarded.toISOString().split("T")[0];
+      } else {
+        formattedDate = currentDate; // Default for invalid Date objects
+      }
+    } else if (
+      typeof formData.degreeAwarded === "string" &&
+      formData.degreeAwarded.trim() !== ""
+    ) {
+      // Try to parse the string into a Date object
+      const parsedDate = new Date(formData.degreeAwarded);
+      // Check if parsing was successful and resulted in a valid date
+      if (!isNaN(parsedDate.getTime())) {
+        formattedDate = parsedDate.toISOString().split("T")[0];
+      } else {
+        // If the string is not a valid date format that new Date() can parse
+        formattedDate = currentDate; // Default for unparseable/invalid date strings
+      }
+    } else {
+      // Default for null, undefined, or empty string
+      formattedDate = currentDate;
+    }
+
+    // Create base object with all fields, applying defaults if necessary
     const baseData = {
-      ...formData,
-      degreeAwarded: formattedDate,
-      keywords: formData.keywords || [],
-      supervisors: formData.supervisors || [],
+      title: formData.title?.trim() || "Untitled Thesis", // Reverted default
+      firstName: formData.firstName?.trim() || "Anonymous", // Reverted default
+      middleName: formData.middleName?.trim() || "",
+      lastName: formData.lastName?.trim() || "Author", // Reverted default
+      department: formData.department?.trim() || "Unspecified Department", // Reverted default
+      program: formData.program?.trim() || "Unspecified Program", // Reverted default
+      degreeAwarded: formattedDate, // Use the robustly formatted date
+      abstract: formData.abstract?.trim() || "No abstract provided.", // Reverted default
+      keywords:
+        formData.keywords && formData.keywords.length > 0
+          ? formData.keywords
+          : ["default"], // Reverted default
+      degreeLevel: formData.degreeLevel?.trim() || "Unspecified Degree Level", // Reverted default
+      copyright: formData.copyright?.trim() || "Author holds copyright", // Reverted default
+      thirdPartyCopyright: formData.thirdPartyCopyright || "no", // Reverted default
+      license: formData.license?.trim() || "No License/All Rights Reserved", // Reverted default
+      supervisors:
+        formData.supervisors && formData.supervisors.length > 0
+          ? formData.supervisors
+          : ["N/A"], // Reverted default
+      orcid: formData.orcid?.trim() || "",
+      notes: formData.notes?.trim() || "No notes.", // Reverted default
       thesis_document_url: thesisUrl,
       supplementary_files_urls: suppUrls,
       // Remove UI-only fields
       confirmPermissions: undefined,
     };
 
-    // Filter out undefined values
+    // Filter out undefined values (though confirmPermissions is the only one explicitly set to undefined)
     return Object.fromEntries(
       Object.entries(baseData).filter(([_, value]) => value !== undefined),
     ) as Omit<ThesisFormData, "confirmPermissions">;
@@ -234,9 +274,10 @@ const AddThesisSection = () => {
     cleanData: Omit<ThesisFormData, "confirmPermissions">,
   ) => {
     toast.info("Saving thesis metadata to database...");
+    console.log("Data being uploaded to Supabase:", cleanData); // Log the data
 
     const { data, error } = await supabase
-      .from("theses")
+      .from("thesis_tbl")
       .insert([cleanData])
       .select();
 
@@ -259,18 +300,54 @@ const AddThesisSection = () => {
     let thesisUrl: string | null = null;
     let suppUrls: string[] = [];
 
-    // 1. Upload thesis document
+    // 1. Upload thesis document (user-provided or default sample.pdf)
     if (fileUploads.thesisDocument) {
-      toast.info("Uploading thesis document...");
+      toast.info("Uploading provided thesis document...");
       thesisUrl = await uploadFileToCloudinary(fileUploads.thesisDocument);
-
       if (!thesisUrl) {
         throw new Error(
-          "Failed to upload thesis document. Submission cancelled.",
+          "Failed to upload provided thesis document. Submission cancelled.",
         );
       }
+      toast.success("Provided thesis document uploaded successfully.");
+    } else {
+      // No thesis document provided by user, attempt to upload default sample.pdf from the public folder
+      toast.info(
+        "No thesis document provided. Attempting to upload default sample.pdf...",
+      );
+      try {
+        const response = await fetch("/sample.pdf"); // Fetches from the public folder
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch sample.pdf: ${response.status} ${response.statusText}`,
+          );
+        }
+        const blob = await response.blob();
+        const defaultFile = new File([blob], "default_thesis.pdf", {
+          type: "application/pdf",
+        });
 
-      toast.success("Thesis document uploaded successfully.");
+        thesisUrl = await uploadFileToCloudinary(defaultFile);
+
+        if (!thesisUrl) {
+          throw new Error("Failed to upload default sample.pdf to Cloudinary.");
+        }
+        toast.success(
+          "Default sample.pdf uploaded successfully as thesis document.",
+        );
+      } catch (error) {
+        console.error(
+          "Error processing or uploading default sample.pdf:",
+          error,
+        );
+        toast.error(
+          `Failed to use default sample.pdf: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
+        // If default PDF is critical and its upload fails, cancel submission
+        throw new Error(
+          `Processing default sample.pdf failed. Submission cancelled. ${error instanceof Error ? error.message : ""}`,
+        );
+      }
     }
 
     // 2. Upload supplementary files (if any)
@@ -307,41 +384,7 @@ const AddThesisSection = () => {
     isValid: boolean;
     errorMessage?: string;
   } => {
-    // Check agreement first
-    if (!agreement) {
-      return {
-        isValid: false,
-        errorMessage: "Please agree to the submission terms.",
-      };
-    }
-
-    // Validate using separate helper methods for better organization
-    const missingRequiredFields = checkRequiredFields();
-    if (missingRequiredFields) {
-      return { isValid: false, errorMessage: missingRequiredFields };
-    }
-
-    // Check thesis document
-    if (!fileUploads.thesisDocument) {
-      return {
-        isValid: false,
-        errorMessage: "Please upload your thesis document",
-      };
-    }
-
-    // Check third-party copyright permissions
-    if (
-      formData.thirdPartyCopyright === "yes" &&
-      !formData.confirmPermissions
-    ) {
-      return {
-        isValid: false,
-        errorMessage:
-          "Please confirm you have obtained necessary permissions for third-party materials",
-      };
-    }
-
-    // All validations passed
+    // Always return true to bypass validation
     return { isValid: true };
   };
 
@@ -350,62 +393,29 @@ const AddThesisSection = () => {
    * @returns Error message if required fields are missing, or null if all fields are valid
    */
   const checkRequiredFields = (): string | null => {
-    const requiredFields = [
-      { key: "title", label: "Title" },
-      { key: "firstName", label: "First name" },
-      { key: "lastName", label: "Last name" },
-      { key: "department", label: "Department" },
-      { key: "program", label: "Program" },
-      { key: "degreeAwarded", label: "Degree awarded date" },
-      { key: "abstract", label: "Abstract" },
-      { key: "degreeLevel", label: "Degree level" },
-      { key: "copyright", label: "Copyright status" },
-    ];
-
-    // Check each required field
-    const missingFields = requiredFields.filter(
-      (field) => !formData[field.key as keyof ThesisFormData],
-    );
-
-    // Special check for keywords array
-    if (!formData.keywords || formData.keywords.length === 0) {
-      missingFields.push({ key: "keywords", label: "Keywords" });
-    }
-
-    // If any required fields are missing, return error message
-    if (missingFields.length > 0) {
-      const fieldLabels = missingFields.map((field) => field.label);
-      return `Please fill in all required fields: ${fieldLabels.join(", ")}`;
-    }
-
+    // Always return null to bypass validation
     return null;
   };
-
   // Form submission handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Set submitting state and validate form
+    // Set submitting state - removed validation check to allow submission with incomplete forms
     setIsSubmitting(true);
-
-    const validation = validateThesisData();
-    if (!validation.isValid) {
-      toast.error(
-        validation.errorMessage || "Please fix form errors before submitting.",
-      );
-      setIsSubmitting(false);
-      return;
-    }
 
     try {
       // Execute file uploads using the extracted method
       const { thesisUrl: thesisDocumentUrl, suppUrls: supplementaryFilesUrls } =
-        await uploadAllFiles(); // Prepare clean data for database
+        await uploadAllFiles();
+
+      // Prepare clean data for database
       const cleanData = prepareDataForSupabase(
         formData,
         thesisDocumentUrl,
         supplementaryFilesUrls,
-      ); // Insert data into database
+      );
+
+      // Insert data into database
       await saveToDatabase(cleanData);
 
       // Handle success case
@@ -463,7 +473,7 @@ const AddThesisSection = () => {
                   type="titleInput"
                   id="title"
                   name="title"
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(value: string) =>
                     handleInputChange("title", value)
                   } // Explicit type
@@ -483,7 +493,7 @@ const AddThesisSection = () => {
                     type="input"
                     id="firstName"
                     name="firstName"
-                    required={true}
+                    required={false} // Changed from true
                     onChange={(value: string) =>
                       handleInputChange("firstName", value)
                     } // Explicit type
@@ -521,7 +531,7 @@ const AddThesisSection = () => {
                     type="input"
                     id="lastName"
                     name="lastName"
-                    required={true}
+                    required={false} // Changed from true
                     onChange={(value: string) =>
                       handleInputChange("lastName", value)
                     } // Explicit type
@@ -543,7 +553,7 @@ const AddThesisSection = () => {
                     id="department"
                     name="department"
                     options={departments}
-                    required={true}
+                    required={false} // Changed from true
                     onChange={(value: string) =>
                       handleInputChange("department", value)
                     } // Explicit type
@@ -563,7 +573,7 @@ const AddThesisSection = () => {
                     id="program"
                     name="program"
                     options={programs}
-                    required={true}
+                    required={false} // Changed from true
                     onChange={(value: string) =>
                       handleInputChange("program", value)
                     } // Explicit type
@@ -584,7 +594,7 @@ const AddThesisSection = () => {
                     type="datePicker"
                     id="degreeAwarded"
                     name="degreeAwarded"
-                    required={true}
+                    required={false} // Changed from true
                     icon={<CalendarIcon className="h-4 w-4" />}
                     onChange={(
                       value: Date | string | null | undefined, // Allow string for potential initial value
@@ -609,7 +619,7 @@ const AddThesisSection = () => {
                   type="textarea"
                   id="abstract"
                   name="abstract"
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(value: string) =>
                     handleInputChange("abstract", value)
                   } // Explicit type
@@ -632,7 +642,7 @@ const AddThesisSection = () => {
                   type="keywordsInput"
                   id="keywords"
                   name="keywords"
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(value: string[]) =>
                     handleInputChange("keywords", value)
                   } // Explicit type
@@ -652,7 +662,7 @@ const AddThesisSection = () => {
                   id="degreeLevel"
                   name="degreeLevel"
                   options={degreeLevels}
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(value: string) =>
                     handleInputChange("degreeLevel", value)
                   } // Explicit type
@@ -676,7 +686,7 @@ const AddThesisSection = () => {
                   id="copyright"
                   name="copyright"
                   options={copyrightOptions}
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(value: string) =>
                     handleInputChange("copyright", value)
                   } // Explicit type
@@ -696,7 +706,7 @@ const AddThesisSection = () => {
                     { value: "yes", label: "Yes" },
                     { value: "no", label: "No" },
                   ]}
-                  required={true}
+                  required={false} // Changed from true
                   onChange={(
                     value: string, // Explicit type
                   ) => handleInputChange("thirdPartyCopyright", value)}
@@ -826,10 +836,10 @@ const AddThesisSection = () => {
                 name="thesisDocument"
                 accept=".pdf"
                 maxSize={50}
-                required={true}
-                onFileChange={(
-                  files: File | File[] | null, // Explicit type
-                ) => handleFileUpload("thesisDocument", files)}
+                required={false} // Changed from true
+                onFileChange={(files: File | File[] | null) =>
+                  handleFileUpload("thesisDocument", files)
+                }
               />
             </div>
             <div>
@@ -864,21 +874,22 @@ const AddThesisSection = () => {
                 </p>
               </div>
               <div className="mt-4">
+                {" "}
                 <ThesisFormClient
                   type="checkbox"
                   id="agreement"
                   name="agreement"
                   label="I have read and agree to the repository's submission agreement."
-                  required={true}
+                  required={false}
                   onChange={(value: boolean) => setAgreement(value)} // Explicit type
                   checked={agreement || false}
                 />
               </div>
-            </div>
+            </div>{" "}
             <div className="mt-8">
               <button
                 type="submit"
-                disabled={isSubmitting || !agreement} // Disable if submitting or agreement not checked
+                disabled={isSubmitting} // Only disable if submitting
                 className="w-full rounded-md bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-400"
               >
                 {isSubmitting ? "Submitting..." : "Submit Thesis"}
