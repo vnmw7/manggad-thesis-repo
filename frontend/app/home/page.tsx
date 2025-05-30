@@ -12,12 +12,20 @@ import BookContent from "./bookContent";
 import DashboardContent from "./dashboardContent";
 import AddThesisSection from "@/components/spaSections/AddThesisSection";
 import ViewEditThesisSection from "@/components/spaSections/ViewEditThesisSection";
+import { BookDetailContent } from "./bookDetailContent";
 
 export default function HomePage() {
   const { resolvedTheme } = useTheme();
   const [activeContent, setActiveContent] = useState<
-    "home" | "contact" | "book" | "dashboard" | "add thesis" | "view thesis"
+    | "home"
+    | "contact"
+    | "book"
+    | "dashboard"
+    | "add thesis"
+    | "view thesis"
+    | "bookDetail"
   >("home");
+  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
 
   const handleContentChange = (
     content:
@@ -26,9 +34,16 @@ export default function HomePage() {
       | "book"
       | "dashboard"
       | "add thesis"
-      | "view thesis",
+      | "view thesis"
+      | "bookDetail",
+    bookId?: string,
   ) => {
     setActiveContent(content);
+    if (content === "bookDetail" && bookId) {
+      setSelectedBookId(bookId);
+    } else {
+      setSelectedBookId(null);
+    }
   };
 
   useEffect(() => {
@@ -61,13 +76,18 @@ export default function HomePage() {
           <SideNav onContentChange={handleContentChange} />
         </div>
 
-        <div className="lg:mr-4">
+        <div className="flex-1 overflow-y-auto p-4 lg:mr-4">
           {activeContent === "home" && <HomeContent />}
           {activeContent === "contact" && <ContactContent />}
-          {activeContent === "book" && <BookContent />}
+          {activeContent === "book" && (
+            <BookContent onContentChange={handleContentChange} />
+          )}
           {activeContent === "dashboard" && <DashboardContent />}
           {activeContent === "add thesis" && <AddThesisSection />}
           {activeContent === "view thesis" && <ViewEditThesisSection />}
+          {activeContent === "bookDetail" && selectedBookId && (
+            <BookDetailContent bookId={selectedBookId} />
+          )}
         </div>
       </div>
 

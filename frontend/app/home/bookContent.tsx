@@ -59,7 +59,13 @@ interface FilterCheckboxStatus {
   [key: string]: boolean;
 }
 
-export default function BookContent() {
+interface BookContentProps {
+  // Added interface for props
+  onContentChange: (content: "bookDetail", bookId: string) => void;
+}
+
+export default function BookContent({ onContentChange }: BookContentProps) {
+  // Destructure onContentChange from props
   const router = useRouter();
 
   const [books, setBooks] = useState<
@@ -181,49 +187,54 @@ export default function BookContent() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!filterAndSearchQuery.trim()) {
-      getAllBooks();
+      getAllBooks(); // Fetch all books if query is empty
     } else {
+      // Fetch books based on the combined query
       try {
-        // Adjust the search query for Supabase.
-        // This example assumes you want to search in 'title', 'abstract', and 'keywords' fields.
-        // You might need to adjust this based on your Supabase table structure and search requirements.
         const { data, error } = await supabase
           .from("thesis_tbl")
           .select("*")
-          .or(
-            `title.ilike.%${filterAndSearchQuery}%,abstract.ilike.%${filterAndSearchQuery}%,keywords.ilike.%${filterAndSearchQuery}%`,
-          );
+          .textSearch("fts", filterAndSearchQuery, {
+            type: "websearch",
+            config: "english",
+          });
 
         if (error) {
           throw error;
         }
         setBooks(data || []);
       } catch (error) {
-        console.error("Search error:", error);
-        setBooks([]);
+        console.error("Error searching books:", error);
+        setBooks([]); // Clear books on error
       }
     }
   };
 
+  const handleBookClick = (bookId: string) => {
+    onContentChange("bookDetail", bookId);
+  };
+
   return (
     <div className="flex-1">
-      {/* Page Title */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-        className="mx-auto mt-8 w-full max-w-7xl px-4 lg:px-0"
-      >
-        <GlassmorphicCard className="overflow-hidden rounded-xl p-6">
-          <h1 className="text-3xl font-bold text-[#0A379C] dark:text-blue-300">
-            Book Repository
-          </h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Explore our collection of theses, research papers, and academic
-            publications
-          </p>
-        </GlassmorphicCard>
-      </motion.div>
+      <GlassmorphicCard className="mb-8 overflow-hidden rounded-xl p-6">
+        <motion.h1
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="text-3xl font-bold text-[#0A379C] dark:text-blue-300"
+        >
+          Book Repository
+        </motion.h1>
+        <motion.p
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="mt-2 text-gray-600 dark:text-gray-300"
+        >
+          Explore our collection of theses, research papers, and academic
+          publications
+        </motion.p>
+      </GlassmorphicCard>
 
       {/* Search Bar */}
       <motion.div
@@ -409,50 +420,16 @@ export default function BookContent() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {books.length > 0 ? (
             books.map((book) => (
-              <motion.div key={book.id} variants={fadeIn}>
-                <GlassmorphicCard
-                  className="h-full overflow-hidden rounded-xl"
-                  hoverEffect={true}
-                >
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => router.push(`/book/${book.id}`)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <h3 className="line-clamp-2 text-lg font-semibold text-blue-800 dark:text-blue-300">
-                        {book.title}
-                      </h3>
-                      <div className="flex items-center">
-                        <span
-                          className={`mr-1 ${book.recommendations > 0 ? "text-blue-700" : "text-gray-300"}`}
-                        >
-                          {book.recommendations}
-                        </span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="1.25rem"
-                          height="1.25rem"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill={
-                              book.recommendations > 0 ? "#0442b1" : "#e5e5e5"
-                            }
-                            fillRule="evenodd"
-                            d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a1 1 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a1 1 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a1 1 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a1 1 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a1 1 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a1 1 0 0 1-.696-.288l-.893-.893A2.98 2.98 0 0 0 12 2m3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253l-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-
-                    <div className="mt-2 flex items-center text-sm text-gray-500">
-                      <FaCalendarAlt className="mr-1" />
-                      <span>{book.yearOfSubmission}</span>
-                    </div>
-
-                    <div className="group relative mt-4">
-                      <div className="relative h-48 w-full overflow-hidden rounded-lg">
+              <motion.div
+                key={book.id}
+                variants={fadeIn}
+                onClick={() => router.push(`/collection/${book.id}`)}
+                className="cursor-pointer"
+              >
+                <GlassmorphicCard hoverEffect className="h-full">
+                  <div className="flex h-full flex-col">
+                    {book.coverImage && (
+                      <div className="relative mb-4 h-48 w-full flex-shrink-0 overflow-hidden rounded-lg">
                         <Image
                           src={
                             book.coverImage || "/defaults/defaultBookCover.png"
@@ -461,19 +438,29 @@ export default function BookContent() {
                           fill
                           className="object-cover transition-opacity duration-300 group-hover:opacity-20"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-full p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <p className="line-clamp-6 text-sm text-gray-800 dark:text-gray-200">
-                              {book.abstract || "No abstract available."}
-                            </p>
-                            {book.keywords && (
-                              <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-                                <span className="font-semibold">Keywords:</span>{" "}
-                                {book.keywords}
-                              </p>
-                            )}
-                          </div>
+                      </div>
+                    )}
+                    <div className="flex flex-grow flex-col">
+                      <h3 className="mb-2 text-xl font-semibold text-gray-800 dark:text-white">
+                        {book.title}
+                      </h3>
+                      <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">
+                        Year: {book.yearOfSubmission}
+                      </p>
+                      <p className="mb-2 line-clamp-3 flex-grow text-xs text-gray-500 dark:text-gray-400">
+                        {book.abstract}
+                      </p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                          <FaCalendarAlt />
+                          <span>{book.yearOfSubmission}</span>
                         </div>
+                        <button
+                          onClick={() => handleBookClick(book.id)} // Updated onClick handler
+                          className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+                        >
+                          View Details
+                        </button>
                       </div>
                     </div>
                   </div>
