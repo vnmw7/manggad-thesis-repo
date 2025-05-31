@@ -423,7 +423,6 @@ export default function BookContent({ onContentChange }: BookContentProps) {
               <motion.div
                 key={book.id}
                 variants={fadeIn}
-                onClick={() => router.push(`/collection/${book.id}`)}
                 className="cursor-pointer"
               >
                 <GlassmorphicCard hoverEffect className="h-full">

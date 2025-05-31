@@ -302,6 +302,23 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
             )}
         </div>
       </GlassmorphicCard>
+
+      {book.thesis_document_url &&
+        book.thesis_document_url.toLowerCase().endsWith(".pdf") && (
+          <GlassmorphicCard className="mt-8">
+            <h2 className="mb-6 border-b border-gray-300/50 pb-3 text-2xl font-semibold text-blue-600 dark:text-blue-400">
+              Thesis Preview
+            </h2>
+            <div className="aspect-[8.5/11] w-full">
+              <iframe
+                src={book.thesis_document_url}
+                title="Thesis Document Preview"
+                className="h-full w-full rounded-lg border border-gray-300/50"
+                allowFullScreen
+              />
+            </div>
+          </GlassmorphicCard>
+        )}
     </div>
   );
 }
