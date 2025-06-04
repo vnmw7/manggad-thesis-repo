@@ -8,27 +8,25 @@ export async function GET() {
   try {
     // Simple test first
     console.log("🔍 Testing basic Supabase connection...");
-
-    const { data: books, error } = await supabase
+    const { data: rawBooks, error } = await supabase
       .from("thesis_tbl")
       .select(
         `
         id,
         title,
         abstract,
-        yearOfSubmission,
-        coverImage,
-        recommendations,
+        degreeAwarded,
         keywords,
-        language,
-        authors,
-        advisors,
+        firstName,
+        middleName,
+        lastName,
+        supervisors,
         department,
         program,
         created_at
       `,
       )
-      .order("yearOfSubmission", { ascending: false });
+      .order("degreeAwarded", { ascending: false });
 
     if (error) {
       console.error("❌ Supabase error:", error);
@@ -44,12 +42,35 @@ export async function GET() {
       );
     }
 
-    console.log(`✅ Successfully fetched ${books?.length || 0} books`);
+    // Transform the data to match frontend expectations
+    const books =
+      rawBooks?.map((book) => ({
+        id: book.id,
+        title: book.title,
+        abstract: book.abstract,
+        degreeAwarded: new Date(book.degreeAwarded).getFullYear(), // Extract year from date
+        keywords: Array.isArray(book.keywords)
+          ? book.keywords
+          : [book.keywords || ""],
+        authors: [book.firstName, book.middleName, book.lastName]
+          .filter(Boolean)
+          .join(" "),
+        advisors: Array.isArray(book.supervisors)
+          ? book.supervisors
+          : [book.supervisors || "N/A"],
+        department: book.department,
+        program: book.program,
+        coverImage: "/defaults/defaultBookCover.png", // Default cover image
+        recommendations: 0, // Default value since column doesn't exist
+        language: "English", // Default value since column doesn't exist
+        created_at: book.created_at,
+      })) || [];
 
+    console.log(`✅ Successfully fetched ${books.length} books`);
     return NextResponse.json({
       success: true,
-      data: books || [],
-      count: books?.length || 0,
+      data: books,
+      count: books.length,
     });
   } catch (error) {
     console.error("💥 Unexpected error in GET /api/books:", error);
@@ -77,18 +98,26 @@ export async function POST(request: NextRequest) {
     const {
       title,
       abstract,
-      language,
       keywords,
-      yearOfSubmission,
-      authors,
-      advisors,
-      coverImage,
+      firstName,
+      middleName = "",
+      lastName,
+      degreeAwarded,
       department,
       program,
+      degreeLevel = "Unspecified Degree Level",
+      supervisors = ["N/A"],
+      copyright = "Author holds copyright",
+      thirdPartyCopyright = "no",
+      license = "No License/All Rights Reserved",
+      orcid = "",
+      notes = "No notes.",
+      thesis_document_url,
+      supplementary_files_urls = [],
     } = body;
 
     // Validate required fields
-    if (!title || !abstract || !yearOfSubmission) {
+    if (!title || !abstract || !firstName || !lastName || !degreeAwarded) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
         { status: 400 },
@@ -101,16 +130,28 @@ export async function POST(request: NextRequest) {
         {
           title,
           abstract,
-          language,
-          keywords,
-          yearOfSubmission: parseInt(yearOfSubmission),
-          authors: JSON.stringify(authors || []),
-          advisors: JSON.stringify(advisors || []),
-          coverImage,
+          firstName,
+          middleName,
+          lastName,
           department,
           program,
-          recommendations: 0,
-          created_at: new Date().toISOString(),
+          degreeAwarded,
+          keywords: Array.isArray(keywords)
+            ? keywords
+            : [keywords || "default"],
+          degreeLevel,
+          copyright,
+          thirdPartyCopyright,
+          license,
+          supervisors: Array.isArray(supervisors)
+            ? supervisors
+            : [supervisors || "N/A"],
+          orcid,
+          notes,
+          thesis_document_url,
+          supplementary_files_urls: Array.isArray(supplementary_files_urls)
+            ? supplementary_files_urls
+            : [],
         },
       ])
       .select()

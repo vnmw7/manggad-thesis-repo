@@ -4,7 +4,7 @@ import { mockGetAllBooks, mockSearchBooks, mockGetBookById } from "./mockData";
 export interface Book {
   id: string;
   title: string;
-  yearOfSubmission: number;
+  degreeAwarded: number;
   coverImage: string;
   recommendations: number;
   abstract: string;

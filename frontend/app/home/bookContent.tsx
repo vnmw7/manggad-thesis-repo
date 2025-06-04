@@ -5,7 +5,7 @@ import React, {
   FormEvent,
   useEffect,
   useState,
-  useCallback, // Added useCallback
+  useCallback,
 } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -453,17 +453,18 @@ export default function BookContent({ onContentChange }: BookContentProps) {
                     <div className="flex flex-grow flex-col">
                       <h3 className="mb-2 text-xl font-semibold text-gray-800 dark:text-white">
                         {book.title}
-                      </h3>
+                      </h3>{" "}
                       <p className="mb-1 text-sm text-gray-600 dark:text-gray-400">
-                        Year: {book.yearOfSubmission}
+                        Year: {book.degreeAwarded}
                       </p>
                       <p className="mb-2 line-clamp-3 flex-grow text-xs text-gray-500 dark:text-gray-400">
                         {book.abstract}
                       </p>
                       <div className="mt-4 flex items-center justify-between">
+                        {" "}
                         <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
                           <FaCalendarAlt />
-                          <span>{book.yearOfSubmission}</span>
+                          <span>{book.degreeAwarded}</span>
                         </div>
                         <button
                           onClick={() => handleBookClick(book.id)} // Updated onClick handler

@@ -5,7 +5,7 @@ export interface Book {
   abstract: string;
   language: string;
   keywords: string | string[];
-  yearOfSubmission: number;
+  degreeAwarded: number;
   authors: string | string[];
   advisors: string | string[];
   coverImage: string;
@@ -28,7 +28,7 @@ export const mockBooks: Book[] = [
       "technology integration",
       "student engagement",
     ],
-    yearOfSubmission: 2024,
+    degreeAwarded: 2024,
     authors: ["Maria Santos", "John Dela Cruz"],
     advisors: ["Dr. Ana Rodriguez", "Prof. Michael Garcia"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -50,7 +50,7 @@ export const mockBooks: Book[] = [
       "economic development",
       "Cebu",
     ],
-    yearOfSubmission: 2024,
+    degreeAwarded: 2024,
     authors: ["Jane Reyes", "Carlos Mendoza"],
     advisors: ["Dr. Patricia Lim", "Prof. Roberto Cruz"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -72,7 +72,7 @@ export const mockBooks: Book[] = [
       "contemporary architecture",
       "cultural identity",
     ],
-    yearOfSubmission: 2023,
+    degreeAwarded: 2023,
     authors: ["Miguel Torres", "Isabella Villareal"],
     advisors: ["Arch. Ricardo Fernandez", "Dr. Carmen Silva"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -95,7 +95,7 @@ export const mockBooks: Book[] = [
       "teaching strategies",
       "community-based learning",
     ],
-    yearOfSubmission: 2023,
+    degreeAwarded: 2023,
     authors: ["Sarah Johnson", "Mark Anthony Lopez"],
     advisors: ["Dr. Grace Tan", "Prof. David Ramos"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -118,7 +118,7 @@ export const mockBooks: Book[] = [
       "post-pandemic",
       "service innovation",
     ],
-    yearOfSubmission: 2024,
+    degreeAwarded: 2024,
     authors: ["Anna Marie Castro", "Luis Fernando Reyes"],
     advisors: ["Dr. Elena Morales", "Prof. Antonio Valdez"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -140,7 +140,7 @@ export const mockBooks: Book[] = [
       "support systems",
       "psychological wellbeing",
     ],
-    yearOfSubmission: 2024,
+    degreeAwarded: 2024,
     authors: ["Nicole Fernandez", "Jerome Pascual"],
     advisors: ["Dr. Margaret Santos", "Prof. Rafael Dela Rosa"],
     coverImage: "/defaults/defaultBookCover.png",
@@ -175,13 +175,12 @@ export const mockSearchBooks = async (params: {
 }): Promise<{ success: boolean; data?: Book[]; error?: string }> => {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 300));
-
   let filteredBooks = [...mockBooks];
 
   // Filter by year
   if (params.year) {
     filteredBooks = filteredBooks.filter(
-      (book) => book.yearOfSubmission === params.year,
+      (book) => book.degreeAwarded === params.year,
     );
   }
 

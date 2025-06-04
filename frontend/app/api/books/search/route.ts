@@ -14,7 +14,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let query = supabase.from("thesis_tbl").select("*");
+    let query = supabase.from("thesis_tbl").select(`
+        id,
+        title,
+        abstract,
+        degreeAwarded,
+        keywords,
+        firstName,
+        middleName,
+        lastName,
+        supervisors,
+        department,
+        program,
+        created_at
+      `);
 
     // Text search across multiple columns
     if (filterAndSearchQuery) {
@@ -22,17 +35,55 @@ export async function POST(request: NextRequest) {
       try {
         const { data, error } = await supabase
           .from("thesis_tbl")
-          .select("*")
+          .select(
+            `
+            id,
+            title,
+            abstract,
+            degreeAwarded,
+            keywords,
+            firstName,
+            middleName,
+            lastName,
+            supervisors,
+            department,
+            program,
+            created_at
+          `,
+          )
           .textSearch("fts", filterAndSearchQuery, {
             type: "websearch",
             config: "english",
           })
-          .order("yearOfSubmission", { ascending: false });
+          .order("degreeAwarded", { ascending: false });
 
         if (!error && data) {
+          // Transform the data
+          const transformedBooks = data.map((book) => ({
+            id: book.id,
+            title: book.title,
+            abstract: book.abstract,
+            degreeAwarded: new Date(book.degreeAwarded).getFullYear(),
+            keywords: Array.isArray(book.keywords)
+              ? book.keywords
+              : [book.keywords || ""],
+            authors: [book.firstName, book.middleName, book.lastName]
+              .filter(Boolean)
+              .join(" "),
+            advisors: Array.isArray(book.supervisors)
+              ? book.supervisors
+              : [book.supervisors || "N/A"],
+            department: book.department,
+            program: book.program,
+            coverImage: "/defaults/defaultBookCover.png",
+            recommendations: 0,
+            language: "English",
+            created_at: book.created_at,
+          }));
+
           return NextResponse.json({
             success: true,
-            data: data,
+            data: transformedBooks,
             message: "Search completed successfully",
           });
         }
@@ -59,11 +110,9 @@ export async function POST(request: NextRequest) {
 
         query = query.or(searchConditions);
       }
-    }
-
-    // Year filter
+    } // Year filter
     if (year) {
-      query = query.eq("yearOfSubmission", parseInt(year));
+      query = query.eq("degreeAwarded", parseInt(year));
     }
 
     // Department filter
@@ -80,10 +129,8 @@ export async function POST(request: NextRequest) {
         .map((program: string) => `program.ilike.%${program}%`)
         .join(",");
       query = query.or(programConditions);
-    }
-
-    // Execute the query
-    const { data: books, error } = await query.order("yearOfSubmission", {
+    } // Execute the query
+    const { data: rawBooks, error } = await query.order("degreeAwarded", {
       ascending: false,
     });
 
@@ -95,9 +142,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Transform the data
+    const books =
+      rawBooks?.map((book) => ({
+        id: book.id,
+        title: book.title,
+        abstract: book.abstract,
+        degreeAwarded: new Date(book.degreeAwarded).getFullYear(),
+        keywords: Array.isArray(book.keywords)
+          ? book.keywords
+          : [book.keywords || ""],
+        authors: [book.firstName, book.middleName, book.lastName]
+          .filter(Boolean)
+          .join(" "),
+        advisors: Array.isArray(book.supervisors)
+          ? book.supervisors
+          : [book.supervisors || "N/A"],
+        department: book.department,
+        program: book.program,
+        coverImage: "/defaults/defaultBookCover.png",
+        recommendations: 0,
+        language: "English",
+        created_at: book.created_at,
+      })) || [];
+
     return NextResponse.json({
       success: true,
-      data: books || [],
+      data: books,
       message: "Search completed successfully",
     });
   } catch (error) {
