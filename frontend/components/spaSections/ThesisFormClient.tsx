@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import {
   Popover,
@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { X, Plus, Check } from "lucide-react";
+import { X, Plus } from "lucide-react";
 
 interface ThesisFormClientProps {
   type:
@@ -72,8 +72,6 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
 
   const [isVisible, setIsVisible] = useState<boolean>(!conditional);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
   // Effect for conditional visibility
   useEffect(() => {
     if (conditional && dependsOn) {
@@ -114,9 +112,9 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
 
   // Update internal date state if propValue changes (for datePicker)
   useEffect(() => {
-    if (type === 'datePicker' && propValue instanceof Date) {
+    if (type === "datePicker" && propValue instanceof Date) {
       setDate(propValue);
-    } else if (type === 'datePicker' && propValue === undefined) {
+    } else if (type === "datePicker" && propValue === undefined) {
       setDate(undefined);
     }
   }, [propValue, type]);
@@ -128,16 +126,24 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
       keywordInput.trim() &&
       !currentKeywords.includes(keywordInput.trim().toLowerCase())
     ) {
-      const newKeywords = [...currentKeywords, keywordInput.trim().toLowerCase()];
-      onChange && onChange(newKeywords); // Call parent onChange with the new array
+      const newKeywords = [
+        ...currentKeywords,
+        keywordInput.trim().toLowerCase(),
+      ];
+      if (onChange) {
+        onChange(newKeywords); // Call parent onChange with the new array
+      }
       setKeywordInput("");
     }
   };
-
   const removeKeyword = (keywordToRemove: string) => {
     const currentKeywords = Array.isArray(propValue) ? propValue : [];
-    const newKeywords = currentKeywords.filter((keyword) => keyword !== keywordToRemove);
-    onChange && onChange(newKeywords); // Call parent onChange with the new array
+    const newKeywords = currentKeywords.filter(
+      (keyword) => keyword !== keywordToRemove,
+    );
+    if (onChange) {
+      onChange(newKeywords); // Call parent onChange with the new array
+    }
   };
 
   // For multiple entries
@@ -145,19 +151,27 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
     const currentEntries = Array.isArray(propValue) ? propValue : [];
     if (entryText.trim() && !currentEntries.includes(entryText.trim())) {
       const newEntries = [...currentEntries, entryText.trim()];
-      onChange && onChange(newEntries); // Call parent onChange with the new array
+      if (onChange) {
+        onChange(newEntries); // Call parent onChange with the new array
+      }
       setEntryText("");
     }
   };
-
   const removeEntry = (entryToRemove: string) => {
     const currentEntries = Array.isArray(propValue) ? propValue : [];
-    const newEntries = currentEntries.filter((entry) => entry !== entryToRemove);
-    onChange && onChange(newEntries); // Call parent onChange with the new array
+    const newEntries = currentEntries.filter(
+      (entry) => entry !== entryToRemove,
+    );
+    if (onChange) {
+      onChange(newEntries); // Call parent onChange with the new array
+    }
   };
 
   // Handle keydown for keywords and entries
-  const handleKeyDown = (e: React.KeyboardEvent, inputType: "keyword" | "entry") => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    inputType: "keyword" | "entry",
+  ) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (inputType === "keyword") {
@@ -178,7 +192,7 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
           name={name}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           value={typeof propValue === "string" ? propValue : ""}
-          onChange={(e) => onChange && onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           required={required}
           placeholder={placeholder}
           pattern={pattern}
@@ -193,7 +207,7 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           rows={4}
           value={typeof propValue === "string" ? propValue : ""}
-          onChange={(e) => onChange && onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           required={required}
           placeholder={placeholder}
           disabled={disabled}
@@ -206,7 +220,7 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
           name={name}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           value={typeof propValue === "string" ? propValue : ""}
-          onChange={(e) => onChange && onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           required={required}
           disabled={disabled}
         >
@@ -229,13 +243,14 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
         <div className="mt-2 space-y-2">
           {(options as { value: string; label: string }[]).map((option) => (
             <label key={option.value} className="flex items-center space-x-2">
+              {" "}
               <input
                 type="radio"
                 id={`${id}-${option.value}`}
                 name={name}
                 value={option.value}
                 checked={propValue === option.value}
-                onChange={(e) => onChange && onChange(e.target.value)}
+                onChange={(e) => onChange?.(e.target.value)}
                 required={required}
                 className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out dark:border-gray-600 dark:bg-gray-700"
                 disabled={disabled}
@@ -250,12 +265,13 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
     case "checkbox":
       return (
         <div className="mt-2 flex items-center">
+          {" "}
           <input
             type="checkbox"
             id={id}
             name={name}
             checked={checked}
-            onChange={(e) => onChange && onChange(e.target.checked)}
+            onChange={(e) => onChange?.(e.target.checked)}
             required={required}
             className="form-checkbox h-4 w-4 rounded text-blue-600 transition duration-150 ease-in-out dark:border-gray-600 dark:bg-gray-700"
             disabled={disabled}
@@ -287,12 +303,15 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
+            {" "}
             <Calendar
               mode="single"
               selected={date} // Use internal date state for calendar
               onSelect={(selectedDate) => {
                 setDate(selectedDate); // Update internal state
-                onChange && onChange(selectedDate); // Propagate change to parent
+                if (onChange) {
+                  onChange(selectedDate); // Propagate change to parent
+                }
               }}
               initialFocus
               disabled={disabled}
@@ -311,13 +330,13 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
               onChange={(e) => setEntryText(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, "entry")}
               placeholder={placeholder || "Add an entry"}
-              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               disabled={disabled}
             />
             <button
               type="button"
               onClick={addEntry}
-              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
               disabled={disabled}
             >
               <Plus size={16} />
@@ -355,13 +374,13 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
               onChange={(e) => setKeywordInput(e.target.value)}
               onKeyDown={(e) => handleKeyDown(e, "keyword")}
               placeholder={placeholder || "Add a keyword"}
-              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="mt-1 flex-grow rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               disabled={disabled}
             />
             <button
               type="button"
               onClick={addKeyword}
-              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+              className="rounded-md bg-blue-500 px-3 py-2 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
               disabled={disabled}
             >
               <Plus size={16} />
@@ -395,7 +414,7 @@ const ThesisFormClient: React.FC<ThesisFormClientProps> = ({
           name={name}
           className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-lg font-semibold focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           value={typeof propValue === "string" ? propValue : ""}
-          onChange={(e) => onChange && onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           required={required}
           placeholder={placeholder || "Enter thesis title"}
           disabled={disabled}

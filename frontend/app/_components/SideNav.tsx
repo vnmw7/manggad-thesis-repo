@@ -69,6 +69,18 @@ const SideNav = ({ onContentChange }: SideNavProps) => {
                 />
               )}
 
+              {/* New Authors Link */}
+              {mainNavLinks.find((link) => link.label === "Authors") && (
+                <NavLink
+                  key="nav-authors"
+                  icon={
+                    mainNavLinks.find((link) => link.label === "Authors")!.icon
+                  }
+                  label="Authors"
+                  onClick={() => handleNavigation("/home", "authors")}
+                />
+              )}
+
               {/* 2. Dashboard (Admin Only) */}
               {isAuthenticated &&
                 adminNavLinks.find((link) => link.label === "Dashboard") && (

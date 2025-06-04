@@ -50,14 +50,6 @@ const licenseOptions = [
   "No License/All Rights Reserved",
 ];
 
-const embargoOptions = [
-  "No Embargo",
-  "6 Months",
-  "1 Year",
-  "2 Years",
-  "Custom Period",
-];
-
 // Define TypeScript interface for form data
 interface ThesisFormData {
   title?: string;
@@ -177,11 +169,10 @@ const AddThesisSection = () => {
   };
   /**
    * Helper function to extract error message from response
-   */
-  const getErrorMessageFromResponse = async (
+   */ const getErrorMessageFromResponse = async (
     response: Response,
   ): Promise<string> => {
-    let errorMsg = `HTTP error! status: ${response.status}`;
+    const errorMsg = `HTTP error! status: ${response.status}`;
     try {
       const errorData = await response.json();
       return errorData.message || errorMsg;
@@ -190,10 +181,7 @@ const AddThesisSection = () => {
       return response.statusText || errorMsg;
     }
   };
-  /**
-   * Prepare clean data for Supabase insertion
-   * Format dates, add URLs, remove UI-only fields
-   */
+
   const prepareDataForSupabase = (
     formData: ThesisFormData,
     thesisUrl: string | null,
@@ -257,19 +245,12 @@ const AddThesisSection = () => {
       supplementary_files_urls: suppUrls,
       // Remove UI-only fields
       confirmPermissions: undefined,
-    };
-
-    // Filter out undefined values (though confirmPermissions is the only one explicitly set to undefined)
+    }; // Filter out undefined values (though confirmPermissions is the only one explicitly set to undefined)
     return Object.fromEntries(
-      Object.entries(baseData).filter(([_, value]) => value !== undefined),
+      Object.entries(baseData).filter(([, value]) => value !== undefined),
     ) as Omit<ThesisFormData, "confirmPermissions">;
   };
 
-  /**
-   * Save thesis data to Supabase database
-   * @param cleanData The prepared thesis data to save
-   * @returns The inserted data record
-   */
   const saveToDatabase = async (
     cleanData: Omit<ThesisFormData, "confirmPermissions">,
   ) => {
@@ -376,27 +357,8 @@ const AddThesisSection = () => {
     }
 
     return { thesisUrl, suppUrls };
-  }; /**
-   * Validates the thesis form data
-   * @returns Object with validation result and error message if any
-   */
-  const validateThesisData = (): {
-    isValid: boolean;
-    errorMessage?: string;
-  } => {
-    // Always return true to bypass validation
-    return { isValid: true };
   };
 
-  /**
-   * Check that all required form fields are filled
-   * @returns Error message if required fields are missing, or null if all fields are valid
-   */
-  const checkRequiredFields = (): string | null => {
-    // Always return null to bypass validation
-    return null;
-  };
-  // Form submission handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 

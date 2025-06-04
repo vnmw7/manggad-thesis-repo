@@ -7,20 +7,12 @@ import React, {
   useState,
   useCallback, // Added useCallback
 } from "react";
-import { useRouter } from "next/navigation"; // Assuming next/navigation for useRouter
-import { motion } from "framer-motion"; // Assuming framer-motion for animations
-import { cn } from "@/lib/utils"; // Assuming cn utility is in lib/utils
-import {
-  FaSearch,
-  FaFilter,
-  FaTimes,
-  FaBook,
-  FaCalendarAlt,
-} from "react-icons/fa"; // Assuming react-icons
-import Image from "next/image"; // Assuming next/image
-import { supabase } from "@/lib/supabase"; // Import Supabase client
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { FaSearch, FaFilter, FaBook, FaCalendarAlt } from "react-icons/fa";
+import Image from "next/image";
+import { getAllBooks as fetchAllBooks, searchBooks, Book } from "@/lib/api";
 
-// GlassmorphicCard component definition (ensure this is correctly defined or imported)
 const GlassmorphicCard = ({
   children,
   className,
@@ -65,21 +57,10 @@ interface BookContentProps {
 }
 
 export default function BookContent({ onContentChange }: BookContentProps) {
-  // Destructure onContentChange from props
-  const router = useRouter();
-
-  const [books, setBooks] = useState<
-    {
-      id: string; // Changed from number to string to align with typical ObjectId from DB
-      title: string;
-      yearOfSubmission: number;
-      coverImage: string;
-      recommendations: number;
-      abstract: string;
-      keywords: string;
-    }[]
-  >([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [searchError, setSearchError] = useState<string>("");
   const [showFilters, setShowFilters] = useState(false);
   const [filterYear, setFilterYear] = useState("");
   const [filterCheckboxStatus, setFilterCheckboxStatus] =
@@ -157,23 +138,26 @@ export default function BookContent({ onContentChange }: BookContentProps) {
     setFilterSentence(trimmedSentence);
     // Combine searchQuery and trimmedSentence, then trim the result
     setFilterAndSearchQuery((searchQuery + " " + trimmedSentence).trim());
-  }, [filterYear, filterCheckboxStatus, searchQuery]);
-
-  // Get all books function, memoized with useCallback
+  }, [filterYear, filterCheckboxStatus, searchQuery]); // Get all books function, memoized with useCallback
   const getAllBooks = useCallback(async () => {
+    setIsLoading(true);
+    setSearchError("");
     try {
-      const { data, error } = await supabase.from("thesis_tbl").select("*");
+      const result = await fetchAllBooks();
 
-      if (error) {
-        throw error;
+      if (!result.success) {
+        throw new Error(result.error || "Failed to fetch books");
       }
 
-      setBooks(Array.isArray(data) ? data : []);
+      setBooks(result.data || []);
     } catch (error) {
       console.error("Error fetching all books:", error);
+      setSearchError("Failed to load books. Please try again.");
       setBooks([]); // Set to empty array on error to prevent crashes
+    } finally {
+      setIsLoading(false);
     }
-  }, [setBooks]); // Added setBooks to dependency array
+  }, []);
 
   // Fetch all books initially or when the search/filter query is cleared
   useEffect(() => {
@@ -181,32 +165,43 @@ export default function BookContent({ onContentChange }: BookContentProps) {
       getAllBooks();
     }
     // When filterAndSearchQuery is not empty, results are fetched by handleSubmit
-  }, [filterAndSearchQuery, getAllBooks]);
-
-  // Handle search form submission
+  }, [filterAndSearchQuery, getAllBooks]); // Handle search form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+    setSearchError("");
+
     if (!filterAndSearchQuery.trim()) {
       getAllBooks(); // Fetch all books if query is empty
-    } else {
-      // Fetch books based on the combined query
-      try {
-        const { data, error } = await supabase
-          .from("thesis_tbl")
-          .select("*")
-          .textSearch("fts", filterAndSearchQuery, {
-            type: "websearch",
-            config: "english",
-          });
+      return;
+    }
 
-        if (error) {
-          throw error;
-        }
-        setBooks(data || []);
-      } catch (error) {
-        console.error("Error searching books:", error);
-        setBooks([]); // Clear books on error
+    try {
+      // Use the search API function
+      const result = await searchBooks({
+        filterAndSearchQuery,
+        year: filterYear ? parseInt(filterYear) : undefined,
+        departments: Object.keys(filterCheckboxStatus).filter(
+          (key) => filterCheckboxStatus[key] && key.includes("School of"),
+        ),
+        programs: Object.keys(filterCheckboxStatus).filter(
+          (key) => filterCheckboxStatus[key] && key.includes("BS in"),
+        ),
+      });
+
+      if (!result.success) {
+        throw new Error(result.error || "Search failed");
       }
+
+      setBooks(result.data || []);
+    } catch (error) {
+      console.error("Error searching books:", error);
+      setSearchError(
+        "Search failed. Please try again or adjust your search terms.",
+      );
+      setBooks([]); // Clear books on error
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -256,22 +251,32 @@ export default function BookContent({ onContentChange }: BookContentProps) {
                 />
                 <FaSearch className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               </div>
-
               <button
                 type="button"
                 onClick={() => setShowFilters(!showFilters)}
                 className="rounded-lg border border-gray-300 bg-white/70 px-5 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-white dark:hover:bg-gray-700"
               >
                 <FaFilter className="h-5 w-5" />
-              </button>
-
+              </button>{" "}
               <button
                 type="submit"
-                className="rounded-lg bg-[#053fa8] px-5 py-3 font-medium text-white transition-colors hover:bg-[#053fa8]/90 focus:ring-2 focus:ring-[#053fa8]/50 focus:outline-none dark:bg-[#053fa8] dark:hover:bg-[#053fa8]/80"
+                disabled={isLoading}
+                className="rounded-lg bg-[#053fa8] px-5 py-3 font-medium text-white transition-colors hover:bg-[#053fa8]/90 focus:ring-2 focus:ring-[#053fa8]/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#053fa8] dark:hover:bg-[#053fa8]/80"
               >
-                Search
+                {isLoading ? "Searching..." : "Search"}
               </button>
             </div>
+
+            {/* Error Message */}
+            {searchError && (
+              <div className="mt-4 rounded-lg border border-red-200 bg-red-50/70 p-3 dark:border-red-900 dark:bg-red-900/20">
+                <div className="flex items-center">
+                  <span className="text-sm text-red-700 dark:text-red-300">
+                    {searchError}
+                  </span>
+                </div>
+              </div>
+            )}
 
             {/* Filter Section */}
             {showFilters && (
@@ -415,10 +420,16 @@ export default function BookContent({ onContentChange }: BookContentProps) {
       >
         <h2 className="mb-6 text-2xl font-bold text-blue-800 dark:text-blue-300">
           Research Collection
-        </h2>
-
+        </h2>{" "}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {books.length > 0 ? (
+          {isLoading ? (
+            <div className="col-span-full py-12 text-center">
+              <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600 dark:border-gray-600 dark:border-t-blue-400"></div>
+              <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
+                Loading books...
+              </p>
+            </div>
+          ) : books.length > 0 ? (
             books.map((book) => (
               <motion.div
                 key={book.id}

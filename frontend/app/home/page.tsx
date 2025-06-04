@@ -10,6 +10,7 @@ import HomeContent from "./homeContent";
 import ContactContent from "./contactContent";
 import BookContent from "./bookContent";
 import DashboardContent from "./dashboardContent";
+import AuthorContent from "./authorContent";
 import AddThesisSection from "@/components/spaSections/AddThesisSection";
 import ViewEditThesisSection from "@/components/spaSections/ViewEditThesisSection";
 import { BookDetailContent } from "./bookDetailContent";
@@ -21,6 +22,7 @@ export default function HomePage() {
     | "contact"
     | "book"
     | "dashboard"
+    | "authors"
     | "add thesis"
     | "view thesis"
     | "bookDetail"
@@ -33,6 +35,7 @@ export default function HomePage() {
       | "contact"
       | "book"
       | "dashboard"
+      | "authors"
       | "add thesis"
       | "view thesis"
       | "bookDetail",
@@ -79,6 +82,7 @@ export default function HomePage() {
         <div className="flex-1 overflow-y-auto p-4 lg:mr-4">
           {activeContent === "home" && <HomeContent />}
           {activeContent === "contact" && <ContactContent />}
+          {activeContent === "authors" && <AuthorContent />}
           {activeContent === "book" && (
             <BookContent onContentChange={handleContentChange} />
           )}

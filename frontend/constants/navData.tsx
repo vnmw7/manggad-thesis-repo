@@ -5,9 +5,9 @@ import {
   FaBookOpen,
   FaTachometerAlt,
   FaLayerGroup,
-  FaEye,
   FaPlus,
   FaEdit,
+  FaUsers,
 } from "react-icons/fa";
 
 // define ang dynamic content para maging single page application
@@ -17,7 +17,8 @@ export type ContentType =
   | "book"
   | "dashboard"
   | "add thesis"
-  | "view thesis";
+  | "view thesis"
+  | "authors";
 
 export interface CollectionItemData {
   icon: React.ReactNode;
@@ -26,7 +27,6 @@ export interface CollectionItemData {
   content?: ContentType;
 }
 
-// Collection items data
 export const bookCollections: CollectionItemData[] = [
   {
     icon: <FaBookOpen className="mr-2 h-4 w-4" />,
@@ -63,11 +63,6 @@ export const bookCollections: CollectionItemData[] = [
 // Manage collection items data
 export const manageCollections: CollectionItemData[] = [
   {
-    icon: <FaEye className="mr-2 h-4 w-4" />,
-    label: "View Collections",
-    path: "/collection",
-  },
-  {
     icon: <FaPlus className="mr-2 h-4 w-4" />,
     label: "Add Thesis",
     content: "add thesis",
@@ -85,6 +80,11 @@ export const mainNavLinks: CollectionItemData[] = [
     icon: <FaHome className="mr-2 h-5 w-5" />,
     label: "Home",
     content: "home",
+  },
+  {
+    icon: <FaUsers className="mr-2 h-5 w-5" />,
+    label: "Authors",
+    content: "authors",
   },
   {
     icon: <FaEnvelope className="mr-2 h-5 w-5" />,

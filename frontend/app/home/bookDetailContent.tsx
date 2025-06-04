@@ -17,7 +17,7 @@ import {
   FaDownload,
   FaPaperclip,
 } from "react-icons/fa";
-import { supabase } from "@/lib/supabase";
+import { getBookById, addRecommendation } from "@/lib/api";
 
 interface BookDetails {
   id: string;
@@ -93,16 +93,13 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
         setLoading(true);
         setError(null);
         try {
-          const { data, error: supabaseError } = await supabase
-            .from("thesis_tbl")
-            .select("*")
-            .eq("id", bookId)
-            .single();
+          const result = await getBookById(bookId);
 
-          if (supabaseError) {
-            throw supabaseError;
+          if (!result.success) {
+            throw new Error(result.error || "Failed to fetch book details");
           }
-          setBook(data as BookDetails);
+
+          setBook(result.data as BookDetails);
         } catch (err: any) {
           console.error("Error fetching book details:", err);
           setError(err.message || "Failed to fetch book details.");
