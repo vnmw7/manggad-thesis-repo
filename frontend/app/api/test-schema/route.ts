@@ -13,23 +13,6 @@ export async function GET() {
 
     if (error) {
       console.error("❌ Database schema error:", error);
-
-      // Try to list all tables
-      const { data: tables, error: tableError } = await supabase
-        .rpc("get_table_names") // This might not work, but let's try
-        .single();
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Table access failed",
-          details: error.message,
-          suggestion:
-            "Check if 'thesis_tbl' table exists and has proper permissions",
-          tableError: tableError?.message,
-        },
-        { status: 500 },
-      );
     }
 
     console.log("✅ Table access successful");

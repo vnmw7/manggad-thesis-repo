@@ -17,7 +17,7 @@ import {
   FaDownload,
   FaPaperclip,
 } from "react-icons/fa";
-import { getBookById, addRecommendation } from "@/lib/api";
+import { getBookById } from "@/lib/api";
 
 interface BookDetails {
   id: string;
@@ -99,7 +99,46 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
             throw new Error(result.error || "Failed to fetch book details");
           }
 
-          setBook(result.data as BookDetails);
+          // Transform the API response to BookDetails format
+          // The API returns all database fields, but Book interface is incomplete
+          const dbData = result.data as any; // Cast as any to access all database fields
+
+          if (dbData) {
+            const transformedBook: BookDetails = {
+              id: dbData.id,
+              title: dbData.title,
+              yearOfSubmission: dbData.degreeAwarded
+                ? typeof dbData.degreeAwarded === "string"
+                  ? new Date(dbData.degreeAwarded).getFullYear()
+                  : dbData.degreeAwarded
+                : new Date().getFullYear(),
+              coverImage: dbData.coverImage || "/defaults/defaultBookCover.png",
+              abstract: dbData.abstract || "",
+              keywords: Array.isArray(dbData.keywords)
+                ? dbData.keywords.join(", ")
+                : dbData.keywords || "",
+              firstName: dbData.firstName,
+              middleName: dbData.middleName,
+              lastName: dbData.lastName,
+              department: dbData.department,
+              program: dbData.program,
+              degreeAwarded: dbData.degreeAwarded,
+              degreeLevel: dbData.degreeLevel,
+              copyright: dbData.copyright,
+              thirdPartyCopyright: dbData.thirdPartyCopyright,
+              license: dbData.license,
+              supervisors: Array.isArray(dbData.supervisors)
+                ? dbData.supervisors
+                : dbData.supervisors
+                  ? [dbData.supervisors]
+                  : undefined,
+              orcid: dbData.orcid,
+              notes: dbData.notes,
+              thesis_document_url: dbData.thesis_document_url,
+              supplementary_files_urls: dbData.supplementary_files_urls,
+            };
+            setBook(transformedBook);
+          }
         } catch (err: any) {
           console.error("Error fetching book details:", err);
           setError(err.message || "Failed to fetch book details.");

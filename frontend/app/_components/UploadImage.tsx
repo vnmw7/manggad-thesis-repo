@@ -1,4 +1,4 @@
-import { upload } from "../_api/uploadAction";
+import { upload } from "../_api/uploadAction.js";
 
 // Define the props interface for the UploadImage component
 interface UploadImageProps {
@@ -14,9 +14,13 @@ export default function UploadImage({ onUpload }: UploadImageProps) {
     const result = await upload(formData); // Call the upload function and wait for the result
 
     // If the upload is successful, call the onUpload callback with the file path
-    if (result.success) {
+    if (result.success && result.filePath_netxjs) {
       console.log(result.filePath_netxjs);
       onUpload(result.filePath_netxjs);
+    } else if (result.success && !result.filePath_netxjs) {
+      console.error("Upload succeeded but no file path returned");
+    } else {
+      console.error("Upload failed:", result.error);
     }
   };
 

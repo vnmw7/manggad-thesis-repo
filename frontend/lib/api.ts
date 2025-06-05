@@ -78,6 +78,7 @@ export async function createBook(
     const result = await response.json();
     return result;
   } catch (error) {
+    console.error("Failed to create book:", error);
     return {
       success: false,
       error: "Failed to create book",
@@ -101,6 +102,7 @@ export async function updateBook(
     const result = await response.json();
     return result;
   } catch (error) {
+    console.error("Failed to update book:", error);
     return {
       success: false,
       error: "Failed to update book",
@@ -117,6 +119,7 @@ export async function deleteBook(id: string): Promise<ApiResponse<Book>> {
     const result = await response.json();
     return result;
   } catch (error) {
+    console.error("Failed to delete book:", error);
     return {
       success: false,
       error: "Failed to delete book",
@@ -172,6 +175,7 @@ export async function addRecommendation(
     const result = await response.json();
     return result;
   } catch (error) {
+    console.error("Failed to add recommendation:", error);
     return {
       success: false,
       error: "Failed to add recommendation",

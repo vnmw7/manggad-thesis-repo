@@ -92,27 +92,40 @@ export async function POST(request: NextRequest) {
           "Full-text search failed, falling back to basic search:",
           ftsError,
         );
-      }
-
-      // Fallback to basic search using ilike
+      } // Fallback to basic search using ilike
       const searchTerms = filterAndSearchQuery
         .toLowerCase()
         .split(" ")
         .filter((term: string) => term.length > 0);
 
       if (searchTerms.length > 0) {
+        // Build search conditions for each term, handling arrays properly
         const searchConditions = searchTerms
-          .map(
-            (term: string) =>
-              `title.ilike.%${term}%,abstract.ilike.%${term}%,keywords.ilike.%${term}%,department.ilike.%${term}%,program.ilike.%${term}%`,
-          )
+          .map((term: string) => {
+            // For array columns, use array contains operator
+            return [
+              `title.ilike.%${term}%`,
+              `abstract.ilike.%${term}%`,
+              `department.ilike.%${term}%`,
+              `program.ilike.%${term}%`,
+              `firstName.ilike.%${term}%`,
+              `lastName.ilike.%${term}%`,
+              `keywords.cs.{${term}}`, // Use contains for array
+              `supervisors.cs.{${term}}`, // Use contains for array
+            ].join(",");
+          })
           .join(",");
 
         query = query.or(searchConditions);
       }
-    } // Year filter
+    }
+
+    // Year filter
     if (year) {
-      query = query.eq("degreeAwarded", parseInt(year));
+      // Since degreeAwarded is a DATE field, we need to filter by year properly
+      query = query
+        .gte("degreeAwarded", `${year}-01-01`)
+        .lt("degreeAwarded", `${parseInt(year) + 1}-01-01`);
     }
 
     // Department filter
@@ -129,7 +142,9 @@ export async function POST(request: NextRequest) {
         .map((program: string) => `program.ilike.%${program}%`)
         .join(",");
       query = query.or(programConditions);
-    } // Execute the query
+    }
+
+    // Execute the query
     const { data: rawBooks, error } = await query.order("degreeAwarded", {
       ascending: false,
     });

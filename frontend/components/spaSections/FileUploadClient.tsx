@@ -10,7 +10,7 @@ interface FileUploadClientProps {
   maxSize?: number; // in MB
   multiple?: boolean;
   required?: boolean;
-  onFileChange?: (files: File | File[]) => void;
+  onFileChange?: (files: File | File[] | null) => void;
 }
 
 const FileUploadClient: React.FC<FileUploadClientProps> = ({
