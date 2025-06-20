@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   FaBook,
@@ -16,8 +16,11 @@ import {
   FaStickyNote,
   FaDownload,
   FaPaperclip,
+  FaCopy,
+  FaCheck,
 } from "react-icons/fa";
 import { getBookById } from "@/lib/api";
+import { Button } from "@/app/_components/ui/button";
 
 interface BookDetails {
   id: string;
@@ -86,6 +89,68 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
   const [book, setBook] = useState<BookDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [citationCopied, setCitationCopied] = useState(false);
+
+  // Function to generate APA citation
+  const generateAPACitation = (book: BookDetails): string => {
+    const author = [book.firstName, book.middleName, book.lastName]
+      .filter(Boolean)
+      .join(" ");
+
+    const year = book.yearOfSubmission || new Date().getFullYear();
+    const title = book.title;
+    const degreeLevel = book.degreeLevel || "Thesis";
+    const department = book.department || "";
+    const university = "La Consolacion College Bacolod"; // Default university name
+
+    // Format: Author, A. A. (Year). Title of thesis [Degree type]. University Name.
+    let citation = "";
+
+    if (author) {
+      citation += `${author}. `;
+    }
+
+    citation += `(${year}). `;
+    citation += `*${title}* `;
+    citation += `[${degreeLevel}`;
+
+    if (department) {
+      citation += `, ${department}`;
+    }
+
+    citation += `]. ${university}.`;
+
+    return citation;
+  };
+
+  // Function to copy citation to clipboard
+  const copyCitation = async () => {
+    if (!book) return;
+
+    try {
+      const citation = generateAPACitation(book);
+      await navigator.clipboard.writeText(citation);
+      setCitationCopied(true);
+
+      // Reset the copied state after 2 seconds
+      setTimeout(() => {
+        setCitationCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy citation:", err);
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = generateAPACitation(book);
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      setCitationCopied(true);
+      setTimeout(() => {
+        setCitationCopied(false);
+      }, 2000);
+    }
+  };
 
   useEffect(() => {
     if (bookId) {
@@ -196,7 +261,10 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <div
+      className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"
+      data-test-id="book-detail-content"
+    >
       <GlassmorphicCard className="mb-8">
         <div className="flex flex-col items-center md:flex-row md:space-x-6">
           {book.coverImage && (
@@ -228,6 +296,37 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
               </p>
             )}
           </div>
+        </div>
+      </GlassmorphicCard>
+
+      {/* APA Citation Section */}
+      <GlassmorphicCard className="mb-8">
+        <h2 className="mb-4 border-b border-gray-300/50 pb-3 text-2xl font-semibold text-blue-600 dark:text-blue-400">
+          APA Citation
+        </h2>
+        <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800/50">
+          <p className="mb-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+            {generateAPACitation(book)}
+          </p>
+          <Button
+            onClick={copyCitation}
+            variant="outline"
+            size="sm"
+            className="flex items-center space-x-2 transition-all duration-200"
+            disabled={citationCopied}
+          >
+            {citationCopied ? (
+              <>
+                <FaCheck className="h-4 w-4 text-green-600" />
+                <span>Copied!</span>
+              </>
+            ) : (
+              <>
+                <FaCopy className="h-4 w-4" />
+                <span>Copy Citation</span>
+              </>
+            )}
+          </Button>
         </div>
       </GlassmorphicCard>
 
@@ -352,7 +451,7 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
                 className="h-full w-full rounded-lg border border-gray-300/50"
                 allowFullScreen
               />
-            </div>
+            </div>{" "}
           </GlassmorphicCard>
         )}
     </div>
