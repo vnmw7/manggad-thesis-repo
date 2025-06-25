@@ -134,38 +134,26 @@ const UserMenu = ({
   handleLogout,
   router,
 }: UserMenuProps) =>
-  isUserMenuOpen && (
+  isUserMenuOpen && isAuthenticated && (
     <div
       ref={userMenuRef}
       className="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white shadow-lg"
     >
       <div className="py-1">
-        {isAuthenticated ? (
-          <>
-            <a
-              href="/account-settings"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              <FaCog className="mr-2 h-5 w-5" />
-              Account settings
-            </a>
-            <a
-              onClick={handleLogout}
-              className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              <FaSignOutAlt className="mr-2 h-5 w-5" />
-              Logout
-            </a>
-          </>
-        ) : (
-          <a
-            onClick={() => router.push("/auth")}
-            className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <FaSignInAlt className="mr-2 h-5 w-5" />
-            Login
-          </a>
-        )}
+        <a
+          onClick={() => router.push("/account-settings")}
+          className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+          <FaCog className="mr-2 h-5 w-5" />
+          Account settings
+        </a>
+        <a
+          onClick={handleLogout}
+          className="flex cursor-pointer items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+          <FaSignOutAlt className="mr-2 h-5 w-5" />
+          Logout
+        </a>
       </div>
     </div>
   );
@@ -258,9 +246,16 @@ const NavigationBar = ({
             boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
           }}
           transition={{ duration: 0.2 }}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30"
-          onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition-colors hover:bg-white/30 cursor-pointer"
+          onClick={() => {
+            if (isAuthenticated) {
+              setIsUserMenuOpen(!isUserMenuOpen);
+            } else {
+              router.push("/auth");
+            }
+          }}
           aria-label={isAuthenticated ? "User menu" : "Login"}
+          data-test-id="user-menu-button"
         >
           <FaUser className="h-4 w-4 text-white" />
         </motion.button>
