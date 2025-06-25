@@ -23,7 +23,6 @@
     "@radix-ui/react-slot": "^1.2.0",
     "@sentry/nextjs": "^9.10.1",
     "@supabase/supabase-js": "^2.49.4",
-    "appwrite": "^17.0.1",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.6.1",
     "clsx": "^2.1.1",

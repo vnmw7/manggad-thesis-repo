@@ -4,6 +4,9 @@ import { useState, useEffect, FormEvent } from "react";
 import { Bell, Shield, Settings2, User } from "lucide-react";
 import Header from "../../_components/Header";
 import Footer from "../../_components/Footer";
+import ProfileSection from "./ProfileSection";
+import SecuritySection from "./SecuritySection";
+import AboutSection from "./AboutSection";
 
 // Updated fetchUserData to include additional fields
 const fetchUserData = async () => {
@@ -15,6 +18,15 @@ const fetchUserData = async () => {
     department: "Department Name",
     role: "Researcher",
     bio: "Short bio about the user",
+    publicName: "Public Name",
+    profileImageUrl: "https://example.com/profile.jpg",
+    professionalTitle: "Professional Title",
+    professionalPosition: "Professional Position",
+    educationDegree: "Degree",
+    educationUniversity: "University",
+    educationGradYear: "2025",
+    educationScholarship: "Scholarship",
+    authorBio: "Author bio",
   };
 };
 
@@ -24,8 +36,19 @@ const updateAccountAPI = async (data: any) => {
   return { success: true, message: "Account updated successfully!" };
 };
 
+const SETTINGS_TABS = [
+  { id: "profile", label: "Profile", icon: <User size={18} /> },
+  { id: "security", label: "Security", icon: <Shield size={18} /> },
+  { id: "about", label: "About the Author", icon: <Bell size={18} /> },
+  {
+    id: "submissions",
+    label: "My Submissions",
+    icon: <Settings2 size={18} />,
+  },
+];
+
 export default function AccountSettingsPage() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState<string>("profile");
   const [profileForm, setProfileForm] = useState({
     name: "",
     email: "",
@@ -33,16 +56,20 @@ export default function AccountSettingsPage() {
     department: "",
     role: "",
     bio: "",
+    publicName: "",
+    profileImageUrl: "",
+    professionalTitle: "",
+    professionalPosition: "",
+    educationDegree: "",
+    educationUniversity: "",
+    educationGradYear: "",
+    educationScholarship: "",
+    authorBio: "",
   });
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
-  });
-  const [notifications, setNotifications] = useState({
-    newThesisInField: true,
-    systemUpdates: true,
-    submissionStatus: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState<{
@@ -53,17 +80,6 @@ export default function AccountSettingsPage() {
     message: "",
   });
   const [initialDataLoading, setInitialDataLoading] = useState(true);
-
-  const SETTINGS_TABS = [
-    { id: "profile", label: "Profile", icon: <User size={18} /> },
-    { id: "security", label: "Security", icon: <Shield size={18} /> },
-    { id: "notifications", label: "Notifications", icon: <Bell size={18} /> },
-    {
-      id: "submissions",
-      label: "My Submissions",
-      icon: <Settings2 size={18} />,
-    },
-  ];
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -77,6 +93,15 @@ export default function AccountSettingsPage() {
           department: userData.department || "",
           role: userData.role || "",
           bio: userData.bio || "",
+          publicName: userData.publicName || "",
+          profileImageUrl: userData.profileImageUrl || "",
+          professionalTitle: userData.professionalTitle || "",
+          professionalPosition: userData.professionalPosition || "",
+          educationDegree: userData.educationDegree || "",
+          educationUniversity: userData.educationUniversity || "",
+          educationGradYear: userData.educationGradYear || "",
+          educationScholarship: userData.educationScholarship || "",
+          authorBio: userData.authorBio || "",
         });
       } catch (error) {
         setFeedback({
@@ -101,10 +126,6 @@ export default function AccountSettingsPage() {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordForm({ ...passwordForm, [e.target.name]: e.target.value });
-  };
-
-  const handleNotificationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNotifications({ ...notifications, [e.target.name]: e.target.checked });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -142,7 +163,7 @@ export default function AccountSettingsPage() {
     }
 
     try {
-      const payload: any = { ...profileForm, notifications };
+      const payload: any = { ...profileForm };
       if (passwordForm.newPassword) {
         payload.currentPassword = passwordForm.currentPassword;
         payload.newPassword = passwordForm.newPassword;
@@ -210,435 +231,28 @@ export default function AccountSettingsPage() {
               <h1 className="mb-6 text-2xl font-bold text-slate-800 dark:text-slate-100">
                 {activeTab === "profile" && "Profile Settings"}
                 {activeTab === "security" && "Security Settings"}
-                {activeTab === "notifications" && "Notification Preferences"}
+                {activeTab === "about" && "About the Author"}
                 {activeTab === "submissions" && "My Submissions"}
               </h1>
               {activeTab === "profile" && (
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Profile Information Section */}
-                  <section>
-                    <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                      Profile Information
-                    </h2>
-                    <div className="space-y-4">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Full Name
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={profileForm.name}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Email Address
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={profileForm.email}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="affiliation"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Affiliation
-                        </label>
-                        <input
-                          type="text"
-                          id="affiliation"
-                          name="affiliation"
-                          value={profileForm.affiliation}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="department"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Department
-                        </label>
-                        <input
-                          type="text"
-                          id="department"
-                          name="department"
-                          value={profileForm.department}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="role"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Role
-                        </label>
-                        <select
-                          id="role"
-                          name="role"
-                          value={profileForm.role}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        >
-                          <option value="">Select Role</option>
-                          <option value="Student">Student</option>
-                          <option value="Researcher">Researcher</option>
-                          <option value="Faculty">Faculty</option>
-                          <option value="Librarian">Librarian</option>
-                          <option value="Other">Other</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="bio"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Short Bio
-                        </label>
-                        <textarea
-                          id="bio"
-                          name="bio"
-                          value={profileForm.bio}
-                          onChange={handleProfileChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        ></textarea>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Change Password Section */}
-                  <section>
-                    <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                      Security Settings
-                    </h2>
-                    <div className="space-y-4">
-                      <div>
-                        <label
-                          htmlFor="currentPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Current Password
-                        </label>
-                        <input
-                          type="password"
-                          id="currentPassword"
-                          name="currentPassword"
-                          value={passwordForm.currentPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="newPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          New Password
-                        </label>
-                        <input
-                          type="password"
-                          id="newPassword"
-                          name="newPassword"
-                          value={passwordForm.newPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="confirmPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Confirm New Password
-                        </label>
-                        <input
-                          type="password"
-                          id="confirmPassword"
-                          name="confirmPassword"
-                          value={passwordForm.confirmPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Notification Preferences Section */}
-                  <section>
-                    <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                      Notification Preferences
-                    </h2>
-                    <div className="space-y-4">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="newThesisInField"
-                          name="newThesisInField"
-                          checked={notifications.newThesisInField}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="newThesisInField"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about new theses in my field
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="systemUpdates"
-                          name="systemUpdates"
-                          checked={notifications.systemUpdates}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="systemUpdates"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about system updates
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="submissionStatus"
-                          name="submissionStatus"
-                          checked={notifications.submissionStatus}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="submissionStatus"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about submission status
-                        </label>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Submit Button & Feedback */}
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full rounded-lg bg-indigo-600 py-3 font-semibold text-white shadow-md transition hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-gray-900"
-                    >
-                      {isLoading ? "Saving..." : "Save Changes"}
-                    </button>
-                    {feedback.message && (
-                      <p
-                        aria-live="polite"
-                        className={`mt-4 text-center text-sm ${
-                          feedback.type === "success"
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-red-600 dark:text-red-400"
-                        }`}
-                      >
-                        {feedback.message}
-                      </p>
-                    )}
-                  </div>
-                </form>
+                <ProfileSection
+                  profileForm={profileForm}
+                  handleProfileChange={handleProfileChange}
+                  isLoading={isLoading}
+                  feedback={feedback}
+                  handleSubmit={handleSubmit}
+                />
               )}
               {activeTab === "security" && (
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Change Password Section */}
-                  <section>
-                    <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                      Security Settings
-                    </h2>
-                    <div className="space-y-4">
-                      <div>
-                        <label
-                          htmlFor="currentPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Current Password
-                        </label>
-                        <input
-                          type="password"
-                          id="currentPassword"
-                          name="currentPassword"
-                          value={passwordForm.currentPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="newPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          New Password
-                        </label>
-                        <input
-                          type="password"
-                          id="newPassword"
-                          name="newPassword"
-                          value={passwordForm.newPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="confirmPassword"
-                          className="mb-1.5 block font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Confirm New Password
-                        </label>
-                        <input
-                          type="password"
-                          id="confirmPassword"
-                          name="confirmPassword"
-                          value={passwordForm.confirmPassword}
-                          onChange={handlePasswordChange}
-                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Submit Button & Feedback */}
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full rounded-lg bg-indigo-600 py-3 font-semibold text-white shadow-md transition hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-gray-900"
-                    >
-                      {isLoading ? "Saving..." : "Save Changes"}
-                    </button>
-                    {feedback.message && (
-                      <p
-                        aria-live="polite"
-                        className={`mt-4 text-center text-sm ${
-                          feedback.type === "success"
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-red-600 dark:text-red-400"
-                        }`}
-                      >
-                        {feedback.message}
-                      </p>
-                    )}
-                  </div>
-                </form>
+                <SecuritySection
+                  passwordForm={passwordForm}
+                  handlePasswordChange={handlePasswordChange}
+                  isLoading={isLoading}
+                  feedback={feedback}
+                  handleSubmit={handleSubmit}
+                />
               )}
-              {activeTab === "notifications" && (
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Notification Preferences Section */}
-                  <section>
-                    <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">
-                      Notification Preferences
-                    </h2>
-                    <div className="space-y-4">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="newThesisInField"
-                          name="newThesisInField"
-                          checked={notifications.newThesisInField}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="newThesisInField"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about new theses in my field
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="systemUpdates"
-                          name="systemUpdates"
-                          checked={notifications.systemUpdates}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="systemUpdates"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about system updates
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="submissionStatus"
-                          name="submissionStatus"
-                          checked={notifications.submissionStatus}
-                          onChange={handleNotificationChange}
-                          className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-indigo-400"
-                        />
-                        <label
-                          htmlFor="submissionStatus"
-                          className="ml-2 text-gray-700 dark:text-gray-300"
-                        >
-                          Notify me about submission status
-                        </label>
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Submit Button & Feedback */}
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full rounded-lg bg-indigo-600 py-3 font-semibold text-white shadow-md transition hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-gray-900"
-                    >
-                      {isLoading ? "Saving..." : "Save Changes"}
-                    </button>
-                    {feedback.message && (
-                      <p
-                        aria-live="polite"
-                        className={`mt-4 text-center text-sm ${
-                          feedback.type === "success"
-                            ? "text-green-600 dark:text-green-400"
-                            : "text-red-600 dark:text-red-400"
-                        }`}
-                      >
-                        {feedback.message}
-                      </p>
-                    )}
-                  </div>
-                </form>
-              )}
-              {activeTab === "submissions" && (
-                <div>
-                  {/* Placeholder for submissions content */}
-                  <p className="text-slate-600 dark:text-slate-300">
-                    You have no submissions yet.
-                  </p>
-                </div>
-              )}
+              {activeTab === "about" && <AboutSection />}
             </div>
           </div>
         </div>

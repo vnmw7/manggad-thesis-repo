@@ -12,7 +12,7 @@ import {
   FaSignInAlt,
 } from "react-icons/fa";
 import ThemeSwitch from "./theme/ThemeSwitch";
-import { logout, getCurrentUser } from "@/lib/appwrite";
+import { signOut, getUser } from "@/lib/supabase";
 
 // Animation variants
 const navItemVariants = {
@@ -282,7 +282,7 @@ const Header = () => {
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      const { success } = await getCurrentUser();
+      const { success } = await getUser();
       setIsAuthenticated(success);
     };
 
@@ -332,11 +332,9 @@ const Header = () => {
   // Handle user logout
   const handleLogout = async () => {
     try {
-      const response = await logout();
+      const response = await signOut();
       if (response.success) {
-        // Close the menu
         setIsUserMenuOpen(false);
-        // Redirect to home or login page
         router.push("/home");
       } else {
         console.error("Logout failed:", response.error);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getCurrentUser } from "@/lib/appwrite";
+import { getUser } from "@/lib/supabase";
 
 // Hook for managing time and date with proper SSR handling
 export const useTimeAndDate = () => {
@@ -48,7 +48,7 @@ export const useAuthentication = () => {
   // Function to check user authentication
   useEffect(() => {
     const checkAuth = async () => {
-      const { success } = await getCurrentUser();
+      const { success } = await getUser();
       setIsAuthenticated(success);
     };
 

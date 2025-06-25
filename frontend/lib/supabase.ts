@@ -26,3 +26,49 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: false, // Since we're using this in API routes
   },
 });
+
+// Authentication functions
+
+// Sign up a new user
+export const signUpNewUser = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  });
+  if (error) {
+    return { success: false, error };
+  }
+  return { success: true, data };
+};
+
+// Sign in a user
+export const signInWithEmail = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+  if (error) {
+    return { success: false, error };
+  }
+  return { success: true, data };
+};
+
+// Get the current user
+export const getUser = async () => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    return { success: true, data: user };
+  }
+  return { success: false, error: "User not found" };
+};
+
+// Sign out the current user
+export const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    return { success: false, error };
+  }
+  return { success: true };
+};

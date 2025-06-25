@@ -10,7 +10,7 @@ import { MagicCard } from "@/components/magicui/magic-card";
 import ThemeSwitch from "../_components/theme/ThemeSwitch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { createUser, login } from "@/lib/appwrite";
+import { signInWithEmail, signUpNewUser } from "@/lib/supabase";
 
 // Animation variants
 const fadeIn = {
@@ -470,14 +470,16 @@ const AuthPage = () => {
     setIsLoading(true);
 
     try {
-      const result = await login(loginEmail, loginPassword);
+      const result = await signInWithEmail(loginEmail, loginPassword);
 
       if (result.success) {
         toast.success("Login successful!");
         router.push("/home");
       } else {
-        setLoginError("Invalid email or password");
-        toast.error("Login failed. Please check your credentials.");
+        const errorMessage =
+          result.error?.message || "Login failed. Please check your credentials.";
+        setLoginError(errorMessage);
+        toast.error(errorMessage);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -500,14 +502,16 @@ const AuthPage = () => {
     setIsLoading(true);
 
     try {
-      const result = await createUser(registerEmail, registerPassword);
+      const result = await signUpNewUser(registerEmail, registerPassword);
 
       if (result.success) {
-        toast.success("Registration successful! Please login.");
+        toast.success(
+          "Registration successful! Please check your email for a confirmation link.",
+        );
         setActiveTab("login");
       } else {
-        // Use a separate function to handle error messages to reduce nesting
-        const errorMessage = getErrorMessage(result);
+        const errorMessage =
+          result.error?.message || "Registration failed. Please try again.";
         toast.error(errorMessage);
       }
     } catch (error) {
@@ -516,44 +520,6 @@ const AuthPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Helper function to extract error message with improved consistency
-  const getErrorMessage = (result: {
-    success: boolean;
-    error?: any;
-    errorCode?: number;
-    errorMessage?: string;
-  }): string => {
-    // Check if the result indicates failure
-    if (result.success) {
-      // Should not happen if called from the 'else' block, but good practice
-      return "An unexpected success result was processed as an error.";
-    }
-
-    const duplicateAccountErrorCode = 409; // Appwrite's typical code for user_already_exists
-    const friendlyDuplicateMessage =
-      "An account with this email already exists. Please try logging in.";
-    const defaultErrorMessage = "Registration failed. Please try again.";
-
-    // Prioritize the errorCode and errorMessage we extracted in createUser
-    const errorCode = result.errorCode;
-    const errorMessage = result.errorMessage;
-
-    // Check specifically for the duplicate user error code
-    if (errorCode === duplicateAccountErrorCode) {
-      return friendlyDuplicateMessage;
-    }
-
-    // If there's a specific message from Appwrite, use it
-    if (errorMessage && errorMessage !== "An unknown error occurred") {
-      // Maybe add the code for more context?
-      // return `Registration failed: ${errorMessage} (Code: ${errorCode || 'N/A'})`;
-      return `Registration failed: ${errorMessage}`; // Keep it simpler for the user
-    }
-
-    // Fallback to the default message
-    return defaultErrorMessage;
   };
 
   return (
