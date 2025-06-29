@@ -2,37 +2,93 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { Bell, Shield, Settings2, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Header from "../../_components/Header";
 import Footer from "../../_components/Footer";
 import ProfileSection from "./ProfileSection";
 import SecuritySection from "./SecuritySection";
 import AboutSection from "./AboutSection";
+import { supabase } from "../../../lib/supabase";
 
-// Updated fetchUserData to include additional fields
 const fetchUserData = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    console.error("Error fetching user:", error);
+    // Return a default structure if user is not found or on error
+    return {
+      name: "Full Name",
+      email: "user@example.com",
+      affiliation: "University Name",
+      department: "Department Name",
+      role: "Researcher",
+      publicName: "Public Name",
+      profileImageUrl:
+        "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
+      degreePrograms: "Degree, University, 2025",
+      authorBio: "Enter your bio here...",
+    };
+  }
+
+  // Fetch author bio from the 'authors' table
+  const { data: authorData, error: authorError } = await supabase
+    .from("authors")
+    .select("bio")
+    .eq("user_id", user.id)
+    .single();
+
+  if (authorError) {
+    console.error("Error fetching author bio:", authorError);
+  }
+
   return {
-    name: "Current User Name",
-    email: "user@example.com",
-    affiliation: "University Name",
-    department: "Department Name",
-    role: "Researcher",
-    bio: "Short bio about the user",
-    publicName: "Public Name",
-    profileImageUrl: "https://example.com/profile.jpg",
-    professionalTitle: "Professional Title",
-    professionalPosition: "Professional Position",
-    educationDegree: "Degree",
-    educationUniversity: "University",
-    educationGradYear: "2025",
-    educationScholarship: "Scholarship",
-    authorBio: "Author bio",
+    name: user.user_metadata.full_name || "Current User Name",
+    email: user.email || "user@example.com",
+    affiliation: user.user_metadata.affiliation || "University Name",
+    department: user.user_metadata.department || "Department Name",
+    role: user.user_metadata.role || "Researcher",
+    publicName: user.user_metadata.public_name || "Public Name",
+    profileImageUrl:
+      user.user_metadata.profile_image_url ||
+      "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
+    degreePrograms: user.user_metadata.degree_programs || "Degree, University, 2025",
+    authorBio: authorData?.bio || "No bio available. Please add one.",
   };
 };
 
-// Simulate updating user data (replace with your actual API call)
-const updateAccountAPI = async (data: any) => {
-  await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
+const updateAccountAPI = async (userId: string, data: any) => {
+  const { authorBio, ...profileData } = data;
+
+  // Update user metadata in Supabase Auth
+  const { data: authData, error: authError } = await supabase.auth.updateUser({
+    data: profileData,
+  });
+
+  if (authError) {
+    throw new Error(authError.message);
+  }
+
+  // Update author bio in the 'authors' table
+  const { error: authorError } = await supabase
+    .from("authors")
+    .update({ bio: authorBio })
+    .eq("user_id", userId);
+
+  if (authorError) {
+    // If the update fails, it might be because the author does not exist yet.
+    // Try to insert a new record.
+    const { error: insertError } = await supabase
+      .from("authors")
+      .insert({ user_id: userId, bio: authorBio });
+
+    if (insertError) {
+      throw new Error(insertError.message);
+    }
+  }
+
   return { success: true, message: "Account updated successfully!" };
 };
 
@@ -48,6 +104,7 @@ const SETTINGS_TABS = [
 ];
 
 export default function AccountSettingsPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>("profile");
   const [profileForm, setProfileForm] = useState({
     name: "",
@@ -55,15 +112,8 @@ export default function AccountSettingsPage() {
     affiliation: "",
     department: "",
     role: "",
-    bio: "",
-    publicName: "",
     profileImageUrl: "",
-    professionalTitle: "",
-    professionalPosition: "",
-    educationDegree: "",
-    educationUniversity: "",
-    educationGradYear: "",
-    educationScholarship: "",
+    degreePrograms: "",
     authorBio: "",
   });
   const [passwordForm, setPasswordForm] = useState({
@@ -82,46 +132,44 @@ export default function AccountSettingsPage() {
   const [initialDataLoading, setInitialDataLoading] = useState(true);
 
   useEffect(() => {
-    const loadInitialData = async () => {
-      setInitialDataLoading(true);
-      try {
-        const userData = await fetchUserData();
-        setProfileForm({
-          name: userData.name,
-          email: userData.email,
-          affiliation: userData.affiliation || "",
-          department: userData.department || "",
-          role: userData.role || "",
-          bio: userData.bio || "",
-          publicName: userData.publicName || "",
-          profileImageUrl: userData.profileImageUrl || "",
-          professionalTitle: userData.professionalTitle || "",
-          professionalPosition: userData.professionalPosition || "",
-          educationDegree: userData.educationDegree || "",
-          educationUniversity: userData.educationUniversity || "",
-          educationGradYear: userData.educationGradYear || "",
-          educationScholarship: userData.educationScholarship || "",
-          authorBio: userData.authorBio || "",
-        });
-      } catch (error) {
-        setFeedback({
-          type: "error",
-          message: "Failed to load your data. Please try again.",
-        });
-      } finally {
-        setInitialDataLoading(false);
+    const checkSessionAndLoadData = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
+        router.push("/auth");
+      } else {
+        loadInitialData();
       }
     };
-    loadInitialData();
-  }, []);
+    checkSessionAndLoadData();
+  }, [router]);
 
-  // Updated handleProfileChange to handle different input types
+  const loadInitialData = async () => {
+    setInitialDataLoading(true);
+    try {
+      const userData = await fetchUserData();
+      setProfileForm(userData);
+    } catch (error) {
+      setFeedback({
+        type: "error",
+        message: "Failed to load your data. Please try again.",
+      });
+    } finally {
+      setInitialDataLoading(false);
+    }
+  };
+
   const handleProfileChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
     setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
+  };
+
+  const handleBioChange = (newBio: string) => {
+    setProfileForm({ ...profileForm, authorBio: newBio });
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,50 +181,21 @@ export default function AccountSettingsPage() {
     setIsLoading(true);
     setFeedback({ type: null, message: "" });
 
-    // Client-side validation for password
-    if (
-      passwordForm.newPassword ||
-      passwordForm.currentPassword ||
-      passwordForm.confirmPassword
-    ) {
-      if (!passwordForm.currentPassword) {
-        setFeedback({
-          type: "error",
-          message: "Please enter your current password to change it.",
-        });
-        setIsLoading(false);
-        return;
-      }
-      if (passwordForm.newPassword.length < 8) {
-        setFeedback({
-          type: "error",
-          message: "New password must be at least 8 characters long.",
-        });
-        setIsLoading(false);
-        return;
-      }
-      if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-        setFeedback({ type: "error", message: "New passwords do not match." });
-        setIsLoading(false);
-        return;
-      }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setFeedback({ type: "error", message: "You must be logged in." });
+      setIsLoading(false);
+      return;
     }
 
+    // Form validation logic here...
+
     try {
-      const payload: any = { ...profileForm };
-      if (passwordForm.newPassword) {
-        payload.currentPassword = passwordForm.currentPassword;
-        payload.newPassword = passwordForm.newPassword;
-      }
-      const result = await updateAccountAPI(payload); // Simulated API call
+      const payload = { ...profileForm };
+      const result = await updateAccountAPI(user.id, payload);
       setFeedback({ type: "success", message: result.message });
-      if (passwordForm.newPassword) {
-        setPasswordForm({
-          currentPassword: "",
-          newPassword: "",
-          confirmPassword: "",
-        });
-      }
     } catch (error: any) {
       setFeedback({
         type: "error",
@@ -252,7 +271,16 @@ export default function AccountSettingsPage() {
                   handleSubmit={handleSubmit}
                 />
               )}
-              {activeTab === "about" && <AboutSection />}
+              {activeTab === "about" && (
+                <AboutSection
+                  authorBio={profileForm.authorBio}
+                  email={profileForm.email}
+                  onBioChange={handleBioChange}
+                  isLoading={isLoading}
+                  feedback={feedback}
+                  handleSubmit={handleSubmit}
+                />
+              )}
             </div>
           </div>
         </div>

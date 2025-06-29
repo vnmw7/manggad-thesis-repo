@@ -399,29 +399,43 @@ const AddEditBookForm = (props: any) => {
               onChange={(e) => setProgram(e.target.value)}
             >
               <option value="">--- Select Program ---</option>
-              <option value="BS in Architecture">BS in Architecture</option>
-              <option value="BS in Fine Arts">BS in Fine Arts</option>
-              <option value="BS in Interior Design">
-                BS in Interior Design
-              </option>
-              <option value="BS in Business Administration">
-                BS in Business Administration
-              </option>
-              <option value="BS in Information Technology">
-                BS in Information Technology
-              </option>
-              <option value="BS in Hospitality Management">
-                BS in Hospitality Management
-              </option>
-              <option value="BS in Tourism Management">
-                BS in Tourism Management
-              </option>
-              <option value="BS in English">BS in English</option>
-              <option value="BS in Filipino">BS in Filipino</option>
-              <option value="BS in Basic Education">
-                BS in Basic Education
-              </option>
-              <option value="BS in Psychology">BS in Psychology</option>
+              <option value="Bachelor of Science in Architecture">Bachelor of Science in Architecture</option>
+              <option value="Bachelor of Fine Arts in Advertising Arts">Bachelor of Fine Arts in Advertising Arts</option>
+              <option value="Bachelor of Fine Arts in Digital Media Arts">Bachelor of Fine Arts in Digital Media Arts</option>
+              <option value="Bachelor of Fine Arts in Industrial Design">Bachelor of Fine Arts in Industrial Design</option>
+              <option value="Bachelor of Fine Arts in Studio Arts">Bachelor of Fine Arts in Studio Arts</option>
+              <option value="Bachelor of Fine Arts in Fashion Design">Bachelor of Fine Arts in Fashion Design</option>
+              <option value="Bachelor of Science in Interior Design">Bachelor of Science in Interior Design</option>
+              <option value="Bachelor of Science in Business Administration in Human Resource Management">Bachelor of Science in Business Administration in Human Resource Management</option>
+              <option value="Bachelor of Science in Business Administration in Marketing Management">Bachelor of Science in Business Administration in Marketing Management</option>
+              <option value="Bachelor of Science in Information Technology">Bachelor of Science in Information Technology</option>
+              <option value="Bachelor of Library & Information Science">Bachelor of Library & Information Science</option>
+              <option value="Bachelor of Science in Hospitality Management">Bachelor of Science in Hospitality Management</option>
+              <option value="Bachelor of Science in Hospitality Management in Culinary Arts">Bachelor of Science in Hospitality Management in Culinary Arts</option>
+              <option value="Bachelor of Science in Tourism Management">Bachelor of Science in Tourism Management</option>
+              <option value="Bachelor of Science in Psychology">Bachelor of Science in Psychology</option>
+              <option value="Bachelor of Arts in English Language Studies">Bachelor of Arts in English Language Studies</option>
+              <option value="Bachelor of Elementary Education">Bachelor of Elementary Education</option>
+              <option value="Bachelor of Secondary Education in English">Bachelor of Secondary Education in English</option>
+              <option value="Bachelor of Secondary Education in Filipino">Bachelor of Secondary Education in Filipino</option>
+              <option value="Bachelor of Secondary Education in Math">Bachelor of Secondary Education in Math</option>
+              <option value="Bachelor of Secondary Education in Science">Bachelor of Secondary Education in Science</option>
+              <option value="Teacher Certificate Program">Teacher Certificate Program</option>
+              <option value="Doctor in Business Administration">Doctor in Business Administration</option>
+              <option value="Master of Science in Architecture">Master of Science in Architecture</option>
+              <option value="Master of Science in Hospitality Management">Master of Science in Hospitality Management</option>
+              <option value="Master in Business Administration">Master in Business Administration</option>
+              <option value="Master in Business Administration in Human Resource Management">Master in Business Administration in Human Resource Management</option>
+              <option value="Master of Arts in Counseling">Master of Arts in Counseling</option>
+              <option value="Master of Arts in Education in English/Literature">Master of Arts in Education in English/Literature</option>
+              <option value="Master of Arts in Education in Filipino">Master of Arts in Education in Filipino</option>
+              <option value="Master of Arts in Education in General Science">Master of Arts in Education in General Science</option>
+              <option value="Master of Arts in Education in Instructional Technology">Master of Arts in Education in Instructional Technology</option>
+              <option value="Master of Arts in Education in Mathematics">Master of Arts in Education in Mathematics</option>
+              <option value="Master of Arts in Education in Physical Education & Sports">Master of Arts in Education in Physical Education & Sports</option>
+              <option value="Master of Arts in Education in Religious Studies">Master of Arts in Education in Religious Studies</option>
+              <option value="Master of Arts in Education in Values Education">Master of Arts in Education in Values Education</option>
+              <option value="Master of Arts in Educational Leadership & Management">Master of Arts in Educational Leadership & Management</option>
             </select>
           </div>
 
