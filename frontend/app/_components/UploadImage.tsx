@@ -1,4 +1,4 @@
-import { upload } from "../_api/uploadAction.js";
+import { upload } from "../../_api/uploadAction.js";
 
 // Define the props interface for the UploadImage component
 interface UploadImageProps {

@@ -22,10 +22,8 @@ const fetchUserData = async () => {
     return {
       name: "Full Name",
       email: "user@example.com",
-      affiliation: "University Name",
+      affiliation: "What is your position in school?",
       department: "Department Name",
-      role: "Researcher",
-      publicName: "Public Name",
       profileImageUrl:
         "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
       degreePrograms: "Degree, University, 2025",
@@ -111,7 +109,6 @@ export default function AccountSettingsPage() {
     email: "",
     affiliation: "",
     department: "",
-    role: "",
     profileImageUrl: "",
     degreePrograms: "",
     authorBio: "",

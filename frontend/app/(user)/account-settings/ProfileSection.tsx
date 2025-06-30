@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { upload } from "../../_api/uploadAction";
+import { upload } from "@/api/uploadAction";
 import { User, Building, Users, ImageIcon, Camera } from "lucide-react";
 
 interface ProfileSectionProps {
@@ -9,7 +8,6 @@ interface ProfileSectionProps {
     email: string;
     affiliation: string;
     department: string;
-    role: string;
     profileImageUrl: string;
     degreePrograms: string;
     authorBio: string;
@@ -163,9 +161,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
               Select Affiliation
             </label>
             <select
-              id="role"
-              name="role"
-              value={profileForm.role}
+              id="affiliation"
+              name="affiliation"
+              value={profileForm.affiliation}
               onChange={handleProfileChange}
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             >
@@ -174,7 +172,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
               <option value="Alumni">Alumni</option>
               <option value="Researcher">Faculty</option>
               <option value="Librarian">Librarian</option>
-              <option value="Librarian">Admin</option>
+              <option value="Admin">Admin</option>
               <option value="Other">Other</option>
             </select>
           </div>
