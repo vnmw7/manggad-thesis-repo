@@ -7,7 +7,8 @@ import { fetchPublicProfile, fetchUserThesesCount } from '@/lib/api-profile';
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { notFound } from 'next/navigation';
 
-export default async function AuthorBioPage({ params }: { params: { id: string } }) {
+export default async function AuthorBioPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { id } = params;
   let profile;
 
@@ -17,11 +18,11 @@ export default async function AuthorBioPage({ params }: { params: { id: string }
     // If fetching fails (e.g., invalid UUID), treat as not found
     notFound();
   }
-  
+
   if (!profile) {
     notFound();
   }
-  
+
   const thesesCount = await fetchUserThesesCount(profile.prf_name);
 
   return (
