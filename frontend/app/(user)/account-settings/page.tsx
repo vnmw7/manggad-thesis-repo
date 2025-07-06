@@ -31,15 +31,15 @@ const fetchUserData = async () => {
     };
   }
 
-  // Fetch author bio from the 'authors' table
-  const { data: authorData, error: authorError } = await supabase
-    .from("authors")
-    .select("bio")
-    .eq("user_id", user.id)
+  // Fetch author bio from the 'tblprofiles' table
+  const { data: profileData, error: profileError } = await supabase
+    .from("tblprofiles")
+    .select("prf_author_bio")
+    .eq("prf_user_id", user.id)
     .single();
 
-  if (authorError) {
-    console.error("Error fetching author bio:", authorError);
+  if (profileError) {
+    console.error("Error fetching author bio:", profileError);
   }
 
   return {
@@ -53,7 +53,7 @@ const fetchUserData = async () => {
       user.user_metadata.profile_image_url ||
       "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
     degreePrograms: user.user_metadata.degree_programs || "Degree, University, 2025",
-    authorBio: authorData?.bio || "No bio available. Please add one.",
+    authorBio: profileData?.prf_author_bio || "No bio available. Please add one.",
   };
 };
 
@@ -69,22 +69,14 @@ const updateAccountAPI = async (userId: string, data: any) => {
     throw new Error(authError.message);
   }
 
-  // Update author bio in the 'authors' table
-  const { error: authorError } = await supabase
-    .from("authors")
-    .update({ bio: authorBio })
-    .eq("user_id", userId);
+  // Update author bio in the 'tblprofiles' table
+  const { error: profileError } = await supabase
+    .from("tblprofiles")
+    .update({ prf_author_bio: authorBio })
+    .eq("prf_user_id", userId);
 
-  if (authorError) {
-    // If the update fails, it might be because the author does not exist yet.
-    // Try to insert a new record.
-    const { error: insertError } = await supabase
-      .from("authors")
-      .insert({ user_id: userId, bio: authorBio });
-
-    if (insertError) {
-      throw new Error(insertError.message);
-    }
+  if (profileError) {
+    throw new Error(profileError.message);
   }
 
   return { success: true, message: "Account updated successfully!" };
@@ -190,8 +182,11 @@ export default function AccountSettingsPage() {
     // Form validation logic here...
 
     try {
-      const payload = { ...profileForm };
-      const result = await updateAccountAPI(user.id, payload);
+      const { authorBio, ...profileData } = profileForm;
+      const result = await updateAccountAPI(user.id, {
+        authorBio,
+        ...profileData,
+      });
       setFeedback({ type: "success", message: result.message });
     } catch (error: any) {
       setFeedback({
