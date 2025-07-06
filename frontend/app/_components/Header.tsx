@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -25,12 +26,21 @@ const stickyHeaderVariants = {
   animate: {
     y: 0,
     opacity: 1,
-    transition: { type: "spring", stiffness: 100, damping: 15, duration: 0.4 },
+    transition: { 
+      type: "spring" as const, 
+      stiffness: 100, 
+      damping: 15, 
+      duration: 0.4 
+    },
   },
   exit: {
     y: -100,
     opacity: 0,
-    transition: { duration: 0.3, ease: "easeInOut" },
+    transition: { 
+      type: "tween" as const, 
+      duration: 0.3, 
+      ease: "easeInOut" as const 
+    },
   },
 };
 

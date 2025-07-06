@@ -9,51 +9,46 @@ import ProfileSection from "./ProfileSection";
 import SecuritySection from "./SecuritySection";
 import AboutSection from "./AboutSection";
 import { supabase } from "../../../lib/supabase";
+import { fetchUserProfile } from '@/lib/api-profile';
 
 const fetchUserData = async () => {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  const { data: { user }, error } = await supabase.auth.getUser();
 
   if (error || !user) {
     console.error("Error fetching user:", error);
-    // Return a default structure if user is not found or on error
     return {
       name: "Full Name",
       email: "user@example.com",
-      affiliation: "What is your position in school?",
-      department: "Department Name",
-      profileImageUrl:
-        "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
-      degreePrograms: "Degree, University, 2025",
+      affiliation: "Position in school",
+      department: "Department",
+      profileImageUrl: "/profile_placeholder.png",
+      degreePrograms: "Degree program",
       authorBio: "Enter your bio here...",
     };
   }
 
-  // Fetch author bio from the 'tblprofiles' table
-  const { data: profileData, error: profileError } = await supabase
-    .from("tblprofiles")
-    .select("prf_author_bio")
-    .eq("prf_user_id", user.id)
-    .single();
-
-  if (profileError) {
-    console.error("Error fetching author bio:", profileError);
+  const profile = await fetchUserProfile(user.id);
+  
+  if (!profile) {
+    return {
+      name: "Full Name",
+      email: "user@example.com",
+      affiliation: "Position in school",
+      department: "Department",
+      profileImageUrl: "/profile_placeholder.png",
+      degreePrograms: "Degree program",
+      authorBio: "Enter your bio here...",
+    };
   }
 
   return {
-    name: user.user_metadata.full_name || "Current User Name",
-    email: user.email || "user@example.com",
-    affiliation: user.user_metadata.affiliation || "University Name",
-    department: user.user_metadata.department || "Department Name",
-    role: user.user_metadata.role || "Researcher",
-    publicName: user.user_metadata.public_name || "Public Name",
-    profileImageUrl:
-      user.user_metadata.profile_image_url ||
-      "https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg",
-    degreePrograms: user.user_metadata.degree_programs || "Degree, University, 2025",
-    authorBio: profileData?.prf_author_bio || "No bio available. Please add one.",
+    name: profile.prf_name,
+    email: profile.prf_email,
+    affiliation: profile.prf_affiliation || "Position in school",
+    department: profile.prf_department || "Department",
+    profileImageUrl: profile.prf_image_url,
+    degreePrograms: profile.prf_degree_program || "Degree program",
+    authorBio: profile.prf_author_bio || "Enter your bio here...",
   };
 };
 

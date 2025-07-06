@@ -1,71 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase"; // Import Supabase client
+import Link from "next/link";
+import Image from "next/image";
+import { User, Mail, Building2, GraduationCap } from "lucide-react";
+import { fetchAllPublicProfiles, fetchUserThesesCount, PublicProfile } from "@/lib/api-profile";
 
-// Define an interface for the author data
-interface Author {
-  id: string;
-  name: string;
-  bio: string;
-  publishedWorksCount: number; // Renamed for clarity
+// Define an interface for the author data with thesis count
+interface AuthorWithCount extends PublicProfile {
+  publishedWorksCount: number;
 }
 
 const AuthorContent = () => {
-  const [authors, setAuthors] = useState<Author[]>([]);
+  const [authors, setAuthors] = useState<AuthorWithCount[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null); // Add error state
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAuthors = async () => {
       setLoading(true);
       setError(null);
       try {
-        const { data, error: supabaseError } = await supabase
-          .from("thesis_tbl")
-          .select("id, firstName, middleName, lastName, department, program");
+        // Fetch all public profiles
+        const profiles = await fetchAllPublicProfiles();
+        
+        // Fetch thesis count for each author
+        const authorsWithCounts = await Promise.all(
+          profiles.map(async (profile) => {
+            const count = await fetchUserThesesCount(profile.prf_name);
+            return {
+              ...profile,
+              publishedWorksCount: count,
+            };
+          })
+        );
 
-        if (supabaseError) {
-          throw supabaseError;
-        }
-
-        if (data) {
-          const authorMap = new Map<string, { count: number; details: any }>();
-
-          data.forEach((thesis) => {
-            // Create a consistent key for each author based on their full name.
-            const authorKey =
-              `${thesis.firstName || ""} ${thesis.middleName || ""} ${thesis.lastName || ""}`
-                .replace(/\s+/g, " ")
-                .trim()
-                .toLowerCase();
-
-            if (!authorKey) return; // Skip if author name is empty
-
-            if (authorMap.has(authorKey)) {
-              authorMap.get(authorKey)!.count++;
-            } else {
-              authorMap.set(authorKey, {
-                count: 1,
-                details: thesis, // Store the first encountered thesis details for this author
-              });
-            }
-          });
-          const formattedAuthors: Author[] = Array.from(
-            authorMap.entries(),
-          ).map(([, value]) => ({
-            id: value.details.id, // Use the id from the stored thesis details
-            name: `${value.details.firstName || ""} ${value.details.middleName || ""} ${value.details.lastName || ""}`
-              .replace(/\s+/g, " ")
-              .trim(),
-            bio:
-              value.details.program ||
-              value.details.department ||
-              "No biography available.",
-            publishedWorksCount: value.count,
-          }));
-
-          setAuthors(formattedAuthors);
-        }
+        setAuthors(authorsWithCounts);
       } catch (err: any) {
         console.error("Error fetching authors:", err);
         setError("Failed to fetch authors. Please try again later.");
@@ -82,7 +51,9 @@ const AuthorContent = () => {
   };
 
   const filteredAuthors = authors.filter((author) =>
-    author.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    author.prf_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (author.prf_department && author.prf_department.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (author.prf_degree_program && author.prf_degree_program.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   if (loading) {
@@ -112,20 +83,70 @@ const AuthorContent = () => {
       {filteredAuthors.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredAuthors.map((author) => (
-            <div
-              key={author.id}
-              className="rounded-lg bg-gray-50 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg dark:bg-gray-700"
+            <Link
+              key={author.prf_id}
+              href={`/${author.prf_user_id}`}
+              className="block rounded-lg bg-gray-50 p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 dark:bg-gray-700"
             >
-              <h2 className="mb-2 text-xl font-semibold text-blue-600 dark:text-blue-400">
-                {author.name}
-              </h2>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                {author.bio}
-              </p>
-              <p className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                Published Works: {author.publishedWorksCount}
-              </p>
-            </div>
+              <div className="flex items-center mb-4">
+                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500 mr-4 flex-shrink-0">
+                  <Image
+                    src={author.prf_image_url || '/profile_placeholder.png'}
+                    alt={`Profile picture of ${author.prf_name}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl font-semibold text-blue-600 dark:text-blue-400 truncate">
+                    {author.prf_name}
+                  </h2>
+                  {author.prf_affiliation && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                      {author.prf_affiliation}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                {author.prf_email && (
+                  <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+                    <Mail className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
+                    <span className="truncate">{author.prf_email}</span>
+                  </div>
+                )}
+                
+                {author.prf_department && (
+                  <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+                    <Building2 className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
+                    <span className="truncate">{author.prf_department}</span>
+                  </div>
+                )}
+                
+                {author.prf_degree_program && (
+                  <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+                    <GraduationCap className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
+                    <span className="truncate">{author.prf_degree_program}</span>
+                  </div>
+                )}
+              </div>
+
+              {author.prf_author_bio && (
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-3 line-clamp-3">
+                  {author.prf_author_bio}
+                </p>
+              )}
+
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Published Works: {author.publishedWorksCount}
+                </p>
+                <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                  View Profile →
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       ) : (
