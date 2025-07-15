@@ -51,9 +51,10 @@ const AuthorContent = () => {
   };
 
   const filteredAuthors = authors.filter((author) =>
-    author.prf_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    author.publishedWorksCount > 0 &&
+    (author.prf_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (author.prf_department && author.prf_department.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (author.prf_degree_program && author.prf_degree_program.toLowerCase().includes(searchTerm.toLowerCase()))
+    (author.prf_degree_program && author.prf_degree_program.toLowerCase().includes(searchTerm.toLowerCase())))
   );
 
   if (loading) {
