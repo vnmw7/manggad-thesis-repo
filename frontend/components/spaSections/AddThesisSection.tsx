@@ -2,12 +2,13 @@
  * Add thesis section of the single page application
  * Client component implementation for all interactive elements
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import ThesisFormClient from "./ThesisFormClient";
 import FileUploadClient from "./FileUploadClient";
 import { CalendarIcon } from "@radix-ui/react-icons";
+import { fetchUserProfile } from "@/lib/api-profile";
 
 const departments = [
   "School of Architecture, Fine Arts, and Interior Design (SARFAID)",
@@ -98,6 +99,31 @@ const AddThesisSection = () => {
     supplementaryFiles: [],
   });
   const [agreement, setAgreement] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const profile = await fetchUserProfile(user.id);
+        if (profile) {
+          const nameParts = profile.prf_name.split(" ");
+          const firstName = nameParts[0];
+          const lastName = nameParts.slice(1).join(" ");
+          setFormData((prev) => ({
+            ...prev,
+            firstName: firstName,
+            lastName: lastName,
+            department: profile.prf_department || "",
+            program: profile.prf_degree_program || "",
+          }));
+        }
+      }
+    };
+
+    loadUserProfile();
+  }, []);
 
   // Handle form input changes
   const handleInputChange = (
@@ -443,106 +469,6 @@ const AddThesisSection = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="block font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    First Name <span className="text-red-500">*</span>
-                  </label>
-                  <ThesisFormClient
-                    type="input"
-                    id="firstName"
-                    name="firstName"
-                    required={false} // Changed from true
-                    onChange={(value: string) =>
-                      handleInputChange("firstName", value)
-                    } // Explicit type
-                    value={formData.firstName || ""}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="middleName"
-                    className="block font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    Middle Name/Initial
-                  </label>
-                  <ThesisFormClient
-                    type="input"
-                    id="middleName"
-                    name="middleName"
-                    required={false}
-                    onChange={(value: string) =>
-                      handleInputChange("middleName", value)
-                    } // Explicit type
-                    value={formData.middleName || ""}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="block font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    Last Name <span className="text-red-500">*</span>
-                  </label>
-                  <ThesisFormClient
-                    type="input"
-                    id="lastName"
-                    name="lastName"
-                    required={false} // Changed from true
-                    onChange={(value: string) =>
-                      handleInputChange("lastName", value)
-                    } // Explicit type
-                    value={formData.lastName || ""}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="department"
-                    className="block font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    Department <span className="text-red-500">*</span>
-                  </label>
-                  <ThesisFormClient
-                    type="select"
-                    id="department"
-                    name="department"
-                    options={departments}
-                    required={false} // Changed from true
-                    onChange={(value: string) =>
-                      handleInputChange("department", value)
-                    } // Explicit type
-                    value={formData.department || ""}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="program"
-                    className="block font-medium text-gray-700 dark:text-gray-200"
-                  >
-                    Program <span className="text-red-500">*</span>
-                  </label>
-                  <ThesisFormClient
-                    type="select"
-                    id="program"
-                    name="program"
-                    options={programs}
-                    required={false} // Changed from true
-                    onChange={(value: string) =>
-                      handleInputChange("program", value)
-                    } // Explicit type
-                    value={formData.program || ""}
-                  />
-                </div>
-              </div>
 
               <div>
                 <label
