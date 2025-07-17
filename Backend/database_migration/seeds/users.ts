@@ -1,4 +1,17 @@
-export const seedData = [
+export interface UserData {
+  email: string;
+  password: string;
+  profile: {
+    prf_name: string;
+    prf_email: string;
+    prf_affiliation: string;
+    prf_department: string;
+    prf_degree_program: string;
+    prf_author_bio: string;
+  };
+}
+
+export const seedData: UserData[] = [
   {
     email: 'juan.delacruz@example.com',
     password: 'password123',

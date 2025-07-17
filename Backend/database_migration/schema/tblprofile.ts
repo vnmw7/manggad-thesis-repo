@@ -1,8 +1,21 @@
+/**
+ * System: MANGGAD
+ * Module: Database Migration
+ * Purpose: Defines the schema for the 'tblprofiles' table.
+ */
 import { Kysely, sql } from 'kysely';
 
-export async function up(db: Kysely<any>): Promise<void> {
-await db.schema
+/**
+ * Creates the 'tblprofiles' table if it does not already exist.
+ * This table stores user profile information.
+ *
+ * @param db The Kysely database instance.
+ * @returns A promise that resolves when the table creation is complete.
+ */
+export async function createProfileTable(db: Kysely<any>): Promise<void> {
+  await db.schema
     .createTable('tblprofiles')
+    .ifNotExists()
     .addColumn('prf_id', 'uuid', (col) =>
         col.primaryKey().defaultTo(sql`gen_random_uuid()`)
     )
@@ -29,6 +42,3 @@ await db.schema
     .execute();
 }
 
-export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable('tblprofiles').execute();
-}

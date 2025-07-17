@@ -15,20 +15,14 @@ This tutorial explains how to execute and migrate the database using the provide
 
 ## Steps to Migrate the Database
 
-1. Open a terminal and navigate to the `Backend/database_migration/scripts` directory.
+1. Open a terminal and navigate to the `Backend/database_migration/` directory.
 
-2. Run the migration script with the desired direction (`up` or `down`).
+2. Run the migration script
 
-   - To apply migrations (up):
-
-     ```bash
-     npx ts-node migrate.ts up
-     ```
-
-   - To revert migrations (down):
+   - To apply migrations:
 
      ```bash
-     node migrate.ts down
+     npx ts-node migrate.ts
      ```
 
 3. Check the terminal output for success or error messages.

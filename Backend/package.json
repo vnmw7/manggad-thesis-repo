@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
+    "@supabase/supabase-js": "^2.52.0",
     "kysely": "^0.28.2",
     "pg": "^8.16.3",
     "postgres": "^3.4.7"
