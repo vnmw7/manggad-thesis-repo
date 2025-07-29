@@ -41,7 +41,7 @@ const Footer = () => {
     hover: {
       scale: 1.2,
       rotate: 5,
-      transition: { type: "spring", stiffness: 400 },
+      transition: { type: "spring" as const, stiffness: 400 },
     },
   };
 

@@ -56,7 +56,7 @@ const updateAccountAPI = async (userId: string, data: any) => {
   const { authorBio, ...profileData } = data;
 
   // Update user metadata in Supabase Auth
-  const { data: authData, error: authError } = await supabase.auth.updateUser({
+  const { error: authError } = await supabase.auth.updateUser({
     data: profileData,
   });
 
@@ -137,7 +137,7 @@ export default function AccountSettingsPage() {
     } catch (error) {
       setFeedback({
         type: "error",
-        message: "Failed to load your data. Please try again.",
+        message: "Failed to load your data. Please try again." + (error instanceof Error ? error.message : ""),
       });
     } finally {
       setInitialDataLoading(false);

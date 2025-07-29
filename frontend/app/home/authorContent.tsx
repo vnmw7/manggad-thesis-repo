@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { User, Mail, Building2, GraduationCap } from "lucide-react";
+import { Mail, Building2, GraduationCap } from "lucide-react";
 import { fetchAllPublicProfiles, fetchUserThesesCount, PublicProfile } from "@/lib/api-profile";
 
 // Define an interface for the author data with thesis count

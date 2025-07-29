@@ -1,6 +1,7 @@
 import React from "react";
+import Image from "next/image";
 import { upload } from "@/api/uploadAction";
-import { User, Building, Users, ImageIcon, Camera } from "lucide-react";
+import { User, Camera } from "lucide-react";
 
 interface ProfileSectionProps {
   profileForm: {
@@ -86,9 +87,11 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
         <div className="flex-shrink-0">
           <h3 className="mb-4 text-lg font-semibold text-slate-700 dark:text-slate-200 text-center md:text-left">Profile</h3>
           <div className="relative group w-32 h-32">
-            <img
+            <Image
               src={profileForm.profileImageUrl || 'https://res.cloudinary.com/dzslcjub9/image/upload/v1751176469/default-profile_psr5o8.jpg'}
               alt="Profile"
+              width={128}
+              height={128}
               className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-md"
             />
             <label

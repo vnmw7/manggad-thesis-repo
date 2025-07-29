@@ -10,27 +10,6 @@ import FileUploadClient from "./FileUploadClient";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { fetchUserProfile } from "@/lib/api-profile";
 
-const departments = [
-  "School of Architecture, Fine Arts, and Interior Design (SARFAID)",
-  "School of Business and Information Technology (SBIT)",
-  "School of Hospitality and Tourism Management (SHTM)",
-  "School of Sciences, Liberal Arts, and Teacher Education (SSLATE)",
-];
-
-const programs = [
-  "BS in Architecture",
-  "BS in Fine Arts",
-  "BS in Interior Design",
-  "BS in Business Administration",
-  "BS in Information Technology",
-  "BS in Hospitality Management",
-  "BS in Tourism Management",
-  "BS in English",
-  "BS in Filipino",
-  "BS in Basic Education",
-  "BS in Psychology",
-];
-
 const degreeLevels = ["Bachelor's", "Master's", "PhD", "Associate", "Diploma"];
 
 const copyrightOptions = [
@@ -53,6 +32,7 @@ const licenseOptions = [
 
 // Define TypeScript interface for form data
 interface ThesisFormData {
+  prf_id?: string;
   title?: string;
   firstName?: string;
   middleName?: string;
@@ -113,6 +93,7 @@ const AddThesisSection = () => {
           const lastName = nameParts.slice(1).join(" ");
           setFormData((prev) => ({
             ...prev,
+            prf_id: profile.prf_id,
             firstName: firstName,
             lastName: lastName,
             department: profile.prf_department || "",
@@ -245,46 +226,41 @@ const AddThesisSection = () => {
 
     // Create base object with all fields, applying defaults if necessary
     const baseData = {
-      title: formData.title?.trim() || "Untitled Thesis", // Reverted default
-      firstName: formData.firstName?.trim() || "Anonymous", // Reverted default
-      middleName: formData.middleName?.trim() || "",
-      lastName: formData.lastName?.trim() || "Author", // Reverted default
-      department: formData.department?.trim() || "Unspecified Department", // Reverted default
-      program: formData.program?.trim() || "Unspecified Program", // Reverted default
-      degreeAwarded: formattedDate, // Use the robustly formatted date
-      abstract: formData.abstract?.trim() || "No abstract provided.", // Reverted default
-      keywords:
+      ths_prf_id: formData.prf_id,
+      ths_title: formData.title?.trim() || "Untitled Thesis",
+      ths_degree_awarded: formattedDate,
+      ths_abstract: formData.abstract?.trim() || "No abstract provided.",
+      ths_keywords:
         formData.keywords && formData.keywords.length > 0
           ? formData.keywords
-          : ["default"], // Reverted default
-      degreeLevel: formData.degreeLevel?.trim() || "Unspecified Degree Level", // Reverted default
-      copyright: formData.copyright?.trim() || "Author holds copyright", // Reverted default
-      thirdPartyCopyright: formData.thirdPartyCopyright || "no", // Reverted default
-      license: formData.license?.trim() || "No License/All Rights Reserved", // Reverted default
-      supervisors:
+          : ["default"],
+      ths_degree_level:
+        formData.degreeLevel?.trim() || "Unspecified Degree Level",
+      ths_copyright: formData.copyright?.trim() || "Author holds copyright",
+      ths_third_party_copyright: formData.thirdPartyCopyright || "no",
+      ths_license:
+        formData.license?.trim() || "No License/All Rights Reserved",
+      ths_supervisors:
         formData.supervisors && formData.supervisors.length > 0
           ? formData.supervisors
-          : ["N/A"], // Reverted default
-      orcid: formData.orcid?.trim() || "",
-      notes: formData.notes?.trim() || "No notes.", // Reverted default
-      thesis_document_url: thesisUrl,
-      supplementary_files_urls: suppUrls,
-      // Remove UI-only fields
-      confirmPermissions: undefined,
-    }; // Filter out undefined values (though confirmPermissions is the only one explicitly set to undefined)
-    return Object.fromEntries(
-      Object.entries(baseData).filter(([, value]) => value !== undefined),
-    ) as Omit<ThesisFormData, "confirmPermissions">;
+          : ["N/A"],
+      ths_orcid: formData.orcid?.trim() || "",
+      ths_notes: formData.notes?.trim() || "No notes.",
+      ths_file_url: thesisUrl,
+      ths_supplementary_files_urls: suppUrls,
+    };
+
+    return baseData;
   };
 
   const saveToDatabase = async (
-    cleanData: Omit<ThesisFormData, "confirmPermissions">,
+    cleanData: any, // Using any to avoid creating a new large interface for this one use case
   ) => {
     toast.info("Saving thesis metadata to database...");
     console.log("Data being uploaded to Supabase:", cleanData); // Log the data
 
     const { data, error } = await supabase
-      .from("thesis_tbl")
+      .from("tblthesis")
       .insert([cleanData])
       .select();
 

@@ -12,7 +12,6 @@ interface AboutSectionProps {
 
 const AboutSection: React.FC<AboutSectionProps> = ({
   authorBio,
-  email,
   onBioChange,
   isLoading,
   feedback,

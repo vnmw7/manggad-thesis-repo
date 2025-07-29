@@ -84,7 +84,6 @@ export default function HomeContent() {
       x: 0,
       transition: {
         duration: 0.4,
-        ease: "easeOut",
       },
     },
     exit: {
@@ -92,7 +91,6 @@ export default function HomeContent() {
       x: -20,
       transition: {
         duration: 0.3,
-        ease: "easeIn",
       },
     },
   };

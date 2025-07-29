@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, MapPin, GraduationCap, Building2, User, ArrowLeft } from 'lucide-react';
+import { Mail, MapPin, GraduationCap, Building2, ArrowLeft } from 'lucide-react';
 import Header from '../../_components/Header';
 import Footer from '../../_components/Footer';
 import { fetchPublicProfile, fetchUserThesesCount } from '@/lib/api-profile';
@@ -14,8 +14,7 @@ export default async function AuthorBioPage(props: { params: Promise<{ id: strin
 
   try {
     profile = await fetchPublicProfile(id);
-  } catch (error) {
-    // If fetching fails (e.g., invalid UUID), treat as not found
+  } catch {
     notFound();
   }
 

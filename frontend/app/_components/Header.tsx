@@ -10,7 +10,6 @@ import {
   FaBook,
   FaCog,
   FaSignOutAlt,
-  FaSignInAlt,
 } from "react-icons/fa";
 import ThemeSwitch from "./theme/ThemeSwitch";
 import { signOut, getUser } from "@/lib/supabase";
