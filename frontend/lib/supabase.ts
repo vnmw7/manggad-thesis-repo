@@ -72,3 +72,14 @@ export const signOut = async () => {
   }
   return { success: true };
 };
+
+// Sign in with Google
+export const signInWithGoogle = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+  });
+  if (error) {
+    return { success: false, error };
+  }
+  return { success: true, data };
+};

@@ -10,7 +10,7 @@ import { MagicCard } from "@/components/magicui/magic-card";
 import ThemeSwitch from "../_components/theme/ThemeSwitch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { signInWithEmail, signUpNewUser } from "@/lib/supabase";
+import { signInWithEmail, signUpNewUser, signInWithGoogle } from "@/lib/supabase";
 
 // Animation variants
 const fadeIn = {
@@ -158,6 +158,7 @@ type LoginFormProps = {
   isLoading: boolean;
   error: string;
   router: ReturnType<typeof useRouter>;
+  handleGoogleSignIn: () => void;
 };
 
 const LoginForm = ({
@@ -171,6 +172,7 @@ const LoginForm = ({
   isLoading,
   error,
   router,
+  handleGoogleSignIn,
 }: LoginFormProps) => (
   <motion.form
     onSubmit={onSubmit}
@@ -217,6 +219,23 @@ const LoginForm = ({
 
     <LoadingButton isLoading={isLoading} text="Login" />
 
+    <div className="my-4 flex items-center">
+      <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+      <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">
+        OR
+      </span>
+      <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+    </div>
+
+    <button
+      type="button"
+      onClick={handleGoogleSignIn}
+      className="group flex w-full items-center justify-center space-x-2 rounded-lg border border-gray-300 bg-white/80 px-5 py-3 text-base font-medium text-gray-700 backdrop-blur-sm transition-all hover:bg-gray-100 hover:shadow-md focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:hover:bg-gray-700"
+    >
+      <Image src="/google.svg" alt="Google" width={20} height={20} />
+      <span>Sign in with Google</span>
+    </button>
+
     <div className="mt-4 flex justify-between">
       <button
         type="button"
@@ -245,6 +264,7 @@ type RegisterFormProps = {
   passwordMatch: boolean;
   isLoading: boolean;
   router: ReturnType<typeof useRouter>;
+  handleGoogleSignIn: () => void;
 };
 
 const RegisterForm = ({
@@ -262,6 +282,7 @@ const RegisterForm = ({
   passwordMatch,
   isLoading,
   router,
+  handleGoogleSignIn,
 }: RegisterFormProps) => (
   <motion.form
     onSubmit={onSubmit}
@@ -325,6 +346,23 @@ const RegisterForm = ({
     </div>
 
     <LoadingButton isLoading={isLoading} text="Register" />
+
+    <div className="my-4 flex items-center">
+      <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+      <span className="mx-4 flex-shrink text-sm text-gray-500 dark:text-gray-400">
+        OR
+      </span>
+      <div className="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+    </div>
+
+    <button
+      type="button"
+      onClick={handleGoogleSignIn}
+      className="group flex w-full items-center justify-center space-x-2 rounded-lg border border-gray-300 bg-white/80 px-5 py-3 text-base font-medium text-gray-700 backdrop-blur-sm transition-all hover:bg-gray-100 hover:shadow-md focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800/70 dark:text-gray-100 dark:hover:bg-gray-700"
+    >
+      <Image src="/google.svg" alt="Google" width={20} height={20} />
+      <span>Sign up with Google</span>
+    </button>
 
     <div className="mt-4 flex justify-center">
       <button
@@ -522,6 +560,23 @@ const AuthPage = () => {
     }
   };
 
+  // Google Sign-In function
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const result = await signInWithGoogle();
+      if (!result.success) {
+        toast.error(result.error?.message || "Google sign-in failed.");
+      }
+      // On success, Supabase handles the redirect.
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      toast.error("An unexpected error occurred during Google sign-in.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full overflow-hidden bg-gradient-to-br from-[#f8f9fa] to-[#e9ecef] dark:from-[#121212] dark:to-[#1e1e1e]">
       {/* Background Elements */}
@@ -567,6 +622,7 @@ const AuthPage = () => {
                   isLoading={isLoading}
                   error={loginError}
                   router={router}
+                  handleGoogleSignIn={handleGoogleSignIn}
                 />
               )}
 
@@ -589,6 +645,7 @@ const AuthPage = () => {
                   passwordMatch={passwordMatch}
                   isLoading={isLoading}
                   router={router}
+                  handleGoogleSignIn={handleGoogleSignIn}
                 />
               )}
             </div>
