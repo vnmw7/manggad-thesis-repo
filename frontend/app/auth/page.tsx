@@ -543,9 +543,19 @@ const AuthPage = () => {
       const result = await signUpNewUser(registerEmail, registerPassword);
 
       if (result.success) {
-        toast.success(
-          "Registration successful! Please check your email for a confirmation link.",
-        );
+        // Check if this is a test registration (email provider disabled)
+        const message = (result.data as any)?.message;
+        if (message) {
+          toast.info(message, { autoClose: 5000 });
+          console.log("📝 Test registration mode active");
+          console.log("To create real users:");
+          console.log("1. Enable email provider in Supabase dashboard");
+          console.log("2. Or create users directly in Supabase SQL Editor");
+        } else {
+          toast.success(
+            "Registration successful! Please check your email for a confirmation link.",
+          );
+        }
         setActiveTab("login");
       } else {
         const errorMessage =
