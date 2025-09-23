@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
@@ -17,6 +18,11 @@ import { BookDetailContent } from "./bookDetailContent";
 
 export default function HomePage() {
   const { resolvedTheme } = useTheme();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const paramsString = searchParams.toString();
+  const [externalSearchQuery, setExternalSearchQuery] = useState<string | null>(null);
+  const [isUrlSyncDisabled, setIsUrlSyncDisabled] = useState(false);
   const [activeContent, setActiveContent] = useState<
     | "home"
     | "contact"
@@ -41,6 +47,13 @@ export default function HomePage() {
       | "bookDetail",
     bookId?: string,
   ) => {
+    if (content !== "book") {
+      setIsUrlSyncDisabled(true);
+      router.replace("/home");
+    } else {
+      setIsUrlSyncDisabled(false);
+    }
+
     setActiveContent(content);
     if (content === "bookDetail" && bookId) {
       setSelectedBookId(bookId);
@@ -56,6 +69,33 @@ export default function HomePage() {
       document.documentElement.classList.contains("dark"),
     );
   }, [resolvedTheme]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(paramsString);
+    const viewParam = params.get("view");
+    const queryParam = params.get("query");
+
+    if (!queryParam) {
+      if (externalSearchQuery !== null) {
+        setExternalSearchQuery(null);
+      }
+
+      if (isUrlSyncDisabled) {
+        setIsUrlSyncDisabled(false);
+      }
+
+      return;
+    }
+
+    if (queryParam !== externalSearchQuery) {
+      setExternalSearchQuery(queryParam);
+    }
+
+    if (!isUrlSyncDisabled && (viewParam === "book" || !viewParam) && activeContent !== "book" && activeContent !== "bookDetail") {
+      setActiveContent("book");
+      setSelectedBookId(null);
+    }
+  }, [paramsString, externalSearchQuery, activeContent, isUrlSyncDisabled]);
 
   return (
     <div className="flex min-h-screen w-full flex-col overflow-hidden bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-gray-900 dark:to-gray-950">
@@ -84,7 +124,11 @@ export default function HomePage() {
           {activeContent === "contact" && <ContactContent />}
           {activeContent === "authors" && <AuthorContent />}
           {activeContent === "book" && (
-            <BookContent onContentChange={handleContentChange} />
+            <BookContent
+              key={externalSearchQuery ? `book-${externalSearchQuery}` : "book-default"}
+              onContentChange={handleContentChange}
+              initialSearchQuery={externalSearchQuery ?? ""}
+            />
           )}
           {activeContent === "dashboard" && <DashboardContent />}
           {activeContent === "add thesis" && <AddThesisSection />}
@@ -99,3 +143,4 @@ export default function HomePage() {
     </div>
   );
 }
+

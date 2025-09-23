@@ -23,7 +23,7 @@ export default function StartPage() {
       toast.error("Please enter a search query.");
     } else {
       toast.success("Searching for: " + searchQuery);
-      router.push(`/book/search?query=${searchQuery}`);
+      router.push(`/home?view=book&query=${encodeURIComponent(searchQuery)}`);
     }
   };
 

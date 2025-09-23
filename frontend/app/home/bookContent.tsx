@@ -54,11 +54,12 @@ interface FilterCheckboxStatus {
 interface BookContentProps {
   // Added interface for props
   onContentChange: (content: "bookDetail", bookId: string) => void;
+  initialSearchQuery?: string;
 }
 
-export default function BookContent({ onContentChange }: BookContentProps) {
+export default function BookContent({ onContentChange, initialSearchQuery = "" }: BookContentProps) {
   const [books, setBooks] = useState<Book[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearchQuery);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchError, setSearchError] = useState<string>("");
   const [showFilters, setShowFilters] = useState(false);
@@ -82,7 +83,8 @@ export default function BookContent({ onContentChange }: BookContentProps) {
       "BS in Psychology": false,
     });
   const [filterSentence, setFilterSentence] = useState("");
-  const [filterAndSearchQuery, setFilterAndSearchQuery] = useState<string>("");
+  const [filterAndSearchQuery, setFilterAndSearchQuery] = useState<string>(initialSearchQuery);
+  const [hasInitialSearchRun, setHasInitialSearchRun] = useState<boolean>(false);
 
   // Animation variants
   const fadeIn = {
@@ -166,20 +168,20 @@ export default function BookContent({ onContentChange }: BookContentProps) {
     }
     // When filterAndSearchQuery is not empty, results are fetched by handleSubmit
   }, [filterAndSearchQuery, getAllBooks]); // Handle search form submission
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setSearchError("");
+  const runSearch = useCallback(async () => {
+    const trimmedQuery = filterAndSearchQuery.trim();
 
-    if (!filterAndSearchQuery.trim()) {
-      getAllBooks(); // Fetch all books if query is empty
+    if (!trimmedQuery) {
+      await getAllBooks();
       return;
     }
 
+    setIsLoading(true);
+    setSearchError("");
+
     try {
-      // Use the search API function
       const result = await searchBooks({
-        filterAndSearchQuery,
+        filterAndSearchQuery: trimmedQuery,
         year: filterYear ? parseInt(filterYear) : undefined,
         departments: Object.keys(filterCheckboxStatus).filter(
           (key) => filterCheckboxStatus[key] && key.includes("School of"),
@@ -199,11 +201,32 @@ export default function BookContent({ onContentChange }: BookContentProps) {
       setSearchError(
         "Search failed. Please try again or adjust your search terms.",
       );
-      setBooks([]); // Clear books on error
+      setBooks([]);
     } finally {
       setIsLoading(false);
     }
+  }, [filterAndSearchQuery, filterYear, filterCheckboxStatus, getAllBooks]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    runSearch();
   };
+
+  useEffect(() => {
+    if (hasInitialSearchRun) {
+      return;
+    }
+
+    const trimmedInitial = initialSearchQuery.trim();
+
+    if (!trimmedInitial) {
+      setHasInitialSearchRun(true);
+      return;
+    }
+
+    setHasInitialSearchRun(true);
+    runSearch();
+  }, [initialSearchQuery, hasInitialSearchRun, runSearch]);
 
   const handleBookClick = (bookId: string) => {
     onContentChange("bookDetail", bookId);

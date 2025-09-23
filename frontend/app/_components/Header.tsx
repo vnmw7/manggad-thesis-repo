@@ -334,7 +334,7 @@ const Header = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/book/search?query=${encodeURIComponent(searchQuery)}`);
+      router.push(`/home?view=book&query=${encodeURIComponent(searchQuery)}`);
     }
   };
 
