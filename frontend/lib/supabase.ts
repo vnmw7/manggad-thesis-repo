@@ -62,7 +62,7 @@ export const signUpNewUser = async (email: string, password: string) => {
 
       // For testing: Sign in immediately after "registration"
       // This will fail if user doesn't exist, but we can handle that
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      const { data: signInData } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
