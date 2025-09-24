@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
@@ -16,7 +16,7 @@ import AddThesisSection from "@/components/spaSections/AddThesisSection";
 import ViewEditThesisSection from "@/components/spaSections/ViewEditThesisSection";
 import { BookDetailContent } from "./bookDetailContent";
 
-export default function HomePage() {
+function HomePageContent() {
   const { resolvedTheme } = useTheme();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -141,6 +141,18 @@ export default function HomePage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-gray-900 dark:to-gray-950">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white"></div>
+      </div>
+    }>
+      <HomePageContent />
+    </Suspense>
   );
 }
 
