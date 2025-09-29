@@ -228,6 +228,24 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
   }
 
   if (error) {
+    // Check if it's a "Book not found" error
+    if (error === "Book not found") {
+      return (
+        <div className="flex min-h-[calc(100vh-200px)] items-center justify-center">
+          <GlassmorphicCard className="text-center">
+            <FaBook className="mx-auto h-20 w-20 text-gray-400 dark:text-gray-500" />
+            <h2 className="mt-4 text-2xl font-bold text-gray-700 dark:text-gray-300">
+              Book Not Found
+            </h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              The book you are looking for does not exist or has been removed.
+            </p>
+          </GlassmorphicCard>
+        </div>
+      );
+    }
+
+    // Other errors
     return (
       <div className="flex min-h-[calc(100vh-200px)] items-center justify-center">
         {" "}

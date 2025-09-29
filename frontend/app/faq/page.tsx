@@ -146,7 +146,7 @@ export default function FaqPage() {
                 <li>
                   <a
                     className="cursor-pointer text-lg hover:underline"
-                    onClick={() => router.push("/book/search")}
+                    onClick={() => router.push("/home?view=book")}
                   >
                     Search Repository
                   </a>

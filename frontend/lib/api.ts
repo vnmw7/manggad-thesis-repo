@@ -1,6 +1,41 @@
-// API utility functions for books
-import { mockGetAllBooks, mockSearchBooks, mockGetBookById } from "./mockData";
+/*
+System: Suno Automation
+Module: Frontend API
+Purpose: API utility functions for thesis management with Supabase integration
+*/
 
+// Database table: tblprofiles
+export interface Profile {
+  prf_id: string;
+  prf_user_id?: string;
+  prf_created_at: string;
+  prf_name: string;
+  prf_email?: string;
+  prf_affiliation?: string;
+  prf_department?: string;
+  prf_image_url?: string;
+  prf_degree_program?: string;
+  prf_author_bio?: string;
+}
+
+// Database table: tblthesis
+export interface Thesis {
+  ths_id: string;
+  ths_prf_id: string;
+  ths_created_at: string;
+  ths_title: string;
+  ths_department?: string;
+  ths_submitted_date?: string;
+  ths_publication_date?: string;
+  ths_abstract?: string;
+  ths_keywords?: string;
+  ths_file_url?: string;
+  ths_doi?: string;
+  // Joined profile data
+  profile?: Profile;
+}
+
+// Legacy Book interface for backward compatibility
 export interface Book {
   id: string;
   title: string;
@@ -25,42 +60,120 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-// Get all books
-export async function getAllBooks(): Promise<ApiResponse<Book[]>> {
-  try {
-    const response = await fetch("/api/books");
+// Convert thesis data to book format for compatibility
+function thesisToBook(thesis: Thesis): Book {
+  return {
+    id: thesis.ths_id,
+    title: thesis.ths_title,
+    degreeAwarded: new Date(thesis.ths_publication_date || thesis.ths_submitted_date || '').getFullYear() || new Date().getFullYear(),
+    coverImage: '/images/default-book-cover.jpg',
+    recommendations: 0,
+    abstract: thesis.ths_abstract || '',
+    keywords: thesis.ths_keywords ? thesis.ths_keywords.split(', ') : [],
+    language: 'English',
+    authors: thesis.profile ? [thesis.profile.prf_name] : [],
+    advisors: [],
+    department: thesis.ths_department || thesis.profile?.prf_department,
+    program: thesis.profile?.prf_degree_program,
+    created_at: thesis.ths_created_at,
+    updated_at: thesis.ths_created_at,
+  };
+}
 
-    // Check if response is ok
+// Get all thesis/books from Supabase
+export async function getAllThesis(): Promise<ApiResponse<Thesis[]>> {
+  try {
+    const response = await fetch("/api/thesis");
+
     if (!response.ok) {
-      console.warn("API endpoint failed, using mock data");
-      return await mockGetAllBooks();
+      console.error("Failed to fetch thesis:", response.status);
+      return {
+        success: false,
+        error: "Failed to fetch thesis from server",
+      };
     }
 
     const result = await response.json();
     return result;
   } catch (error) {
-    console.warn("API request failed, falling back to mock data:", error);
-    return await mockGetAllBooks();
+    console.error("API request failed:", error);
+    return {
+      success: false,
+      error: "Failed to connect to server",
+    };
   }
 }
 
-// Get book by ID
-export async function getBookById(id: string): Promise<ApiResponse<Book>> {
-  try {
-    const response = await fetch(`/api/books/${id}`);
+// Get all books (wrapper for backward compatibility)
+export async function getAllBooks(): Promise<ApiResponse<Book[]>> {
+  const thesisResponse = await getAllThesis();
 
-    // Check if response is ok
+  if (!thesisResponse.success) {
+    return {
+      success: false,
+      error: thesisResponse.error,
+    };
+  }
+
+  const books = thesisResponse.data?.map(thesisToBook) || [];
+  return {
+    success: true,
+    data: books,
+  };
+}
+
+// Get thesis by ID from Supabase
+export async function getThesisById(id: string): Promise<ApiResponse<Thesis>> {
+  try {
+    const response = await fetch(`/api/thesis/${id}`);
+
     if (!response.ok) {
-      console.warn("API endpoint failed, using mock data");
-      return await mockGetBookById(id);
+      if (response.status === 404) {
+        return {
+          success: false,
+          error: "Thesis not found",
+        };
+      }
+      console.error("Failed to fetch thesis:", response.status);
+      return {
+        success: false,
+        error: "Failed to fetch thesis details",
+      };
     }
 
     const result = await response.json();
     return result;
   } catch (error) {
-    console.warn("API request failed, falling back to mock data:", error);
-    return await mockGetBookById(id);
+    console.error("API request failed:", error);
+    return {
+      success: false,
+      error: "Failed to connect to server",
+    };
   }
+}
+
+// Get book by ID (wrapper for backward compatibility)
+export async function getBookById(id: string): Promise<ApiResponse<Book>> {
+  const thesisResponse = await getThesisById(id);
+
+  if (!thesisResponse.success) {
+    return {
+      success: false,
+      error: thesisResponse.error?.replace('Thesis', 'Book') || 'Book not found',
+    };
+  }
+
+  if (thesisResponse.data) {
+    return {
+      success: true,
+      data: thesisToBook(thesisResponse.data),
+    };
+  }
+
+  return {
+    success: false,
+    error: 'Book not found',
+  };
 }
 
 // Create a new book
@@ -127,7 +240,7 @@ export async function deleteBook(id: string): Promise<ApiResponse<Book>> {
   }
 }
 
-// Search books
+// Search parameters for thesis
 export interface SearchParams {
   filterAndSearchQuery?: string;
   year?: number;
@@ -135,11 +248,12 @@ export interface SearchParams {
   programs?: string[];
 }
 
-export async function searchBooks(
+// Search thesis in Supabase
+export async function searchThesis(
   searchParams: SearchParams,
-): Promise<ApiResponse<Book[]>> {
+): Promise<ApiResponse<Thesis[]>> {
   try {
-    const response = await fetch("/api/books/search", {
+    const response = await fetch("/api/thesis/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -147,21 +261,43 @@ export async function searchBooks(
       body: JSON.stringify(searchParams),
     });
 
-    // Check if response is ok
     if (!response.ok) {
-      console.warn("Search API endpoint failed, using mock data");
-      return await mockSearchBooks(searchParams);
+      console.error("Search API failed:", response.status);
+      return {
+        success: false,
+        error: "Search failed. Please try again.",
+      };
     }
 
     const result = await response.json();
     return result;
   } catch (error) {
-    console.warn(
-      "Search API request failed, falling back to mock data:",
-      error,
-    );
-    return await mockSearchBooks(searchParams);
+    console.error("Search API request failed:", error);
+    return {
+      success: false,
+      error: "Failed to connect to server",
+    };
   }
+}
+
+// Search books (wrapper for backward compatibility)
+export async function searchBooks(
+  searchParams: SearchParams,
+): Promise<ApiResponse<Book[]>> {
+  const thesisResponse = await searchThesis(searchParams);
+
+  if (!thesisResponse.success) {
+    return {
+      success: false,
+      error: thesisResponse.error,
+    };
+  }
+
+  const books = thesisResponse.data?.map(thesisToBook) || [];
+  return {
+    success: true,
+    data: books,
+  };
 }
 
 // Add recommendation to a book

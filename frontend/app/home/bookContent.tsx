@@ -505,7 +505,9 @@ export default function BookContent({ onContentChange, initialSearchQuery = "" }
             <div className="col-span-full py-12 text-center">
               <FaBook className="mx-auto h-16 w-16 text-gray-300 dark:text-gray-600" />
               <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
-                No books found. Try adjusting your search criteria.
+                {filterAndSearchQuery.trim() || filterSentence ?
+                  "No books found. Try adjusting your search criteria." :
+                  "The repository is empty"}
               </p>
             </div>
           )}
