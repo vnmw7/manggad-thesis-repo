@@ -70,6 +70,11 @@ export async function GET(
       ? new Date(thesis.ths_submitted_date).getFullYear()
       : new Date().getFullYear();
 
+    // Extract profile data (handle both object and array cases)
+    const profile = Array.isArray(thesis.tblprofiles)
+      ? thesis.tblprofiles[0]
+      : thesis.tblprofiles;
+
     const book = {
       id: thesis.ths_id,
       title: thesis.ths_title,
@@ -83,26 +88,26 @@ export async function GET(
           ? thesis.ths_keywords
           : [])
         : [],
-      authors: thesis.tblprofiles?.prf_name || "Unknown Author",
-      firstName: thesis.tblprofiles?.prf_name?.split(' ')[0] || "",
-      lastName: thesis.tblprofiles?.prf_name?.split(' ').slice(-1)[0] || "",
+      authors: profile?.prf_name || "Unknown Author",
+      firstName: profile?.prf_name?.split(' ')[0] || "",
+      lastName: profile?.prf_name?.split(' ').slice(-1)[0] || "",
       advisors: ["N/A"],
       supervisors: ["N/A"], // Alias for compatibility
-      department: thesis.ths_department || thesis.tblprofiles?.prf_department || "",
-      program: thesis.tblprofiles?.prf_degree_program || "",
-      coverImage: thesis.tblprofiles?.prf_image_url || "/defaults/defaultBookCover.png",
+      department: thesis.ths_department || profile?.prf_department || "",
+      program: profile?.prf_degree_program || "",
+      coverImage: profile?.prf_image_url || "/defaults/defaultBookCover.png",
       recommendations: 0,
       language: "English",
       thesis_document_url: thesis.ths_file_url,
       doi: thesis.ths_doi,
       created_at: thesis.ths_created_at,
       // Additional fields for detail view
-      degreeLevel: thesis.tblprofiles?.prf_degree_program || "Unknown Degree",
+      degreeLevel: profile?.prf_degree_program || "Unknown Degree",
       copyright: "Author holds copyright",
       thirdPartyCopyright: "no",
       license: "No License/All Rights Reserved",
       orcid: "",
-      notes: thesis.tblprofiles?.prf_author_bio || "No notes available.",
+      notes: profile?.prf_author_bio || "No notes available.",
       supplementary_files_urls: [],
     };
 

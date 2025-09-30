@@ -10,9 +10,10 @@ import { supabase } from "@/lib/supabase";
 // GET /api/thesis/[id] - Get a single thesis by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  console.log(`📖 Fetching thesis with ID: ${params.id}`);
+  const { id } = await params;
+  console.log(`📖 Fetching thesis with ID: ${id}`);
 
   try {
     const { data: thesis, error } = await supabase
@@ -40,7 +41,7 @@ export async function GET(
           prf_author_bio
         )
       `)
-      .eq("ths_id", params.id)
+      .eq("ths_id", id)
       .single();
 
     if (error) {
@@ -80,9 +81,10 @@ export async function GET(
 // PUT /api/thesis/[id] - Update a thesis
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
     // Build update object with ths_ prefixes
@@ -99,7 +101,7 @@ export async function PUT(
     const { data: thesis, error } = await supabase
       .from("tblthesis")
       .update(updateData)
-      .eq("ths_id", params.id)
+      .eq("ths_id", id)
       .select()
       .single();
 
@@ -134,13 +136,14 @@ export async function PUT(
 // DELETE /api/thesis/[id] - Delete a thesis
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { error } = await supabase
       .from("tblthesis")
       .delete()
-      .eq("ths_id", params.id);
+      .eq("ths_id", id);
 
     if (error) {
       if (error.code === "PGRST116") {

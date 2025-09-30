@@ -88,7 +88,10 @@ export async function POST(request: NextRequest) {
     if (filterAndSearchQuery && filteredThesis.length > 0) {
       const searchLower = filterAndSearchQuery.toLowerCase();
       filteredThesis = filteredThesis.filter((thesis: any) => {
-        const authorName = thesis.tblprofiles?.prf_name?.toLowerCase() || "";
+        const profile = Array.isArray(thesis.tblprofiles)
+          ? thesis.tblprofiles[0]
+          : thesis.tblprofiles;
+        const authorName = profile?.prf_name?.toLowerCase() || "";
         return (
           thesis.ths_title?.toLowerCase().includes(searchLower) ||
           thesis.ths_abstract?.toLowerCase().includes(searchLower) ||
@@ -100,10 +103,13 @@ export async function POST(request: NextRequest) {
 
     // Filter by program (from profile data)
     if (programs && programs.length > 0) {
-      filteredThesis = filteredThesis.filter((thesis: any) =>
-        thesis.tblprofiles?.prf_degree_program &&
-        programs.includes(thesis.tblprofiles.prf_degree_program)
-      );
+      filteredThesis = filteredThesis.filter((thesis: any) => {
+        const profile = Array.isArray(thesis.tblprofiles)
+          ? thesis.tblprofiles[0]
+          : thesis.tblprofiles;
+        return profile?.prf_degree_program &&
+          programs.includes(profile.prf_degree_program);
+      });
     }
 
     console.log("🔍 Search results:", filteredThesis.length, "thesis found");
@@ -115,6 +121,11 @@ export async function POST(request: NextRequest) {
         : thesis.ths_submitted_date
         ? new Date(thesis.ths_submitted_date).getFullYear()
         : new Date().getFullYear();
+
+      // Extract profile data (handle both object and array cases)
+      const profile = Array.isArray(thesis.tblprofiles)
+        ? thesis.tblprofiles[0]
+        : thesis.tblprofiles;
 
       return {
         id: thesis.ths_id,
@@ -128,11 +139,11 @@ export async function POST(request: NextRequest) {
             ? thesis.ths_keywords
             : [])
           : [],
-        authors: thesis.tblprofiles?.prf_name || "Unknown Author",
+        authors: profile?.prf_name || "Unknown Author",
         advisors: ["N/A"],
-        department: thesis.ths_department || thesis.tblprofiles?.prf_department || "",
-        program: thesis.tblprofiles?.prf_degree_program || "",
-        coverImage: thesis.tblprofiles?.prf_image_url || "/defaults/defaultBookCover.png",
+        department: thesis.ths_department || profile?.prf_department || "",
+        program: profile?.prf_degree_program || "",
+        coverImage: profile?.prf_image_url || "/defaults/defaultBookCover.png",
         recommendations: 0,
         language: "English",
         created_at: thesis.ths_created_at,

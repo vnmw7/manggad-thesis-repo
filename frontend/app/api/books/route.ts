@@ -60,6 +60,11 @@ export async function GET() {
           ? new Date(thesis.ths_submitted_date).getFullYear()
           : new Date().getFullYear();
 
+        // Extract profile data (handle both object and array cases)
+        const profile = Array.isArray(thesis.tblprofiles)
+          ? thesis.tblprofiles[0]
+          : thesis.tblprofiles;
+
         return {
           id: thesis.ths_id,
           title: thesis.ths_title,
@@ -72,11 +77,11 @@ export async function GET() {
               ? thesis.ths_keywords
               : [])
             : [],
-          authors: thesis.tblprofiles?.prf_name || "Unknown Author",
+          authors: profile?.prf_name || "Unknown Author",
           advisors: ["N/A"], // Not stored in current schema
-          department: thesis.ths_department || thesis.tblprofiles?.prf_department || "",
-          program: thesis.tblprofiles?.prf_degree_program || "",
-          coverImage: thesis.tblprofiles?.prf_image_url || "/defaults/defaultBookCover.png",
+          department: thesis.ths_department || profile?.prf_department || "",
+          program: profile?.prf_degree_program || "",
+          coverImage: profile?.prf_image_url || "/defaults/defaultBookCover.png",
           recommendations: 0, // Not tracked in current schema
           language: "English", // Default value
           created_at: thesis.ths_created_at,
