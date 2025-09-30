@@ -44,12 +44,11 @@ export async function POST(request: NextRequest) {
 
     // Apply search filter for text query
     if (filterAndSearchQuery) {
-      // Search in title, abstract, keywords, and author name
-      query = query.or(`
-        ths_title.ilike.%${filterAndSearchQuery}%,
-        ths_abstract.ilike.%${filterAndSearchQuery}%,
-        ths_keywords.ilike.%${filterAndSearchQuery}%
-      `);
+      // Search in title, abstract, keywords
+      const searchTerm = `%${filterAndSearchQuery}%`;
+      query = query.or(
+        `ths_title.ilike.${searchTerm},ths_abstract.ilike.${searchTerm},ths_keywords.ilike.${searchTerm}`
+      );
     }
 
     // Apply year filter
@@ -86,17 +85,47 @@ export async function POST(request: NextRequest) {
     // Apply program filter on the joined profile data
     let filteredData = thesisData || [];
     if (programs && programs.length > 0) {
-      filteredData = filteredData.filter((thesis: any) =>
-        thesis.tblprofiles?.prf_degree_program &&
-        programs.includes(thesis.tblprofiles.prf_degree_program)
-      );
+      filteredData = filteredData.filter((thesis: any) => {
+        // Handle profile as either array or single object
+        const profile = Array.isArray(thesis.tblprofiles)
+          ? thesis.tblprofiles[0]
+          : thesis.tblprofiles;
+        return profile?.prf_degree_program &&
+          programs.includes(profile.prf_degree_program);
+      });
+    }
+
+    // Filter by author name if search query is provided (additional filtering)
+    if (filterAndSearchQuery && filteredData.length > 0) {
+      const searchLower = filterAndSearchQuery.toLowerCase();
+      filteredData = filteredData.filter((thesis: any) => {
+        // Handle profile as either array or single object
+        const profile = Array.isArray(thesis.tblprofiles)
+          ? thesis.tblprofiles[0]
+          : thesis.tblprofiles;
+        const authorName = profile?.prf_name?.toLowerCase() || "";
+        return (
+          thesis.ths_title?.toLowerCase().includes(searchLower) ||
+          thesis.ths_abstract?.toLowerCase().includes(searchLower) ||
+          thesis.ths_keywords?.toLowerCase().includes(searchLower) ||
+          authorName.includes(searchLower)
+        );
+      });
     }
 
     // Transform the data to include profile information
-    const thesisList = filteredData.map((thesis: any) => ({
-      ...thesis,
-      profile: thesis.tblprofiles,
-    }));
+    const thesisList = filteredData.map((thesis: any) => {
+      // Handle profile as either array or single object
+      const profile = Array.isArray(thesis.tblprofiles)
+        ? thesis.tblprofiles[0]
+        : thesis.tblprofiles;
+
+      return {
+        ...thesis,
+        profile: profile,
+        tblprofiles: undefined, // Remove the raw tblprofiles to clean up response
+      };
+    });
 
     console.log(`✅ Search completed. Found ${thesisList.length} results`);
     return NextResponse.json({
