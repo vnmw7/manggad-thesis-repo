@@ -16,6 +16,7 @@ export async function GET(
     const { id } = await params;
 
     if (!id) {
+      console.log(`❌ Missing book ID in request`);
       return NextResponse.json(
         { success: false, error: "Book ID is required" },
         { status: 400 },
@@ -23,6 +24,8 @@ export async function GET(
     }
 
     console.log(`📖 Fetching book (thesis) with ID: ${id}`);
+    console.log(`📍 Request URL: ${request.url}`);
+    console.log(`🕒 Request timestamp: ${new Date().toISOString()}`);
 
     const { data: thesis, error } = await supabase
       .from("tblthesis")
@@ -50,13 +53,22 @@ export async function GET(
       .single();
 
     if (error) {
+      console.error(`❌ Database error fetching book (thesis) ${id}:`, {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      });
+
       if (error.code === "PGRST116") {
+        console.log(`🔍 Book not found: ${id}. This might be a broken link or removed book.`);
         return NextResponse.json(
           { success: false, error: "Book not found" },
           { status: 404 },
         );
       }
-      console.error("Error fetching thesis:", error);
+
+      console.error("🔥 Unexpected database error:", error);
       return NextResponse.json(
         { success: false, error: "Failed to fetch book", details: error.message },
         { status: 500 },

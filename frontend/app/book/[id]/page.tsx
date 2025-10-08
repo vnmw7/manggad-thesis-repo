@@ -52,12 +52,27 @@ export default function BookDetailPage() {
       try {
         const result = await getBookById(params.id);
         if (!result.success) {
-          throw new Error(result.error || "Failed to fetch book details");
+          if (result.error?.includes("not found") || result.error?.includes("404")) {
+            setError(`Thesis/Book with ID "${params.id}" was not found. It may have been removed or the ID is incorrect.`);
+          } else {
+            throw new Error(result.error || "Failed to fetch book details");
+          }
+        } else {
+          setBook(result.data || null);
         }
-        setBook(result.data || null);
       } catch (err) {
         console.error("Error fetching book:", err);
-        setError("Failed to load book details. Please try again.");
+        if (err instanceof Error) {
+          if (err.message.includes("not found") || err.message.includes("404")) {
+            setError(`Thesis/Book with ID "${params.id}" was not found. It may have been removed or the ID is incorrect.`);
+          } else if (err.message.includes("Failed to fetch")) {
+            setError("Unable to connect to the database. Please try again later.");
+          } else {
+            setError("Failed to load book details. Please try again.");
+          }
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -120,7 +135,29 @@ export default function BookDetailPage() {
             Go Back
           </button>
           <GlassmorphicCard className="text-center">
-            <p className="text-gray-600 dark:text-gray-400">Book not found.</p>
+            <div className="mb-4">
+              <div className="mx-auto w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+                <FaBook className="text-gray-400 dark:text-gray-500 text-2xl" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+                Thesis/Book Not Found
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                The thesis/book you&apos;re looking for doesn&apos;t exist or has been removed.
+              </p>
+              <div className="space-y-2">
+                <button
+                  onClick={() => router.push('/')}
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <FaBook className="mr-2" />
+                  Browse All Theses
+                </button>
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  If you believe this is an error, please contact support.
+                </div>
+              </div>
+            </div>
           </GlassmorphicCard>
         </div>
       </div>

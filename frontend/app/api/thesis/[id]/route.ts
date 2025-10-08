@@ -14,6 +14,8 @@ export async function GET(
 ) {
   const { id } = await params;
   console.log(`📖 Fetching thesis with ID: ${id}`);
+  console.log(`📍 Request URL: ${request.url}`);
+  console.log(`🕒 Request timestamp: ${new Date().toISOString()}`);
 
   try {
     const { data: thesis, error } = await supabase
@@ -45,13 +47,22 @@ export async function GET(
       .single();
 
     if (error) {
+      console.error(`❌ Database error fetching thesis ${id}:`, {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint
+      });
+
       if (error.code === "PGRST116") {
+        console.log(`🔍 Thesis not found: ${id}. This might be a broken link or removed thesis.`);
         return NextResponse.json(
           { success: false, error: "Thesis not found" },
           { status: 404 }
         );
       }
-      console.error("Error fetching thesis:", error);
+
+      console.error("🔥 Unexpected database error:", error);
       return NextResponse.json(
         { success: false, error: "Failed to fetch thesis", details: error.message },
         { status: 500 }

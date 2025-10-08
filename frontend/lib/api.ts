@@ -66,7 +66,7 @@ function thesisToBook(thesis: Thesis): Book {
     id: thesis.ths_id,
     title: thesis.ths_title,
     degreeAwarded: new Date(thesis.ths_publication_date || thesis.ths_submitted_date || '').getFullYear() || new Date().getFullYear(),
-    coverImage: '/images/default-book-cover.jpg',
+    coverImage: '/defaults/defaultBookCover.png',
     recommendations: 0,
     abstract: thesis.ths_abstract || '',
     keywords: thesis.ths_keywords ? thesis.ths_keywords.split(', ') : [],
