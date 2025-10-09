@@ -83,7 +83,7 @@ function thesisToBook(thesis: Thesis): Book {
 // Get all thesis/books from Supabase
 export async function getAllThesis(): Promise<ApiResponse<Thesis[]>> {
   try {
-    const response = await fetch("/api/thesis", { cache: 'no-store' });
+    const response = await fetch("/api/thesis");
 
     if (!response.ok) {
       console.error("Failed to fetch thesis:", response.status);
@@ -125,7 +125,7 @@ export async function getAllBooks(): Promise<ApiResponse<Book[]>> {
 // Get thesis by ID from Supabase
 export async function getThesisById(id: string): Promise<ApiResponse<Thesis>> {
   try {
-    const response = await fetch(`/api/thesis/${id}`, { cache: 'no-store' });
+    const response = await fetch(`/api/thesis/${id}`);
 
     if (!response.ok) {
       if (response.status === 404) {

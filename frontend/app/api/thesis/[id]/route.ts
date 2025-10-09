@@ -7,16 +7,14 @@ Purpose: Handle single thesis operations with correct Supabase table mappings
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
-
 // GET /api/thesis/[id] - Get a single thesis by ID
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  const { id } = await context.params;
   console.log(`📖 Fetching thesis with ID: ${id}`);
+  console.log(`📍 Request URL: ${request.url}`);
   console.log(`🕒 Request timestamp: ${new Date().toISOString()}`);
 
   try {
@@ -46,7 +44,7 @@ export async function GET(
         )
       `)
       .eq("ths_id", id)
-      .maybeSingle();
+      .single();
 
     if (error) {
       console.error(`❌ Database error fetching thesis ${id}:`, {
@@ -102,10 +100,10 @@ export async function GET(
 // PUT /api/thesis/[id] - Update a thesis
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const body = await request.json();
 
     // Build update object with ths_ prefixes
@@ -157,10 +155,10 @@ export async function PUT(
 // DELETE /api/thesis/[id] - Delete a thesis
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const { error } = await supabase
       .from("tblthesis")
       .delete()

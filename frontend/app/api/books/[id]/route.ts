@@ -7,16 +7,13 @@ Purpose: Backward compatibility wrapper for single thesis operations using old B
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
-
 // GET /api/books/[id] - Get book by ID
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
 
     if (!id) {
       console.log(`❌ Missing book ID in request`);
@@ -52,7 +49,7 @@ export async function GET(
         )
       `)
       .eq("ths_id", id)
-      .maybeSingle();
+      .single();
 
     if (error) {
       console.error(`❌ Database error fetching book (thesis) ${id}:`, {
@@ -149,10 +146,10 @@ export async function GET(
 // PUT /api/books/[id] - Update book by ID
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const body = await request.json();
 
     if (!id) {
@@ -185,7 +182,7 @@ export async function PUT(
       .update(updateData)
       .eq("ths_id", id)
       .select()
-      .maybeSingle();
+      .single();
 
     if (error) {
       if (error.code === "PGRST116") {
@@ -218,10 +215,10 @@ export async function PUT(
 // DELETE /api/books/[id] - Delete book by ID
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
 
     if (!id) {
       return NextResponse.json(
