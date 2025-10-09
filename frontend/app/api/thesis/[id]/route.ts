@@ -7,14 +7,16 @@ Purpose: Handle single thesis operations with correct Supabase table mappings
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // GET /api/thesis/[id] - Get a single thesis by ID
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   console.log(`📖 Fetching thesis with ID: ${id}`);
-  console.log(`📍 Request URL: ${request.url}`);
   console.log(`🕒 Request timestamp: ${new Date().toISOString()}`);
 
   try {
@@ -44,7 +46,7 @@ export async function GET(
         )
       `)
       .eq("ths_id", id)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error(`❌ Database error fetching thesis ${id}:`, {
@@ -66,6 +68,14 @@ export async function GET(
       return NextResponse.json(
         { success: false, error: "Failed to fetch thesis", details: error.message },
         { status: 500 }
+      );
+    }
+
+    if (!thesis) {
+      console.log(`🔍 Thesis not found: ${id}. This might be a broken link or removed thesis.`);
+      return NextResponse.json(
+        { success: false, error: "Thesis not found" },
+        { status: 404 }
       );
     }
 

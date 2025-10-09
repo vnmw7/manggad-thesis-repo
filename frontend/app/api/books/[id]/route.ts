@@ -7,9 +7,12 @@ Purpose: Backward compatibility wrapper for single thesis operations using old B
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // GET /api/books/[id] - Get book by ID
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
@@ -24,7 +27,6 @@ export async function GET(
     }
 
     console.log(`📖 Fetching book (thesis) with ID: ${id}`);
-    console.log(`📍 Request URL: ${request.url}`);
     console.log(`🕒 Request timestamp: ${new Date().toISOString()}`);
 
     const { data: thesis, error } = await supabase
@@ -50,7 +52,7 @@ export async function GET(
         )
       `)
       .eq("ths_id", id)
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error(`❌ Database error fetching book (thesis) ${id}:`, {
@@ -72,6 +74,13 @@ export async function GET(
       return NextResponse.json(
         { success: false, error: "Failed to fetch book", details: error.message },
         { status: 500 },
+      );
+    }
+
+    if (!thesis) {
+      return NextResponse.json(
+        { success: false, error: "Book not found" },
+        { status: 404 },
       );
     }
 
@@ -176,7 +185,7 @@ export async function PUT(
       .update(updateData)
       .eq("ths_id", id)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
       if (error.code === "PGRST116") {
