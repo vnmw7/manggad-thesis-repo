@@ -1,3 +1,10 @@
+/*
+System: MANGGAD - Research Repository Management System
+Module: Admin Dashboard
+File URL: Frontend/app/admin/page.tsx
+Purpose: Admin page for viewing and managing uploaded books with legacy backend integration
+*/
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -64,12 +71,7 @@ const Dashboard = () => {
               <h1 className="mb-4 text-2xl font-semibold">
                 Current Uploaded Books
               </h1>
-              <button
-                className="mb-6 rounded bg-[#0442B1] px-4 py-2 text-white hover:bg-blue-700"
-                onClick={() => router.push("/book/addBook")}
-              >
-                Add Book
-              </button>
+              {/* Add Book button removed - route /book/addBook no longer exists */}
 
               {/* Book Cards Grid */}
               <div className="grid auto-rows-max grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">

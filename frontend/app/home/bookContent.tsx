@@ -1,3 +1,10 @@
+/*
+System: MANGGAD - Research Repository Management System
+Module: Book Content (SPA Component)
+File URL: Frontend/app/home/bookContent.tsx
+Purpose: Book/thesis listing component with search, filtering, and navigation to book details within the SPA
+*/
+
 "use client";
 
 import React, {

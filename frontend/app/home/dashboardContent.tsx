@@ -1,3 +1,10 @@
+/*
+System: MANGGAD - Research Repository Management System
+Module: Dashboard Content (SPA Component)
+File URL: Frontend/app/home/dashboardContent.tsx
+Purpose: Admin dashboard showing repository statistics, metrics, and recent activity within the SPA
+*/
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -573,18 +580,8 @@ export default function DashboardContent() {
               </h2>
 
               <div className="space-y-3">
-                <button
-                  onClick={() => router.push("/book/addBook")}
-                  className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white/80 p-3 text-left text-sm font-medium text-gray-800 transition-colors hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-800/80 dark:text-white dark:hover:bg-blue-900/20"
-                >
-                  <div className="flex items-center">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                      <FaPlus className="h-4 w-4" />
-                    </div>
-                    <span className="ml-3">Add New Publication</span>
-                  </div>
-                  <FaChevronRight className="h-4 w-4 text-gray-400" />
-                </button>
+                {/* Add New Publication button removed - route /book/addBook no longer exists */}
+                {/* Use "Manage Collections" > "Add Thesis" in the SideNav instead */}
 
                 <button
                   onClick={() => router.push("/collection")}

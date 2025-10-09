@@ -1,3 +1,10 @@
+/*
+System: MANGGAD - Research Repository Management System
+Module: Header Component
+File URL: Frontend/app/_components/Header.tsx
+Purpose: Sticky header with navigation, search bar, theme switcher, and user authentication controls
+*/
+
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -127,7 +134,7 @@ const NavLinks = ({ router }: NavLinksProps) => (
       whileHover="hover"
       variants={navItemVariants}
       className="flex cursor-pointer items-center text-sm hover:text-blue-200"
-      onClick={() => router.push("/book")}
+      onClick={() => router.push("/home")}
     >
       <FaBook className="mr-1 h-3 w-3" />
       Books

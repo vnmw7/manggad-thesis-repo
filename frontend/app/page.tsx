@@ -1,3 +1,10 @@
+/*
+System: MANGGAD - Research Repository Management System
+Module: Landing Page
+File URL: Frontend/app/page.tsx
+Purpose: Main landing page with search functionality and navigation to homepage and collections
+*/
+
 "use client";
 
 import React, { useState } from "react";
@@ -216,7 +223,7 @@ export default function StartPage() {
                     <ArrowRight className="h-4 w-4 transform transition-transform group-hover:translate-x-1" />
                   </button>
                   <button
-                    onClick={() => router.push("/book")}
+                    onClick={() => router.push("/home")}
                     className="group flex items-center justify-center space-x-2 rounded-lg border border-gray-300/60 bg-white/70 px-5 py-3 text-base font-medium text-gray-700 backdrop-blur-sm transition-all hover:bg-white/80 hover:shadow-md focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:outline-none dark:border-gray-700/40 dark:bg-gray-800/60 dark:text-gray-200 dark:hover:bg-gray-800/70"
                   >
                     <Book className="h-5 w-5" />
