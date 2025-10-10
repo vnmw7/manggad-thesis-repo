@@ -19,7 +19,7 @@ import {
   FaCopy,
   FaCheck,
 } from "react-icons/fa";
-import { getBookById } from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 import { Button } from "@/app/_components/ui/button";
 
 interface BookDetails {
@@ -157,55 +157,115 @@ export function BookDetailContent({ bookId }: BookDetailContentProps) {
       const fetchBookDetails = async () => {
         setLoading(true);
         setError(null);
+
+        console.log('📚 [BOOK-DETAIL] Starting thesis fetch...');
+        console.log('📚 [BOOK-DETAIL] Thesis ID:', bookId);
+
         try {
-          const result = await getBookById(bookId);
+          // Step 1: Basic query to verify thesis exists
+          console.log('🔍 [BOOK-DETAIL] Step 1: Basic query with essential fields...');
+          const { data: basicData, error: basicError } = await supabase
+            .from('tblthesis')
+            .select('ths_id, ths_title, ths_abstract, ths_keywords, ths_department, ths_publication_date, ths_submitted_date')
+            .eq('ths_id', bookId)
+            .maybeSingle();
 
-          if (!result.success) {
-            throw new Error(result.error || "Failed to fetch book details");
+          if (basicError) {
+            console.error('❌ [BOOK-DETAIL] Basic query error:', basicError);
+            throw new Error(basicError.message || "Failed to fetch thesis");
           }
 
-          // Transform the API response to BookDetails format
-          // The API returns all database fields, but Book interface is incomplete
-          const dbData = result.data as any; // Cast as any to access all database fields
+          if (!basicData) {
+            console.log('⚠️ [BOOK-DETAIL] No thesis found with ID:', bookId);
+            throw new Error("Book not found");
+          }
 
-          if (dbData) {
-            const transformedBook: BookDetails = {
-              id: dbData.id,
-              title: dbData.title,
-              yearOfSubmission: dbData.degreeAwarded
-                ? typeof dbData.degreeAwarded === "string"
-                  ? new Date(dbData.degreeAwarded).getFullYear()
-                  : dbData.degreeAwarded
+          console.log('✅ [BOOK-DETAIL] Basic data retrieved:', basicData.ths_title);
+
+          // Step 2: Full query with profile join
+          console.log('🔍 [BOOK-DETAIL] Step 2: Full query with profile join...');
+          const { data: fullData, error: fullError } = await supabase
+            .from('tblthesis')
+            .select(`
+              ths_id,
+              ths_prf_id,
+              ths_created_at,
+              ths_title,
+              ths_department,
+              ths_submitted_date,
+              ths_publication_date,
+              ths_abstract,
+              ths_keywords,
+              ths_file_url,
+              ths_doi,
+              tblprofiles (
+                prf_id,
+                prf_name,
+                prf_email,
+                prf_affiliation,
+                prf_department,
+                prf_image_url,
+                prf_degree_program,
+                prf_author_bio
+              )
+            `)
+            .eq('ths_id', bookId)
+            .maybeSingle();
+
+          if (fullError) {
+            console.error('❌ [BOOK-DETAIL] Full query error:', fullError);
+            // Fall back to basic data if join fails
+            console.log('⚠️ [BOOK-DETAIL] Using basic data without profile');
+          }
+
+          const dbData: any = fullData || basicData;
+          // Handle profile - could be object or array depending on query
+          const profileData = fullData?.tblprofiles;
+          const profile: any = Array.isArray(profileData) ? profileData[0] : profileData;
+
+          console.log('✅ [BOOK-DETAIL] Final data retrieved');
+          console.log('👤 [BOOK-DETAIL] Has profile:', !!profile);
+
+          // Parse author name
+          const authorNameParts = profile?.prf_name?.split(' ') || [];
+          const firstName = authorNameParts[0];
+          const middleName = authorNameParts[1];
+          const lastName = authorNameParts.slice(2).join(' ');
+
+          // Transform Supabase data to BookDetails format
+          const transformedBook: BookDetails = {
+            id: dbData.ths_id,
+            title: dbData.ths_title,
+            yearOfSubmission: dbData.ths_publication_date
+              ? new Date(dbData.ths_publication_date).getFullYear()
+              : dbData.ths_submitted_date
+                ? new Date(dbData.ths_submitted_date).getFullYear()
                 : new Date().getFullYear(),
-              coverImage: dbData.coverImage || "/defaults/defaultBookCover.png",
-              abstract: dbData.abstract || "",
-              keywords: Array.isArray(dbData.keywords)
-                ? dbData.keywords.join(", ")
-                : dbData.keywords || "",
-              firstName: dbData.firstName,
-              middleName: dbData.middleName,
-              lastName: dbData.lastName,
-              department: dbData.department,
-              program: dbData.program,
-              degreeAwarded: dbData.degreeAwarded,
-              degreeLevel: dbData.degreeLevel,
-              copyright: dbData.copyright,
-              thirdPartyCopyright: dbData.thirdPartyCopyright,
-              license: dbData.license,
-              supervisors: Array.isArray(dbData.supervisors)
-                ? dbData.supervisors
-                : dbData.supervisors
-                  ? [dbData.supervisors]
-                  : undefined,
-              orcid: dbData.orcid,
-              notes: dbData.notes,
-              thesis_document_url: dbData.thesis_document_url,
-              supplementary_files_urls: dbData.supplementary_files_urls,
-            };
-            setBook(transformedBook);
-          }
+            coverImage: "/defaults/defaultBookCover.png",
+            abstract: dbData.ths_abstract || "",
+            keywords: dbData.ths_keywords || "",
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            department: dbData.ths_department || profile?.prf_department,
+            program: profile?.prf_degree_program,
+            degreeAwarded: dbData.ths_publication_date || dbData.ths_submitted_date,
+            degreeLevel: "Thesis",
+            copyright: undefined,
+            thirdPartyCopyright: undefined,
+            license: undefined,
+            supervisors: undefined,
+            orcid: undefined,
+            notes: undefined,
+            thesis_document_url: dbData.ths_file_url,
+            supplementary_files_urls: undefined,
+          };
+
+          console.log('✅ [BOOK-DETAIL] Transformation complete');
+          setBook(transformedBook);
+
         } catch (err: any) {
-          console.error("Error fetching book details:", err);
+          console.error("❌ [BOOK-DETAIL] Error fetching book details:", err);
           setError(err.message || "Failed to fetch book details.");
         } finally {
           setLoading(false);
